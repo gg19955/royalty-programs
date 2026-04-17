@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { Nav } from "@/components/nav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -14,7 +15,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .eq("id", user.id)
     .single();
 
-  if (profile?.role !== "admin") redirect("/profile");
+  if (profile?.role !== "admin") redirect("/portal");
+
+  const admin = createAdminClient();
+  const [{ count: pendingCount }, { count: pendingHostCount }] = await Promise.all([
+    admin
+      .from("claim_requests")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending"),
+    admin
+      .from("host_applications")
+      .select("*", { count: "exact", head: true })
+      .in("status", ["submitted", "reviewing"]),
+  ]);
 
   return (
     <>
@@ -27,9 +40,21 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </div>
             <AdminLink href="/admin">Dashboard</AdminLink>
             <AdminLink href="/admin/users">Users</AdminLink>
-            <AdminLink href="/admin/claims">Claims</AdminLink>
+            <AdminLink
+              href="/admin/claim-requests"
+              badge={pendingCount ?? 0}
+            >
+              Claim requests
+            </AdminLink>
+            <AdminLink href="/admin/claims">Approved claims</AdminLink>
             <AdminLink href="/admin/redemptions">Redemptions</AdminLink>
             <AdminLink href="/admin/experiences">Experiences</AdminLink>
+            <AdminLink
+              href="/admin/hosts"
+              badge={pendingHostCount ?? 0}
+            >
+              Host applications
+            </AdminLink>
           </aside>
           <section>{children}</section>
         </div>
@@ -38,13 +63,26 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   );
 }
 
-function AdminLink({ href, children }: { href: string; children: React.ReactNode }) {
+function AdminLink({
+  href,
+  children,
+  badge,
+}: {
+  href: string;
+  children: React.ReactNode;
+  badge?: number;
+}) {
   return (
     <Link
       href={href}
-      className="block rounded px-3 py-2 text-gray-700 hover:bg-gray-100 hover:text-black"
+      className="flex items-center justify-between rounded px-3 py-2 text-gray-700 hover:bg-gray-100 hover:text-black"
     >
-      {children}
+      <span>{children}</span>
+      {badge && badge > 0 ? (
+        <span className="rounded-sm bg-brand-accent px-1.5 py-0.5 text-xs font-medium text-white">
+          {badge}
+        </span>
+      ) : null}
     </Link>
   );
 }

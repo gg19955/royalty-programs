@@ -1,19 +1,32 @@
+import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatPoints } from "@/lib/utils";
 
 export default async function AdminDashboard() {
   const admin = createAdminClient();
 
-  const [{ count: totalUsers }, { count: totalClaims }, { count: totalRedemptions }, signups, claims, redemptions, ledger] =
-    await Promise.all([
-      admin.from("profiles").select("*", { count: "exact", head: true }),
-      admin.from("stay_claims").select("*", { count: "exact", head: true }),
-      admin.from("redemptions").select("*", { count: "exact", head: true }),
-      admin.from("v_admin_daily_signups").select("*").limit(14),
-      admin.from("v_admin_daily_claims").select("*").limit(14),
-      admin.from("v_admin_daily_redemptions").select("*").limit(14),
-      admin.from("points_ledger").select("amount"),
-    ]);
+  const [
+    { count: totalUsers },
+    { count: totalClaims },
+    { count: totalRedemptions },
+    { count: pendingRequests },
+    signups,
+    claims,
+    redemptions,
+    ledger,
+  ] = await Promise.all([
+    admin.from("profiles").select("*", { count: "exact", head: true }),
+    admin.from("stay_claims").select("*", { count: "exact", head: true }),
+    admin.from("redemptions").select("*", { count: "exact", head: true }),
+    admin
+      .from("claim_requests")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending"),
+    admin.from("v_admin_daily_signups").select("*").limit(14),
+    admin.from("v_admin_daily_claims").select("*").limit(14),
+    admin.from("v_admin_daily_redemptions").select("*").limit(14),
+    admin.from("points_ledger").select("amount"),
+  ]);
 
   const ledgerRows = (ledger.data ?? []) as { amount: number }[];
   const pointsIssued = ledgerRows
@@ -37,6 +50,23 @@ export default async function AdminDashboard() {
           sub={`${formatPoints(pointsIssued)} issued · ${formatPoints(pointsSpent)} spent`}
         />
       </div>
+
+      {(pendingRequests ?? 0) > 0 && (
+        <Link
+          href="/admin/claim-requests"
+          className="mt-6 flex items-center justify-between rounded-xl border border-brand-accent bg-brand-soft p-5 hover:border-brand"
+        >
+          <div>
+            <div className="text-sm font-semibold text-brand">
+              {pendingRequests} claim request{pendingRequests === 1 ? "" : "s"} awaiting review
+            </div>
+            <div className="text-xs text-gray-600">
+              Approve to credit points to the guest.
+            </div>
+          </div>
+          <span className="text-sm text-brand-accent">Review →</span>
+        </Link>
+      )}
 
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
         <DailyList title="Signups (14d)" rows={signups.data ?? []} field="count" />
