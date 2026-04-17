@@ -2,6 +2,15 @@
 
 Guest loyalty portal for [Lively Properties](https://livelyproperties.com.au). Guests sign in, claim their stays via reservation code, earn points, and redeem partner experiences across Victoria. Admins track signups, claims, and redemptions.
 
+> **Pivot in progress (2026-04):** this repo is becoming the **Lively platform** —
+> a curated luxury short-stay marketplace (Lively + invite-only partner
+> properties) with rewards integrated as one feature. The rewards/claim flow
+> stays live throughout. See
+> `.claude/plans/linear-swinging-whistle.md` for the phased plan. Migration
+> `0004_platform_foundations.sql` adds the `hosts`, listing-extension,
+> `rate_plans`, `availability_blocks`, `payouts`, `stripe_events`, and
+> `reviews` tables.
+
 ## Stack
 
 - **Next.js 14** (App Router, TypeScript)
@@ -23,8 +32,11 @@ cp .env.example .env.local
 # SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_SITE_URL (http://localhost:3000 for dev)
 
 # 3. Apply schema
-# In Supabase SQL editor, run:
+# In Supabase SQL editor, run migrations in order:
 #   supabase/migrations/0001_init.sql
+#   supabase/migrations/0002_drop_guesty_require_value.sql
+#   supabase/migrations/0003_claim_requests_and_brand_fields.sql
+#   supabase/migrations/0004_platform_foundations.sql
 #   supabase/seed.sql         (optional dev seed data)
 
 # 4. Run
@@ -43,14 +55,13 @@ update public.profiles set role = 'admin' where email = 'you@example.com';
 
 Refresh and you'll see the **Admin** link in the nav.
 
-## Testing the claim flow
+## Claim flow (manual review — MVP)
 
-The seed script inserts a reservation `LP-DEMO-001` bound to `you@example.com`. To test end-to-end:
-
-1. Change the `guest_email` in the seed SQL to your real email (or run an `update` after seeding).
-2. Sign in with that email.
-3. Visit `/claim` and enter `LP-DEMO-001`.
-4. Points credit and appear on `/profile`.
+1. Guest signs in and visits `/claim`.
+2. Enters reservation code + last name on the booking.
+3. Submission lands in `claim_requests` with `status='pending'` (RLS: self-insert / admin-read).
+4. Internal team reviews and, on approval, creates the `stay_claims` + `points_ledger` rows out-of-band.
+5. Auto-crediting + admin review UI + email notification are the next iteration.
 
 ## Data model
 
@@ -68,11 +79,13 @@ See [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql) for
 
 | Route | Purpose |
 |---|---|
-| `/` | Landing |
+| `/` | Landing (logged-out) — redirects to `/portal` if signed in |
 | `/login` | Magic-link sign-in |
-| `/auth/callback` | OAuth code exchange |
-| `/profile` | Balance, stays, redemptions |
-| `/claim` | Enter reservation code |
+| `/auth/callback` | OAuth code exchange (defaults `next` → `/portal`) |
+| `/portal` | 3-tile guest hub + points/claims/redemptions |
+| `/offer` | Current Season Offer (featured partner experience) |
+| `/claim` | Reservation code + last name → claim request |
+| `/profile` | Redirects to `/portal` (kept for back-compat) |
 | `/experiences` | Browse catalogue + offers |
 | `/experiences/[id]` | Detail + redeem |
 | `/admin` | Dashboard |
