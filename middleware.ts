@@ -1,45 +1,17 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-
-type CookieToSet = { name: string; value: string; options?: CookieOptions };
 
 /**
  * Root middleware. Runs in the Edge Runtime.
  *
- * All Supabase-SSR logic is inlined here rather than imported from
- * @/lib/supabase/middleware — Vercel's Edge Function bundler refused
- * the cross-module import with "The Edge Function 'middleware' is
- * referencing unsupported modules" and the workaround is to keep the
- * entire middleware in one file.
+ * Intentionally a pass-through. Earlier versions refreshed Supabase
+ * sessions here, but @supabase/supabase-js 2.45.x pulls a transitive
+ * dependency that references `__dirname` and crashes in the Edge
+ * runtime ("ReferenceError: __dirname is not defined"). Session
+ * refresh is handled by the SSR cookie helpers invoked in server
+ * components, so dropping it from middleware is safe for now.
  */
-export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({ request });
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet: CookieToSet[]) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
-          response = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          );
-        },
-      },
-    },
-  );
-
-  // Refresh expired session so server components see fresh auth state.
-  await supabase.auth.getUser();
-
-  return response;
+export function middleware(_request: NextRequest) {
+  return NextResponse.next();
 }
 
 export const config = {
