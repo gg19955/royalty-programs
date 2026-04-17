@@ -14,7 +14,7 @@ export function SignOutButton() {
   };
 
   return (
-    <button onClick={signOut} className="text-sm text-gray-600 hover:text-brand-accent">
+    <button onClick={signOut} className="text-sm text-neutral-600 hover:text-brand">
       Sign out
     </button>
   );

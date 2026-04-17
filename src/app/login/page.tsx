@@ -1,19 +1,39 @@
-import { Nav } from "@/components/nav";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 import { LoginForm } from "./login-form";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: { next?: string };
+}) {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) redirect(searchParams.next || "/portal");
+
   return (
-    <>
-      <Nav />
-      <main className="mx-auto max-w-md px-4 py-16">
-        <h1 className="text-2xl font-semibold">Sign in to Lively Rewards</h1>
-        <p className="mt-1 text-sm text-gray-600">
-          We&apos;ll email you a magic link — no password needed.
+    <main className="min-h-screen bg-brand-soft">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
+        <Link
+          href="/"
+          className="text-xs uppercase tracking-[0.24em] text-brand-accent"
+        >
+          Lively Rewards
+        </Link>
+        <h1 className="mt-6 font-serif text-4xl font-normal tracking-tightest text-brand">
+          Stay Lively.
+        </h1>
+        <p className="mt-3 text-sm text-neutral-600">
+          Sign in with your email — we&apos;ll send you a magic link.
         </p>
-        <div className="mt-6">
-          <LoginForm />
+        <div className="mt-10 rounded-sm border border-brand-line bg-white p-8">
+          <LoginForm next={searchParams.next} />
         </div>
-      </main>
-    </>
+        <Link href="/" className="mt-8 text-xs text-neutral-500 hover:text-brand">
+          ← Back to home
+        </Link>
+      </div>
+    </main>
   );
 }
