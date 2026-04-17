@@ -7,8 +7,9 @@ Guest loyalty portal for [Lively Properties](https://livelyproperties.com.au). G
 - **Next.js 14** (App Router, TypeScript)
 - **Tailwind CSS**
 - **Supabase** (auth, Postgres, RLS)
-- **Guesty** (reservation source — sync into `reservations` table via job/webhook)
 - Deploy target: **Vercel**
+
+Reservations live in our own `reservations` table — **not synced from Guesty**. Admin enters them (via Supabase UI for now; admin CRUD page is v2).
 
 ## Quick start
 
@@ -82,17 +83,16 @@ See [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql) for
 
 ## MVP defaults (change in `.env` / SQL as needed)
 
-- **Points per night**: 100 (`POINTS_PER_NIGHT`)
+- **Points earning**: 1 point per AUD spent (`POINTS_PER_AUD=1`). Computed from `reservations.total_value_cents`.
 - **Expiration**: none
-- **Reservation match**: strict email match against Guesty record
+- **Reservation match**: strict email match on the `reservations.guest_email` you enter
 - **Experience pricing**: admin-set
 - **Partner redemption**: guest shows confirmation code (honor system)
 
 ## What's next (v2 ideas)
 
-- Admin CRUD UI for experiences/partners/offers
+- Admin CRUD UI for reservations, experiences, partners, offers
 - Partner logins to mark redemptions `used`
-- Guesty webhook to auto-sync reservations
 - Klaviyo lifecycle emails (welcome, claim confirmed, "you're X points from Y")
 - Referral bonuses + tiered earnings
 - Stripe point top-ups or paid-tier experiences

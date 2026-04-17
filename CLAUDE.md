@@ -8,7 +8,8 @@ Loyalty/rewards portal for Lively Properties short stays. See `README.md` for th
 - `src/app/claim/actions.ts` — stay-claim server action (strict email match, ledger-credit)
 - `src/app/experiences/[id]/actions.ts` — redeem server action (balance check, ledger-debit)
 - `src/lib/supabase/{client,server,admin,middleware}.ts` — Supabase helpers (admin is service-role, server-only)
-- `src/lib/guesty.ts` — Guesty API wrapper (MVP uses synced `reservations` table rather than live lookup)
+
+Reservations are **not** synced from Guesty. We own them — admin enters them directly via the Supabase table editor (admin CRUD UI is v2).
 
 ## Invariants — do not break
 
@@ -20,7 +21,7 @@ Loyalty/rewards portal for Lively Properties short stays. See `README.md` for th
 
 ## MVP defaults
 
-- 100 points per night (`POINTS_PER_NIGHT` env)
+- 1 point per AUD spent (`POINTS_PER_AUD=1`). Derived from `reservations.total_value_cents` — value is **required** for a claim to succeed.
 - No point expiration
 - No stock limits by default (experiences can set one)
 

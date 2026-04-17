@@ -30,7 +30,9 @@ insert into public.offers (title, description, cta_label, cta_url) values
    'Book now', 'https://livelyproperties.com.au')
 on conflict do nothing;
 
--- Example reservation (use this code for dev testing)
+-- Example reservation (use this code for dev testing).
+-- total_value_cents=120000 → $1,200 AUD → 1,200 points at default rate.
+-- Change guest_email to your own before testing the claim flow.
 insert into public.reservations (code, guest_email, guest_name, check_in, check_out, total_value_cents)
 values ('LP-DEMO-001', 'you@example.com', 'Demo Guest', current_date - 7, current_date - 4, 120000)
 on conflict (code) do nothing;

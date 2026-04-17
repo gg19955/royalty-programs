@@ -7,7 +7,8 @@ type Result =
   | { ok: true; points: number }
   | { ok: false; error: string };
 
-const POINTS_PER_NIGHT = parseInt(process.env.POINTS_PER_NIGHT ?? "100", 10);
+// 1 point per AUD spent by default. Override via POINTS_PER_AUD env.
+const POINTS_PER_AUD = parseFloat(process.env.POINTS_PER_AUD ?? "1");
 
 export async function claimStay(code: string): Promise<Result> {
   if (!code) return { ok: false, error: "Reservation code is required." };
@@ -21,7 +22,7 @@ export async function claimStay(code: string): Promise<Result> {
   // Look up reservation (service role bypasses RLS)
   const { data: reservation, error: resErr } = await admin
     .from("reservations")
-    .select("id, code, guest_email, check_in, check_out, nights")
+    .select("id, code, guest_email, total_value_cents, currency")
     .eq("code", code)
     .single();
 
@@ -49,7 +50,16 @@ export async function claimStay(code: string): Promise<Result> {
     return { ok: false, error: "This reservation has already been claimed." };
   }
 
-  const points = Math.max(0, (reservation.nights ?? 0) * POINTS_PER_NIGHT);
+  if (reservation.total_value_cents == null || reservation.total_value_cents <= 0) {
+    return {
+      ok: false,
+      error: "Reservation value is missing. Contact support to claim this stay.",
+    };
+  }
+
+  // 1 point per AUD spent — cents / 100, floored, times rate.
+  const aud = Math.floor(reservation.total_value_cents / 100);
+  const points = Math.max(0, Math.round(aud * POINTS_PER_AUD));
 
   // Insert claim
   const { data: claim, error: claimErr } = await admin
