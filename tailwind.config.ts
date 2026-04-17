@@ -6,12 +6,18 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          DEFAULT: "#1f2937",
-          accent: "#d97706",
+          DEFAULT: "#111111",
+          accent: "#8b7355",
+          soft: "#f4efe8",
+          line: "#e7e1d7",
         },
       },
       fontFamily: {
-        sans: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        display: ["var(--font-display)", "ui-serif", "Georgia", "Cambria", "Times New Roman", "serif"],
+      },
+      letterSpacing: {
+        tightest: "-0.03em",
       },
     },
   },
