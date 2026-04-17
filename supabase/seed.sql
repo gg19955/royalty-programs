@@ -1,6 +1,20 @@
 -- Dev seed data. Run after migration, then sign in with an email and
 -- update your own profile role to 'admin' to access /admin.
 
+-- Hosts: Lively Properties is host 0; add one sample external host for dev.
+insert into public.hosts (display_name, legal_name, contact_email, onboarding_status, approved_at)
+values ('Lively Properties', 'Lively Properties Pty Ltd', 'hello@livelyproperties.com.au', 'approved', now())
+on conflict do nothing;
+
+insert into public.hosts (display_name, contact_email, onboarding_status)
+values ('Coastal Retreats Co.', 'hello@coastal-retreats.example', 'invited')
+on conflict do nothing;
+
+-- Backfill any pre-existing property rows to the Lively host.
+update public.properties
+   set host_id = (select id from public.hosts where display_name = 'Lively Properties' limit 1)
+ where host_id is null;
+
 insert into public.partners (name, website, contact_email) values
   ('Yarra Valley Cellars', 'https://example.com', 'partners@example.com'),
   ('Great Ocean Kayak Co.', 'https://example.com', 'partners@example.com'),
