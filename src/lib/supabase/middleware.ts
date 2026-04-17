@@ -9,7 +9,7 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get: (name) => request.cookies.get(name)?.value,
+        get: (name: string) => request.cookies.get(name)?.value,
         set: (name: string, value: string, options: CookieOptions) => {
           request.cookies.set({ name, value, ...options });
           response = NextResponse.next({ request });
