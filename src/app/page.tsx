@@ -18,7 +18,6 @@ type RawProperty = PropertyCardData & {
   property_images: { url: string; is_hero: boolean; sort_order: number }[] | null;
 };
 
-// Hero image per region (first published property's hero).
 async function regionStrip() {
   const admin = createAdminClient();
   const { data } = await admin
@@ -83,25 +82,53 @@ export default async function HomePage() {
       <Nav transparent />
       <Hero />
 
-      {/* Editorial manifesto — oversized type, lots of air */}
-      <section className="border-b border-brand-line bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-28 sm:px-10 sm:py-40">
+      {/* Ticker / marquee — horizontal moving strip like notahotel */}
+      <div className="relative overflow-hidden border-y border-brand-line bg-black py-6">
+        <div className="marquee-track flex whitespace-nowrap">
+          {[...Array(2)].map((_, dup) => (
+            <div key={dup} className="flex shrink-0 items-center gap-10 pr-10">
+              {[
+                "Mornington Peninsula",
+                "Daylesford",
+                "Great Ocean Road",
+                "High Country",
+                "Yarra Valley",
+                "Gippsland",
+                "Phillip Island",
+                "Macedon Ranges",
+              ].map((r) => (
+                <span
+                  key={`${dup}-${r}`}
+                  className="font-display text-3xl font-semibold uppercase tracking-[0.06em] text-white/80"
+                >
+                  {r}
+                  <span aria-hidden className="mx-10 text-white/30">
+                    ●
+                  </span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Editorial manifesto — massive condensed headline on pure black */}
+      <section className="relative border-b border-brand-line bg-black">
+        <div className="mx-auto max-w-[1296px] px-6 py-32 sm:px-10 sm:py-44">
           <Reveal as="up">
-            <p className="text-[11px] uppercase tracking-[0.32em] text-brand-accent">
-              Curated by Lively
-            </p>
+            <div className="section-index">/ 01 — The brief</div>
           </Reveal>
           <Reveal as="up" delay={120}>
-            <h2 className="mt-8 max-w-5xl font-display text-5xl leading-[0.98] tracking-[-0.02em] text-brand sm:text-7xl md:text-[6rem]">
-              Fewer houses. Chosen carefully. For people who notice the difference.
+            <h2 className="mt-10 max-w-6xl font-display text-6xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-8xl md:text-[8rem]">
+              Fewer houses.
+              <br />
+              Chosen carefully.
             </h2>
           </Reveal>
           <Reveal as="up" delay={260}>
-            <div className="mt-12 grid gap-10 sm:grid-cols-[1fr_2fr] sm:gap-16">
-              <div className="text-[11px] uppercase tracking-[0.28em] text-brand-accent">
-                — The brief
-              </div>
-              <p className="max-w-2xl text-base leading-[1.7] text-neutral-700 sm:text-lg">
+            <div className="mt-16 grid gap-10 border-t border-brand-line pt-10 sm:grid-cols-[1fr_2fr] sm:gap-16">
+              <div className="section-index">/ Statement</div>
+              <p className="max-w-2xl text-base leading-[1.7] text-white/70 sm:text-lg">
                 Every property on Lively is personally selected. We look for
                 considered architecture, exceptional sites, and hosts who take
                 the craft of hospitality seriously — across Victoria&apos;s
@@ -113,26 +140,24 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Curated editorial showcase — always rendered, uses local hi-res stills */}
+      {/* Curated editorial showcase */}
       <SignatureShowcase />
 
-      {/* Region strip — prefer live DB regions, fall back to curated list */}
+      {/* Region strip */}
       {regions.length > 0 ? (
-        <section className="border-b border-brand-line bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
+        <section className="border-b border-brand-line bg-black">
+          <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
             <Reveal as="up">
-              <div className="flex items-end justify-between">
+              <div className="flex items-end justify-between border-b border-brand-line pb-10">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.32em] text-brand-accent">
-                    By region
-                  </p>
-                  <h2 className="mt-5 font-display text-5xl leading-[0.98] tracking-[-0.02em] text-brand sm:text-7xl">
+                  <div className="section-index">/ 02 — By region</div>
+                  <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
                     Where Lively goes.
                   </h2>
                 </div>
                 <Link
                   href="/stays"
-                  className="link-underline hidden text-[11px] uppercase tracking-[0.24em] text-brand sm:inline"
+                  className="link-underline hidden font-display text-[11px] uppercase tracking-[0.28em] text-white sm:inline"
                 >
                   All stays →
                 </Link>
@@ -143,7 +168,7 @@ export default async function HomePage() {
                 <Reveal key={r.region} as="up" delay={100 + i * 120}>
                   <Link
                     href={`/regions/${regionToSlug(r.region)}`}
-                    className="group relative block aspect-[3/4] overflow-hidden bg-neutral-200"
+                    className="group relative block aspect-[3/4] overflow-hidden rounded-[2px] bg-brand-soft"
                   >
                     {r.hero && (
                       /* eslint-disable-next-line @next/next/no-img-element */
@@ -153,12 +178,10 @@ export default async function HomePage() {
                         className="h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/20 transition-opacity duration-700 group-hover:from-black/80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/30 transition-opacity duration-700 group-hover:from-black/90" />
                     <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-                      <div className="text-[10px] uppercase tracking-[0.28em] opacity-80">
-                        Region
-                      </div>
-                      <div className="mt-3 font-display text-4xl leading-[1.05] tracking-[-0.01em] sm:text-5xl">
+                      <div className="section-index">/ Region</div>
+                      <div className="mt-4 font-display text-4xl font-semibold uppercase leading-[0.95] tracking-[-0.01em] sm:text-5xl">
                         <span className="link-underline">{r.region}</span>
                       </div>
                     </div>
@@ -172,18 +195,16 @@ export default async function HomePage() {
         <SignatureRegions />
       )}
 
-      {/* Featured property — hero card, full-bleed imagery */}
+      {/* Featured property */}
       {featuredOne && (
         <section className="border-b border-brand-line bg-brand-soft">
-          <div className="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
+          <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
             <Reveal as="up">
-              <div className="flex items-end justify-between">
-                <p className="text-[11px] uppercase tracking-[0.32em] text-brand-accent">
-                  Featured this month
-                </p>
+              <div className="flex items-end justify-between border-b border-brand-line pb-10">
+                <div className="section-index">/ 03 — Featured this month</div>
                 <Link
                   href="/stays"
-                  className="link-underline hidden text-[11px] uppercase tracking-[0.24em] text-brand sm:inline"
+                  className="link-underline hidden font-display text-[11px] uppercase tracking-[0.28em] text-white sm:inline"
                 >
                   View all →
                 </Link>
@@ -198,23 +219,21 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* The rest of the collection */}
+      {/* The rest */}
       {rest.length > 0 && (
-        <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
+        <section className="bg-black">
+          <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
             <Reveal as="up">
-              <div className="flex items-end justify-between">
+              <div className="flex items-end justify-between border-b border-brand-line pb-10">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.32em] text-brand-accent">
-                    The collection
-                  </p>
-                  <h2 className="mt-5 font-display text-5xl leading-[0.98] tracking-[-0.02em] text-brand sm:text-7xl">
+                  <div className="section-index">/ 04 — The collection</div>
+                  <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
                     New this season.
                   </h2>
                 </div>
                 <Link
                   href="/stays"
-                  className="link-underline hidden text-[11px] uppercase tracking-[0.24em] text-brand sm:inline"
+                  className="link-underline hidden font-display text-[11px] uppercase tracking-[0.28em] text-white sm:inline"
                 >
                   View all →
                 </Link>
@@ -231,45 +250,73 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Rewards — full-bleed dark */}
-      <section className="relative overflow-hidden border-t border-brand-line bg-brand text-white">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-28 sm:px-10 sm:py-36 md:grid-cols-[1fr_1fr] md:items-center md:gap-20">
+      {/* Rewards — inverted: cream surface on dark page for contrast */}
+      <section className="relative overflow-hidden border-t border-brand-line bg-brand-raised text-white">
+        <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-36">
           <Reveal as="up">
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.32em] text-white/60">
-                Lively Rewards
-              </p>
-              <h2 className="mt-6 font-display text-5xl leading-[0.98] tracking-[-0.02em] sm:text-6xl md:text-7xl">
-                Points that actually buy something.
+            <div className="section-index text-white/50">/ 05 — Lively Rewards</div>
+          </Reveal>
+          <div className="mt-10 grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-end md:gap-20">
+            <Reveal as="up" delay={140}>
+              <h2 className="font-display text-6xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] sm:text-8xl md:text-[8rem]">
+                Points that
+                <br />
+                actually
+                <br />
+                buy something.
               </h2>
-            </div>
-          </Reveal>
-          <Reveal as="up" delay={200}>
-            <div className="space-y-6 text-base leading-[1.7] text-white/80 sm:text-lg">
-              <p>
-                Earn one point per Australian dollar on every stay. Redeem toward
-                your next booking, or spend on curated partner experiences —
-                cellar-door tastings, hot-springs afternoons, private kayak
-                tours.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Link
-                  href="/experiences"
-                  className="rounded-sm border border-white/70 px-7 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-white transition hover:bg-white hover:text-brand"
-                >
-                  Browse rewards
-                </Link>
-                <Link
-                  href="/login"
-                  className="rounded-sm bg-white px-7 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-brand transition hover:bg-brand-soft"
-                >
-                  Sign in
-                </Link>
+            </Reveal>
+            <Reveal as="up" delay={280}>
+              <div className="space-y-8 pb-4 text-base leading-[1.7] text-white/75 sm:text-lg">
+                <p>
+                  Earn one point per Australian dollar on every stay. Redeem
+                  toward your next booking, or spend on curated partner
+                  experiences — cellar-door tastings, hot-springs afternoons,
+                  private kayak tours.
+                </p>
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <Link
+                    href="/experiences"
+                    className="rounded-[15px] border border-white/70 px-7 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-white transition hover:bg-white hover:text-black"
+                  >
+                    Browse rewards
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="rounded-[15px] bg-white px-7 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-black transition hover:bg-brand-accent"
+                  >
+                    Sign in
+                  </Link>
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </section>
+
+      {/* Footer band */}
+      <footer className="border-t border-brand-line bg-black">
+        <div className="mx-auto flex max-w-[1296px] flex-col gap-8 px-6 py-16 text-white/60 sm:flex-row sm:items-end sm:justify-between sm:px-10">
+          <div>
+            <div className="font-display text-5xl font-semibold uppercase tracking-[-0.01em] text-white sm:text-7xl">
+              Lively
+            </div>
+            <div className="mt-4 section-index">/ Victoria — Australia</div>
+          </div>
+          <div className="grid gap-2 text-[11px] uppercase tracking-[0.28em] sm:text-right">
+            <Link href="/stays" className="hover:text-white">Stays</Link>
+            <Link href="/experiences" className="hover:text-white">Rewards</Link>
+            <Link href="/host" className="hover:text-white">List a property</Link>
+            <Link href="/login" className="hover:text-white">Sign in</Link>
+          </div>
+        </div>
+        <div className="border-t border-brand-line">
+          <div className="mx-auto flex max-w-[1296px] items-center justify-between px-6 py-6 text-[10px] uppercase tracking-[0.28em] text-white/40 sm:px-10">
+            <span>© {new Date().getFullYear()} Lively Properties</span>
+            <span>— End of feed —</span>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

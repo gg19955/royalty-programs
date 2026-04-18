@@ -18,52 +18,47 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
 
   const base = transparent
     ? "absolute inset-x-0 top-0 z-30 text-white"
-    : "relative border-b border-brand-line bg-white/85 text-brand backdrop-blur";
+    : "relative border-b border-brand-line bg-brand-ink/95 text-white backdrop-blur-sm";
 
-  const linkColor = transparent
-    ? "text-white/85 hover:text-white"
-    : "text-neutral-600 hover:text-brand";
+  const linkColor = "text-white/70 hover:text-white transition-colors";
 
   const primaryBtn = transparent
-    ? "border border-white/70 text-white hover:bg-white hover:text-brand"
-    : "bg-brand text-white hover:bg-black";
+    ? "border border-white/70 text-white hover:bg-white hover:text-black"
+    : "border border-white/80 text-white hover:bg-white hover:text-black";
 
   return (
     <header className={base}>
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 sm:px-10">
+      <div className="mx-auto flex max-w-[1296px] items-center justify-between px-6 py-5 sm:px-10">
         <Link
           href="/"
-          className={
-            "font-display text-2xl tracking-tight " +
-            (transparent ? "text-white" : "text-brand")
-          }
+          className="font-display text-2xl font-semibold uppercase tracking-[0.18em] text-white"
         >
           Lively
         </Link>
-        <nav className="flex items-center gap-7 text-sm">
+        <nav className="flex items-center gap-8 text-sm">
           <Link
             href="/stays"
-            className={"hidden text-[11px] uppercase tracking-[0.22em] sm:inline " + linkColor}
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] sm:inline " + linkColor}
           >
             Stays
           </Link>
           <Link
             href="/experiences"
-            className={"hidden text-[11px] uppercase tracking-[0.22em] sm:inline " + linkColor}
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] sm:inline " + linkColor}
           >
             Rewards
           </Link>
           <Link
             href="/host"
-            className={"hidden text-[11px] uppercase tracking-[0.22em] md:inline " + linkColor}
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] md:inline " + linkColor}
           >
-            List your property
+            List property
           </Link>
           {user ? (
             <>
               <Link
                 href="/portal"
-                className={"text-[11px] uppercase tracking-[0.22em] " + linkColor}
+                className={"font-display text-[11px] font-medium uppercase tracking-[0.28em] " + linkColor}
               >
                 Portal
               </Link>
@@ -71,7 +66,7 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
                 <Link
                   href="/admin"
                   className={
-                    "rounded-sm px-3.5 py-2 text-[11px] uppercase tracking-[0.22em] transition " +
+                    "rounded-[15px] px-4 py-2 font-display text-[11px] font-medium uppercase tracking-[0.24em] transition " +
                     primaryBtn
                   }
                 >
@@ -84,7 +79,7 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
             <Link
               href="/login"
               className={
-                "rounded-sm px-5 py-2.5 text-[11px] uppercase tracking-[0.22em] transition " +
+                "rounded-[15px] px-5 py-2.5 font-display text-[11px] font-medium uppercase tracking-[0.24em] transition " +
                 primaryBtn
               }
             >

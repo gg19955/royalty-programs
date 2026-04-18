@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #faf8f4;
-  --foreground: #111111;
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #0b0b0d;
+  --border: #2d2d2d;
+  --muted: #707070;
+  --muted-light: #cecdc1;
 }
 
 html,
@@ -19,8 +23,55 @@ html {
 }
 
 ::selection {
-  background: #e7e1d7;
-  color: #111111;
+  background: #ffffff;
+  color: #000000;
+}
+
+/* ---------------------------------------------------------------
+   Display-font treatment — tracking/tightening for Oswald so it
+   reads closer to Manuka Condensed (tighter tracking, tall line).
+   --------------------------------------------------------------- */
+.font-display {
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------
+   Theme remap — legacy class names keep working on dark surface.
+   These selectors override Tailwind's core utility output so the
+   existing source (46 files) doesn't need to be rewritten.
+   --------------------------------------------------------------- */
+.bg-white {
+  background-color: var(--surface) !important;
+}
+.bg-white\/85 {
+  background-color: rgba(11, 11, 13, 0.85) !important;
+}
+.bg-black {
+  background-color: #000000 !important;
+}
+.text-neutral-500,
+.text-neutral-600,
+.text-neutral-700 {
+  color: var(--muted-light) !important;
+}
+.text-neutral-400 {
+  color: var(--muted) !important;
+}
+.border-neutral-200,
+.border-neutral-300 {
+  border-color: var(--border) !important;
+}
+.bg-neutral-50,
+.bg-neutral-100 {
+  background-color: var(--surface) !important;
+}
+.text-black {
+  color: #ffffff !important;
+}
+.hover\:bg-black:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
 
 /* ---------------------------------------------------------------
@@ -52,7 +103,7 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Hero cinematic entrance — fires once on mount, no IO needed.
+   Hero cinematic entrance
    --------------------------------------------------------------- */
 @keyframes hero-rise {
   from {
@@ -92,7 +143,7 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Accent underline slide — for headings and CTAs.
+   Accent underline slide
    --------------------------------------------------------------- */
 .link-underline {
   position: relative;
@@ -116,7 +167,35 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Respect reduced-motion — disable scroll-triggered motion entirely.
+   Marquee — notahotel-style horizontal ticker.
+   --------------------------------------------------------------- */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+  will-change: transform;
+}
+
+/* ---------------------------------------------------------------
+   Section number eyebrow — the little "01 / 04" markers.
+   --------------------------------------------------------------- */
+.section-index {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-body);
+  letter-spacing: 0.28em;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------
+   Reduced-motion guard
    --------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -129,7 +208,8 @@ html {
   }
   .hero-rise,
   .hero-fade,
-  .hero-media {
+  .hero-media,
+  .marquee-track {
     animation: none !important;
   }
   .link-underline::after {

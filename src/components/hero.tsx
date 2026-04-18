@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Parallax } from "@/components/motion/parallax";
 
-// Drop a file at public/hero.mp4 (video) and/or public/hero.jpg (poster / fallback).
-// If hero.mp4 is present it autoplays muted and loops; hero.jpg shows under it as poster
-// (and is the sole background when there's no video).
+/**
+ * Hero — full-bleed video/image with notahotel-style editorial type.
+ * Oversized condensed display headline, minimal chrome, ticker-like eyebrow.
+ * Keeps the existing /public/hero.mp4 + /public/hero.jpg assets.
+ */
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-black">
@@ -24,45 +26,66 @@ export function Hero() {
         </div>
       </Parallax>
 
-      {/* Quiet gradient — readable, not heavy */}
+      {/* Bottom-anchored readability gradient — keeps deep black on text side */}
       <div
-        className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70"
+        className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/80"
         aria-hidden
       />
 
-      <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-6 pb-24 pt-40 text-white sm:px-10 sm:pb-28">
-        <p
-          className="hero-rise text-[11px] uppercase tracking-[0.32em] text-white/75"
+      {/* Corner hairlines — editorial framing like notahotel */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-x-6 top-24 h-px bg-white/20 sm:inset-x-10" />
+        <div className="absolute inset-x-6 bottom-10 h-px bg-white/20 sm:inset-x-10" />
+      </div>
+
+      <div className="relative mx-auto flex min-h-[100vh] max-w-[1296px] flex-col justify-end px-6 pb-20 pt-40 text-white sm:px-10 sm:pb-24">
+        {/* top eyebrow row — tracked small-caps */}
+        <div
+          className="hero-rise absolute left-6 right-6 top-28 flex items-center justify-between text-[11px] uppercase tracking-[0.32em] text-white/70 sm:left-10 sm:right-10"
           style={{ animationDelay: "120ms" }}
         >
-          Victoria · The collection
-        </p>
-        <h1
-          className="hero-rise mt-5 max-w-5xl font-display text-6xl leading-[0.95] tracking-[-0.02em] sm:text-8xl md:text-[8.5rem]"
+          <span className="section-index">/ 00 — Collection 2026</span>
+          <span className="hidden sm:inline">Victoria · Australia</span>
+        </div>
+
+        <p
+          className="hero-rise font-display text-[11px] font-medium uppercase tracking-[0.34em] text-white/80"
           style={{ animationDelay: "220ms" }}
         >
-          Stay somewhere considered.
-        </h1>
-        <p
-          className="hero-rise mt-8 max-w-lg text-base leading-relaxed text-white/85 sm:text-lg"
-          style={{ animationDelay: "420ms" }}
-        >
-          A curated marketplace of luxury short stays across Victoria&apos;s
-          quietest regions — earn points on every night.
+          Lively — Curated Stays
         </p>
+        <h1
+          className="hero-rise mt-6 max-w-[9ch] font-display text-[18vw] font-semibold uppercase leading-[0.86] tracking-[-0.02em] sm:text-[14vw] md:text-[min(15vw,22rem)]"
+          style={{ animationDelay: "340ms" }}
+        >
+          Stay
+          <br />
+          Considered.
+        </h1>
+        <div
+          className="hero-rise mt-10 grid max-w-4xl gap-10 sm:grid-cols-[1fr_1.2fr] sm:gap-16"
+          style={{ animationDelay: "520ms" }}
+        >
+          <div className="section-index">/ Manifesto</div>
+          <p className="max-w-lg text-base leading-[1.65] text-white/80 sm:text-lg">
+            A curated marketplace of luxury short-stays across Victoria&apos;s
+            quietest regions — each home personally chosen, each night earning
+            points toward the next.
+          </p>
+        </div>
         <div
           className="hero-rise mt-12 flex flex-wrap items-center gap-4"
-          style={{ animationDelay: "560ms" }}
+          style={{ animationDelay: "680ms" }}
         >
           <Link
             href="/stays"
-            className="rounded-sm bg-white px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-brand transition hover:bg-brand-soft hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.45)]"
+            className="rounded-[15px] border border-white bg-white px-8 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-black transition hover:bg-transparent hover:text-white"
           >
             Browse stays
           </Link>
           <Link
             href="/experiences"
-            className="rounded-sm border border-white/60 bg-transparent px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-white transition hover:bg-white/10 hover:border-white"
+            className="rounded-[15px] border border-white/60 bg-transparent px-8 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-white transition hover:border-white hover:bg-white hover:text-black"
           >
             Rewards
           </Link>

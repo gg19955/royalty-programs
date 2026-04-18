@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Cormorant_Garamond } from "next/font/google";
+import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+// Body / UI — clean neutral sans.
+const body = Inter({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-body",
   display: "swap",
 });
 
-const display = Cormorant_Garamond({
+// Display — Oswald is the closest freely-available analogue to
+// notahotel's Manuka Condensed. Tall, narrow, confident.
+const display = Oswald({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -23,8 +26,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${display.variable}`}>
-      <body className="min-h-screen font-sans antialiased">{children}</body>
+    <html lang="en" className={`${body.variable} ${display.variable}`}>
+      <body className="min-h-screen bg-brand-ink font-sans text-white antialiased">
+        {children}
+      </body>
     </html>
   );
 }
