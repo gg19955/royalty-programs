@@ -46,11 +46,23 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
             href="/experiences"
             className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] sm:inline " + linkColor}
           >
-            Rewards
+            Experiences
+          </Link>
+          <Link
+            href="/about"
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] md:inline " + linkColor}
+          >
+            About
+          </Link>
+          <Link
+            href="/faq"
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] md:inline " + linkColor}
+          >
+            FAQ
           </Link>
           <Link
             href="/host"
-            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] md:inline " + linkColor}
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] lg:inline " + linkColor}
           >
             List property
           </Link>

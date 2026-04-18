@@ -1,8 +1,14 @@
 import Link from "next/link";
-import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { Nav } from "@/components/nav";
+import { Reveal } from "@/components/motion/reveal";
+import { ScrollProgress } from "@/components/motion/scroll-progress";
 import { formatPoints } from "@/lib/utils";
+import { PARTNER_EXPERIENCES } from "@/lib/content/experiences";
+
+export const dynamic = "force-dynamic";
+
+const CATEGORIES = ["Food & Drink", "Tours & Activities", "Wellness"] as const;
 
 export default async function ExperiencesPage() {
   const supabase = createClient();
@@ -15,84 +21,208 @@ export default async function ExperiencesPage() {
     supabase.from("offers").select("*").eq("active", true),
   ]);
 
+  const hasRewards = (experiences?.length ?? 0) > 0;
+  const hasOffers = (offers?.length ?? 0) > 0;
+
   return (
     <>
+      <ScrollProgress />
       <Nav />
-      <main className="mx-auto max-w-6xl px-4 py-10">
-        {offers && offers.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-lg font-semibold">Special offers</h2>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
-              {offers.map((o: any) => (
-                <div key={o.id} className="rounded-xl border bg-white p-5">
-                  <div className="text-base font-semibold">{o.title}</div>
-                  <p className="mt-1 text-sm text-gray-600">{o.description}</p>
-                  {o.cta_url && (
-                    <a
-                      href={o.cta_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-3 inline-block text-sm font-medium text-brand-accent hover:underline"
-                    >
-                      {o.cta_label || "Learn more →"}
-                    </a>
-                  )}
+
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-brand-line bg-black">
+        <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
+          <Reveal as="up">
+            <div className="section-index">/ 00 — Experiences</div>
+          </Reveal>
+          <Reveal as="up" delay={140}>
+            <h1 className="mt-10 max-w-6xl font-display text-6xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-8xl md:text-[8.5rem]">
+              What to do
+              <br />
+              when you&apos;re here.
+            </h1>
+          </Reveal>
+          <Reveal as="up" delay={280}>
+            <div className="mt-14 grid gap-10 border-t border-brand-line pt-10 sm:grid-cols-[1fr_2fr] sm:gap-16">
+              <div className="section-index">/ Partners</div>
+              <p className="max-w-2xl text-base leading-[1.7] text-white/75 sm:text-lg">
+                Lively guests unlock a curated network of Victorian partners —
+                private chefs, cellar-door hosts, ballooning pilots, and
+                bathhouse therapists. Exclusive rates and preferred access,
+                arranged by our concierge.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Category sections */}
+      {CATEGORIES.map((category, ci) => {
+        const items = PARTNER_EXPERIENCES.filter((p) => p.category === category);
+        if (items.length === 0) return null;
+        return (
+          <section
+            key={category}
+            className="border-b border-brand-line bg-black"
+          >
+            <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
+              <Reveal as="up">
+                <div className="flex items-end justify-between border-b border-brand-line pb-10">
+                  <div>
+                    <div className="section-index">
+                      / 0{ci + 1} — {category}
+                    </div>
+                    <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
+                      {category === "Food & Drink" && "Eat, drink, linger."}
+                      {category === "Tours & Activities" &&
+                        "Move through the day."}
+                      {category === "Wellness" && "Slow right down."}
+                    </h2>
+                  </div>
                 </div>
-              ))}
+              </Reveal>
+              <div className="mt-12 grid gap-px bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((p, i) => (
+                  <Reveal
+                    key={p.name}
+                    as="up"
+                    delay={80 + (i % 3) * 100}
+                  >
+                    <div className="flex h-full flex-col gap-6 bg-black p-8 sm:p-10">
+                      <div className="section-index">/ {p.category}</div>
+                      <h3 className="font-display text-2xl font-semibold uppercase leading-[1] tracking-[-0.005em] text-white sm:text-3xl">
+                        {p.name}
+                      </h3>
+                      <p className="mt-auto text-sm leading-[1.6] text-white/70 sm:text-base">
+                        {p.blurb}
+                      </p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
             </div>
           </section>
-        )}
+        );
+      })}
 
-        <section>
-          <h1 className="text-2xl font-semibold">Experiences</h1>
-          <p className="mt-1 text-sm text-gray-600">
-            Redeem your points on curated partner offerings across Victoria.
-          </p>
-
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {experiences?.map((e: any) => (
-              <Link
-                key={e.id}
-                href={`/experiences/${e.id}`}
-                className="group overflow-hidden rounded-xl border bg-white transition hover:shadow-md"
-              >
-                {e.image_url ? (
-                  <div className="relative aspect-[4/3] w-full">
-                    <Image
-                      src={e.image_url}
-                      alt={e.title}
-                      fill
-                      className="object-cover transition group-hover:scale-[1.02]"
-                    />
+      {/* Rewards redemption — if catalogue has items */}
+      {(hasRewards || hasOffers) && (
+        <section className="border-b border-brand-line bg-brand-raised">
+          <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
+            <Reveal as="up">
+              <div className="flex items-end justify-between border-b border-white/10 pb-10">
+                <div>
+                  <div className="section-index text-white/60">
+                    / Lively Rewards
                   </div>
-                ) : (
-                  <div className="aspect-[4/3] w-full bg-gray-100" />
-                )}
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-semibold">{e.title}</h3>
-                    <span className="text-sm font-medium text-brand-accent">
-                      {formatPoints(e.points_cost)} pts
-                    </span>
-                  </div>
-                  {e.partners?.name && (
-                    <div className="text-xs uppercase tracking-wide text-gray-500">
-                      {e.partners.name}
-                    </div>
-                  )}
-                  {e.region && <div className="mt-1 text-sm text-gray-600">{e.region}</div>}
+                  <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
+                    Redeem your points.
+                  </h2>
                 </div>
-              </Link>
-            ))}
-          </div>
+                <Link
+                  href="/portal"
+                  className="link-underline hidden font-display text-[11px] uppercase tracking-[0.28em] text-white sm:inline"
+                >
+                  My portal →
+                </Link>
+              </div>
+            </Reveal>
 
-          {(!experiences || experiences.length === 0) && (
-            <p className="mt-6 text-sm text-gray-600">
-              No experiences live yet. Check back soon.
-            </p>
-          )}
+            {hasOffers && (
+              <div className="mt-10 grid gap-6 sm:grid-cols-2">
+                {offers!.map((o: any) => (
+                  <Reveal key={o.id} as="up">
+                    <div className="h-full rounded-[2px] border border-white/10 bg-black/20 p-7">
+                      <div className="section-index text-white/60">
+                        / Featured offer
+                      </div>
+                      <h3 className="mt-4 font-display text-2xl font-semibold uppercase leading-[1.05] tracking-[-0.005em] text-white sm:text-3xl">
+                        {o.title}
+                      </h3>
+                      {o.description && (
+                        <p className="mt-4 text-sm leading-[1.6] text-white/70 sm:text-base">
+                          {o.description}
+                        </p>
+                      )}
+                      {o.cta_url && (
+                        <a
+                          href={o.cta_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="link-underline mt-6 inline-block font-display text-[11px] uppercase tracking-[0.28em] text-white"
+                        >
+                          {o.cta_label || "Learn more →"}
+                        </a>
+                      )}
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            )}
+
+            {hasRewards && (
+              <div className="mt-12 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+                {experiences!.map((e: any) => (
+                  <Link
+                    key={e.id}
+                    href={`/experiences/${e.id}`}
+                    className="group block bg-brand-raised p-7 transition hover:bg-black"
+                  >
+                    <div className="section-index text-white/60">
+                      / {e.partners?.name || "Partner"}
+                    </div>
+                    <h3 className="mt-4 font-display text-2xl font-semibold uppercase leading-[1.05] tracking-[-0.005em] text-white sm:text-3xl">
+                      <span className="link-underline">{e.title}</span>
+                    </h3>
+                    {e.region && (
+                      <div className="mt-3 text-xs uppercase tracking-[0.22em] text-white/60">
+                        {e.region}
+                      </div>
+                    )}
+                    <div className="mt-6 border-t border-white/10 pt-4 font-display text-sm text-white">
+                      {formatPoints(e.points_cost)}{" "}
+                      <span className="text-white/60">points</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </section>
-      </main>
+      )}
+
+      {/* CTA band */}
+      <section className="bg-black">
+        <div className="mx-auto flex max-w-[1296px] flex-col gap-8 px-6 py-24 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:py-28">
+          <div>
+            <div className="section-index">/ Plan your stay</div>
+            <h3 className="mt-5 font-display text-4xl font-semibold uppercase leading-[0.95] tracking-[-0.01em] text-white sm:text-6xl">
+              Let the concierge
+              <br />
+              arrange it.
+            </h3>
+            <p className="mt-6 max-w-xl text-base leading-[1.7] text-white/70">
+              Tell us the shape of the trip you want — we&apos;ll book the
+              partners, the table, the tee time, the ride. One message, one
+              answer.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/stays"
+              className="rounded-[15px] bg-white px-8 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-black transition hover:bg-brand-accent"
+            >
+              Browse stays
+            </Link>
+            <Link
+              href="/about"
+              className="rounded-[15px] border border-white/70 px-8 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-white transition hover:bg-white hover:text-black"
+            >
+              About Lively
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
