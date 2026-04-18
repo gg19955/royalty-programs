@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Parallax } from "@/components/motion/parallax";
-import { RotatingWord } from "@/components/rotating-word";
 
 /**
  * Hero — full-bleed video/image with notahotel-style editorial type.
@@ -73,7 +72,7 @@ export function Hero() {
           style={{ animationDelay: "340ms" }}
         >
           <span className="block">Stay</span>
-          <RotatingWord words={["Considered", "Luxury", "Premium", "Lively"]} />
+          <span className="block">Lively</span>
         </h1>
         <div
           className="hero-rise mt-10 grid max-w-4xl gap-10 sm:grid-cols-[1fr_1.2fr] sm:gap-16"
