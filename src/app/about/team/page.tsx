@@ -37,6 +37,16 @@ export default function TeamPage() {
               </p>
             </div>
           </Reveal>
+          <Reveal as="up" delay={420}>
+            <figure className="mt-16 overflow-hidden rounded-[2px] border border-brand-line bg-brand-soft">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/team/team-group.jpg"
+                alt="The Lively team"
+                className="h-full w-full object-cover"
+              />
+            </figure>
+          </Reveal>
         </div>
       </section>
 
