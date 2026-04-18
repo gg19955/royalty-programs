@@ -83,10 +83,7 @@ export default async function HomePage() {
       <Nav transparent />
       <Hero />
 
-      {/* Search bar — dates + region + dependent suburb, posts to /stays */}
-      <HeroSearch />
-
-      {/* Ticker / marquee — horizontal moving strip like notahotel */}
+      {/* Region ticker — horizontal moving strip of regions we operate in */}
       <div className="relative overflow-hidden border-y border-brand-line bg-black py-6">
         <div className="marquee-track flex whitespace-nowrap">
           {[...Array(2)].map((_, dup) => (
@@ -110,6 +107,43 @@ export default async function HomePage() {
                     ●
                   </span>
                 </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Search bar — dates + region + dependent suburb, posts to /stays */}
+      <HeroSearch />
+
+      {/* Featured on — press / partner logos marquee (uniform fixed-box sizing so every logo reads at equal weight) */}
+      <div className="relative overflow-hidden border-y border-brand-line bg-black py-10">
+        <div className="mx-auto mb-6 max-w-[1296px] px-6 sm:px-10">
+          <div className="section-index text-white/50">/ As featured on</div>
+        </div>
+        <div className="marquee-track flex whitespace-nowrap">
+          {[...Array(2)].map((_, dup) => (
+            <div key={dup} className="flex shrink-0 items-center gap-16 pr-16 sm:gap-24 sm:pr-24">
+              {[
+                { src: "/press/broadsheet.png", alt: "Broadsheet" },
+                { src: "/press/drive.png", alt: "Drive" },
+                { src: "/press/hunter-folk.webp", alt: "Hunter & Folk" },
+                { src: "/press/boss-hunting.svg", alt: "Boss Hunting" },
+                { src: "/press/mfw.png", alt: "Melbourne Fashion Week" },
+                { src: "/press/airbnb.png", alt: "Airbnb" },
+                { src: "/press/urban-list.png", alt: "Urban List" },
+              ].map((logo) => (
+                <div
+                  key={`${dup}-${logo.alt}`}
+                  className="flex h-10 w-36 shrink-0 items-center justify-center sm:h-12 sm:w-44"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="max-h-full max-w-full object-contain opacity-70 brightness-0 invert transition hover:opacity-100"
+                  />
+                </div>
               ))}
             </div>
           ))}
