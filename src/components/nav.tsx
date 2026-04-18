@@ -48,12 +48,30 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
           >
             Experiences
           </Link>
-          <Link
-            href="/about"
-            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] md:inline " + linkColor}
-          >
-            About
-          </Link>
+          <div className="group relative hidden md:block">
+            <Link
+              href="/about"
+              className={"font-display text-[11px] font-medium uppercase tracking-[0.28em] " + linkColor}
+            >
+              About
+            </Link>
+            <div className="invisible absolute left-1/2 top-full z-40 -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              <div className="min-w-[180px] border border-brand-line bg-brand-ink/95 backdrop-blur-sm">
+                <Link
+                  href="/about"
+                  className="block px-5 py-4 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-white/70 transition hover:bg-white/5 hover:text-white"
+                >
+                  Our story
+                </Link>
+                <Link
+                  href="/about/team"
+                  className="block border-t border-brand-line px-5 py-4 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-white/70 transition hover:bg-white/5 hover:text-white"
+                >
+                  Our team
+                </Link>
+              </div>
+            </div>
+          </div>
           <Link
             href="/faq"
             className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] md:inline " + linkColor}
