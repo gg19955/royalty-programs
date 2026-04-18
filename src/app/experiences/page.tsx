@@ -56,7 +56,7 @@ export default async function ExperiencesPage() {
         </div>
       </section>
 
-      {/* Category sections */}
+      {/* Category sections — full-bleed photo tiles */}
       {CATEGORIES.map((category, ci) => {
         const items = PARTNER_EXPERIENCES.filter((p) => p.category === category);
         if (items.length === 0) return null;
@@ -65,38 +65,58 @@ export default async function ExperiencesPage() {
             key={category}
             className="border-b border-brand-line bg-black"
           >
-            <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
-              <Reveal as="up">
-                <div className="flex items-end justify-between border-b border-brand-line pb-10">
-                  <div>
-                    <div className="section-index">
-                      / 0{ci + 1} — {category}
+            <div className="px-0 py-24 sm:py-32">
+              <div className="mx-auto mb-12 max-w-[1600px] px-6 sm:mb-16 sm:px-10">
+                <Reveal as="up">
+                  <div className="flex items-end justify-between border-b border-brand-line pb-10">
+                    <div>
+                      <div className="section-index">
+                        / 0{ci + 1} — {category}
+                      </div>
+                      <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
+                        {category === "Food & Drink" && "Eat, drink, linger."}
+                        {category === "Tours & Activities" &&
+                          "Move through the day."}
+                        {category === "Wellness" && "Slow right down."}
+                      </h2>
                     </div>
-                    <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
-                      {category === "Food & Drink" && "Eat, drink, linger."}
-                      {category === "Tours & Activities" &&
-                        "Move through the day."}
-                      {category === "Wellness" && "Slow right down."}
-                    </h2>
                   </div>
-                </div>
-              </Reveal>
-              <div className="mt-12 grid gap-px bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
+                </Reveal>
+              </div>
+              <div className="grid grid-cols-1 gap-px bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((p, i) => (
                   <Reveal
                     key={p.name}
                     as="up"
                     delay={80 + (i % 3) * 100}
                   >
-                    <div className="flex h-full flex-col gap-6 bg-black p-8 sm:p-10">
-                      <div className="section-index">/ {p.category}</div>
-                      <h3 className="font-display text-2xl font-semibold uppercase leading-[1] tracking-[-0.005em] text-white sm:text-3xl">
-                        {p.name}
-                      </h3>
-                      <p className="mt-auto text-sm leading-[1.6] text-white/70 sm:text-base">
-                        {p.blurb}
-                      </p>
-                    </div>
+                    <article className="group relative flex h-full min-h-[480px] flex-col overflow-hidden bg-black sm:min-h-[560px]">
+                      {p.image ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] via-black to-black" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10 transition-opacity duration-700 group-hover:from-black/95" />
+                      <div className="relative flex h-full flex-col justify-between gap-6 p-8 sm:p-10">
+                        <div className="section-index text-white/80">
+                          / {p.category}
+                        </div>
+                        <div>
+                          <h3 className="font-display text-3xl font-semibold uppercase leading-[0.95] tracking-[-0.01em] text-white sm:text-4xl">
+                            {p.name}
+                          </h3>
+                          <p className="mt-5 max-w-md text-sm leading-[1.6] text-white/80 sm:text-base">
+                            {p.blurb}
+                          </p>
+                        </div>
+                      </div>
+                    </article>
                   </Reveal>
                 ))}
               </div>
