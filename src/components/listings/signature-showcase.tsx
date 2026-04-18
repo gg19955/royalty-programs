@@ -1,5 +1,45 @@
 import Link from "next/link";
-import { signatureHomes, signatureRegions } from "@/lib/content/signature-homes";
+import {
+  signatureHomes,
+  signatureRegions,
+  type SignatureHome,
+} from "@/lib/content/signature-homes";
+
+/**
+ * Tile media — renders either a still or a muted autoplaying loop,
+ * depending on whether the home has a `video` asset. Keeping this in one
+ * place so any tile (portrait strip, editorial frame, future layouts) picks
+ * up richer media simply by setting `video` + `videoPoster` in the content
+ * module.
+ */
+function TileMedia({
+  home,
+  className,
+}: {
+  home: SignatureHome;
+  className: string;
+}) {
+  if (home.video) {
+    return (
+      <video
+        className={className}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={home.videoPoster ?? home.src}
+        aria-label={home.name}
+      >
+        <source src={home.video} type="video/mp4" />
+      </video>
+    );
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={home.src} alt={home.name} className={className} />
+  );
+}
 
 /**
  * Editorial curation shown on the home page. Uses locally-hosted stills from
@@ -46,10 +86,8 @@ export function SignatureShowcase() {
             href={`/stays/${h.slug}`}
             className="group relative block aspect-[3/4] overflow-hidden bg-black"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={h.src}
-              alt={h.name}
+            <TileMedia
+              home={h}
               className="h-full w-full object-cover transition duration-[1400ms] ease-out group-hover:scale-[1.06]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
@@ -78,13 +116,7 @@ function EditorialFrame({
   height,
   align,
 }: {
-  home: {
-    slug: string;
-    src: string;
-    name: string;
-    region: string;
-    caption: string;
-  };
+  home: SignatureHome;
   height: string;
   align: "bottom-left" | "bottom-right";
 }) {
@@ -95,10 +127,8 @@ function EditorialFrame({
       href={`/stays/${home.slug}`}
       className={"group relative block overflow-hidden bg-black " + height}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={home.src}
-        alt={home.name}
+      <TileMedia
+        home={home}
         className="absolute inset-0 h-full w-full object-cover transition duration-[1400ms] ease-out group-hover:scale-[1.03]"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/75" />

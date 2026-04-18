@@ -10,6 +10,14 @@ export type SignatureHome = {
   slug: string;
   /** Local path under /public — served as-is. */
   src: string;
+  /**
+   * Optional mp4 under /public. When set, tiles render this as a muted
+   * autoplaying loop in place of the still, and fall back to `src` as
+   * the video poster if `videoPoster` is not provided.
+   */
+  video?: string;
+  /** Optional poster frame for the video (jpg under /public). */
+  videoPoster?: string;
   /** Property name, as published on livelyproperties.com.au. */
   name: string;
   /** Where it sits — region tile. */
@@ -105,6 +113,8 @@ export const signatureHomes: SignatureHome[] = [
   {
     slug: "barrington",
     src: "/media/homes/barrington.jpg",
+    video: "/media/homes/barrington.mp4",
+    videoPoster: "/media/homes/barrington-poster.jpg",
     name: "Barrington",
     region: "Mornington",
     caption: "A retreat designed for the long weekend that keeps extending.",
