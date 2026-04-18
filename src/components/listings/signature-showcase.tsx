@@ -52,20 +52,31 @@ export function SignatureShowcase() {
 
   return (
     <section className="border-b border-brand-line bg-black">
-      <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
-        <div className="flex flex-col gap-4 border-b border-brand-line pb-10 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="section-index">/ The collection</div>
-            <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
-              A handful of signatures.
-            </h2>
+      {/* Intro panel — inverted to reflect the Lively Collection page:
+          white canvas, black type. Routes to /collection rather than the
+          open stays grid. `.theme-light` sits on an ancestor of
+          `.bg-white` / `.text-black` so the globals.css escape hatch
+          beats the global dark remap. */}
+      <div className="theme-light">
+        <div className="bg-white">
+          <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
+            <div className="flex flex-col gap-4 border-b border-black/10 pb-10 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="font-display text-[11px] uppercase tracking-[0.32em] text-black/50">
+                  / The collection
+                </div>
+                <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-black sm:text-7xl">
+                  A handful of signatures.
+                </h2>
+              </div>
+              <Link
+                href="/collection"
+                className="link-underline font-display text-[11px] uppercase tracking-[0.28em] text-black"
+              >
+                Every home →
+              </Link>
+            </div>
           </div>
-          <Link
-            href="/stays"
-            className="link-underline font-display text-[11px] uppercase tracking-[0.28em] text-white"
-          >
-            Every home →
-          </Link>
         </div>
       </div>
 
