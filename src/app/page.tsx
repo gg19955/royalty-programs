@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
+import { HeroSearch } from "@/components/listings/hero-search";
 import { PropertyCard, type PropertyCardData } from "@/components/listings/property-card";
 import {
   SignatureShowcase,
@@ -81,6 +82,9 @@ export default async function HomePage() {
       <ScrollProgress />
       <Nav transparent />
       <Hero />
+
+      {/* Search bar — dates + region + dependent suburb, posts to /stays */}
+      <HeroSearch />
 
       {/* Ticker / marquee — horizontal moving strip like notahotel */}
       <div className="relative overflow-hidden border-y border-brand-line bg-black py-6">
