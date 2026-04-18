@@ -34,13 +34,15 @@ export type SignatureHome = {
 
 export const signatureHomes: SignatureHome[] = [
   {
-    slug: "the-oceans-edge",
-    src: "/media/homes/oceans-edge.jpg",
-    name: "The Ocean's Edge",
-    region: "Sorrento",
-    caption: "A clifftop residence where the horizon does the decorating.",
+    slug: "blanc-de-noir",
+    src: "/media/homes/blanc-de-noir-poster.jpg",
+    video: "/media/homes/blanc-de-noir.mp4",
+    videoPoster: "/media/homes/blanc-de-noir-poster.jpg",
+    name: "Blanc de Noir",
+    region: "Mount Martha",
+    caption: "Resort-scale grandeur designed by KWD, built for a long winter.",
     description:
-      "A four-bedroom clifftop retreat perched above the bay, designed around an infinity pool that reads as the ocean itself. Interiors are all linen, limestone, and long sightlines — every window curates a picture of the water. Wake to sunrise over the Peninsula, linger over lunch on the terrace, and watch the horizon burn in for dinner.",
+      "A four-bedroom Mount Martha residence designed by KWD and built by Smith Builders — an unhurried composition of stone, warm timber, and natural light held together by a heated pool and spa that run year-round. Interiors lean into a quiet, layered luxury: the kitchen is built to cook in, the living rooms are built to linger in, and the pool courtyard is built for cold mornings and long evenings.",
     bedrooms: 4,
     sleeps: 8,
   },
