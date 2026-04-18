@@ -9,11 +9,24 @@ import { Parallax } from "@/components/motion/parallax";
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-black">
-      {/* Full-bleed media — parallax drift + slow Ken-Burns zoom */}
+      {/* Full-bleed media — parallax drift + slow Ken-Burns zoom.
+          Mobile gets a portrait-framed cut so the pillars + horizon don't
+          crop out when object-cover fits a landscape source into a tall viewport. */}
       <Parallax speed={0.25} className="absolute inset-0">
         <div aria-hidden className="hero-media h-[120%] w-full">
           <video
-            className="h-full w-full object-cover"
+            className="block h-full w-full object-cover sm:hidden"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/hero-mobile.jpg"
+          >
+            <source src="/hero-mobile.mp4" type="video/mp4" />
+          </video>
+          <video
+            className="hidden h-full w-full object-cover sm:block"
             autoPlay
             muted
             loop
