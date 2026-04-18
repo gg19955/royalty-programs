@@ -93,13 +93,13 @@ export function Hero() {
             href="/stays"
             className="rounded-[15px] border border-white bg-white px-8 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-black transition hover:bg-transparent hover:text-white"
           >
-            Browse stays
+            Stay with Us
           </Link>
           <Link
-            href="/experiences"
+            href="/enquire"
             className="rounded-[15px] border border-white/60 bg-transparent px-8 py-3.5 font-display text-[11px] font-medium uppercase tracking-[0.28em] text-white transition hover:border-white hover:bg-white hover:text-black"
           >
-            Rewards
+            List with Us
           </Link>
         </div>
       </div>
