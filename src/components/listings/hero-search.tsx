@@ -96,22 +96,62 @@ export function HeroSearch() {
   const router = useRouter();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [regionSlug, setRegionSlug] = useState("");
-  const [suburb, setSuburb] = useState("");
+  const [regionSlugs, setRegionSlugs] = useState<string[]>([]);
+  const [suburbList, setSuburbList] = useState<string[]>([]);
 
-  const region = REGIONS.find((r) => r.slug === regionSlug);
-  const suburbs = useMemo(() => region?.suburbs ?? [], [region]);
+  const selectedRegions = useMemo(
+    () => REGIONS.filter((r) => regionSlugs.includes(r.slug)),
+    [regionSlugs],
+  );
+  const availableSuburbs = useMemo(
+    () => selectedRegions.flatMap((r) => r.suburbs),
+    [selectedRegions],
+  );
+
+  // Toggling a region: if it's removed, prune any of its suburbs from the
+  // suburb selection so we never submit a suburb that isn't visible.
+  const toggleRegion = (slug: string) => {
+    setRegionSlugs((prev) => {
+      const next = prev.includes(slug)
+        ? prev.filter((x) => x !== slug)
+        : [...prev, slug];
+      const nextAvailable = REGIONS.filter((r) => next.includes(r.slug)).flatMap(
+        (r) => r.suburbs,
+      );
+      setSuburbList((curr) => curr.filter((s) => nextAvailable.includes(s)));
+      return next;
+    });
+  };
+  const toggleSuburb = (s: string) =>
+    setSuburbList((prev) =>
+      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
+    );
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
     if (checkIn) params.set("check_in", checkIn);
     if (checkOut) params.set("check_out", checkOut);
-    if (regionSlug) params.set("region", regionSlug);
-    if (suburb) params.set("suburb", suburb);
+    regionSlugs.forEach((r) => params.append("region", r));
+    suburbList.forEach((s) => params.append("suburb", s));
     const qs = params.toString();
     router.push(qs ? `/stays?${qs}` : "/stays");
   };
+
+  const regionDisplay =
+    selectedRegions.length === 0
+      ? "Any region"
+      : selectedRegions.length === 1
+        ? selectedRegions[0].label
+        : `${selectedRegions[0].label} +${selectedRegions.length - 1}`;
+  const suburbDisplay =
+    suburbList.length === 0
+      ? regionSlugs.length
+        ? "Any suburb"
+        : "Choose region first"
+      : suburbList.length === 1
+        ? suburbList[0]
+        : `${suburbList[0]} +${suburbList.length - 1}`;
 
   const minIn = today();
   const minOut = checkIn || today(1);
@@ -119,7 +159,7 @@ export function HeroSearch() {
   return (
     <section
       aria-label="Find a stay"
-      className="relative z-20 border-b border-brand-line bg-black"
+      className="relative z-20 border-b border-brand-line bg-brand-raised"
     >
       <div className="mx-auto max-w-[1296px] px-6 py-10 sm:px-10 sm:py-12">
         <div className="flex flex-col gap-4 border-b border-brand-line pb-6 sm:flex-row sm:items-end sm:justify-between">
@@ -152,32 +192,28 @@ export function HeroSearch() {
             onChange={setCheckOut}
           />
 
-          <DropdownField
+          <MultiDropdownField
             label="Region"
-            value={regionSlug}
+            values={regionSlugs}
             placeholder="Any region"
-            displayText={region?.label ?? "Any region"}
-            options={[
-              { value: "", label: "Any region" },
-              ...REGIONS.map((r) => ({ value: r.slug, label: r.label })),
-            ]}
-            onChange={(v) => {
-              setRegionSlug(v);
-              setSuburb("");
+            displayText={regionDisplay}
+            options={REGIONS.map((r) => ({ value: r.slug, label: r.label }))}
+            onToggle={toggleRegion}
+            onClear={() => {
+              setRegionSlugs([]);
+              setSuburbList([]);
             }}
           />
 
-          <DropdownField
+          <MultiDropdownField
             label="Suburb"
-            value={suburb}
-            disabled={!regionSlug}
-            placeholder={regionSlug ? "Any suburb" : "Choose region first"}
-            displayText={suburb || (regionSlug ? "Any suburb" : "Choose region first")}
-            options={[
-              { value: "", label: regionSlug ? "Any suburb" : "Choose region first" },
-              ...suburbs.map((s) => ({ value: s, label: s })),
-            ]}
-            onChange={setSuburb}
+            values={suburbList}
+            disabled={regionSlugs.length === 0}
+            placeholder={regionSlugs.length ? "Any suburb" : "Choose region first"}
+            displayText={suburbDisplay}
+            options={availableSuburbs.map((s) => ({ value: s, label: s }))}
+            onToggle={toggleSuburb}
+            onClear={() => setSuburbList([])}
           />
 
           <button
@@ -231,7 +267,7 @@ function DateField({
   return (
     <div
       onClick={open}
-      className="group relative flex cursor-pointer flex-col justify-center gap-2 bg-black px-6 py-5 transition hover:bg-white/[0.03]"
+      className="group relative flex cursor-pointer flex-col justify-center gap-2 bg-brand-raised px-6 py-5 transition hover:bg-white/[0.03]"
     >
       <span className="font-display text-[10px] uppercase tracking-[0.32em] text-white/55">
         {label}
@@ -259,25 +295,28 @@ function DateField({
 }
 
 /**
- * Editorial custom dropdown. Renders as a tile (to match the date
- * tiles) with a black panel of options on open. Uses aria-expanded /
- * role=listbox, closes on outside click and escape.
+ * Editorial multi-select dropdown. Renders as a tile matching the date
+ * tiles; opens a panel of checkbox-style options. The panel stays open
+ * across toggles (so guests can pick multiple regions/suburbs) and
+ * closes on outside click, Escape, or the "Done" affordance.
  */
-function DropdownField({
+function MultiDropdownField({
   label,
-  value,
+  values,
   displayText,
   placeholder,
   options,
-  onChange,
+  onToggle,
+  onClear,
   disabled,
 }: {
   label: string;
-  value: string;
+  values: string[];
   displayText: string;
   placeholder: string;
   options: { value: string; label: string }[];
-  onChange: (v: string) => void;
+  onToggle: (v: string) => void;
+  onClear: () => void;
   disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
@@ -300,11 +339,13 @@ function DropdownField({
     };
   }, [open]);
 
+  const hasSelection = values.length > 0;
+
   return (
     <div
       ref={wrapRef}
       className={
-        "group relative flex flex-col justify-center gap-2 bg-black px-6 py-5 transition " +
+        "group relative flex flex-col justify-center gap-2 bg-brand-raised px-6 py-5 transition " +
         (disabled
           ? "cursor-not-allowed opacity-60"
           : "cursor-pointer hover:bg-white/[0.03]")
@@ -324,7 +365,7 @@ function DropdownField({
         <span
           className={
             "flex w-full items-center justify-between gap-4 text-base " +
-            (value ? "text-white" : "text-white/40")
+            (hasSelection ? "text-white" : "text-white/40")
           }
         >
           <span className="truncate">{displayText || placeholder}</span>
@@ -333,40 +374,80 @@ function DropdownField({
       </button>
 
       {open && !disabled && (
-        <ul
-          role="listbox"
-          className="absolute left-0 right-0 top-full z-30 mt-px max-h-72 overflow-y-auto border-x border-b border-brand-line bg-black py-2 shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8)]"
-        >
-          {options.map((o) => {
-            const selected = o.value === value;
-            return (
-              <li key={o.value || "_none"} role="option" aria-selected={selected}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onChange(o.value);
-                    setOpen(false);
-                  }}
-                  className={
-                    "flex w-full items-center justify-between px-6 py-3 text-left text-[15px] transition " +
-                    (selected
-                      ? "bg-white/[0.06] text-white"
-                      : "text-white/75 hover:bg-white/[0.04] hover:text-white")
-                  }
-                >
-                  <span>{o.label}</span>
-                  {selected && (
-                    <span className="font-display text-[10px] uppercase tracking-[0.28em] text-brand-accent">
-                      Selected
-                    </span>
-                  )}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="absolute left-0 right-0 top-full z-30 mt-px border-x border-b border-brand-line bg-brand-raised shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8)]">
+          <ul
+            role="listbox"
+            aria-multiselectable="true"
+            className="max-h-72 overflow-y-auto py-2"
+          >
+            {options.map((o) => {
+              const selected = values.includes(o.value);
+              return (
+                <li key={o.value} role="option" aria-selected={selected}>
+                  <button
+                    type="button"
+                    onClick={() => onToggle(o.value)}
+                    className={
+                      "flex w-full items-center gap-3 px-6 py-3 text-left text-[15px] transition " +
+                      (selected
+                        ? "bg-white/[0.06] text-white"
+                        : "text-white/75 hover:bg-white/[0.04] hover:text-white")
+                    }
+                  >
+                    <Checkbox checked={selected} />
+                    <span className="flex-1 truncate">{o.label}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          {hasSelection && (
+            <div className="flex items-center justify-between border-t border-brand-line px-6 py-3">
+              <button
+                type="button"
+                onClick={onClear}
+                className="font-display text-[10px] uppercase tracking-[0.28em] text-white/60 transition hover:text-white"
+              >
+                Clear
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="font-display text-[10px] uppercase tracking-[0.28em] text-brand-accent"
+              >
+                Done
+              </button>
+            </div>
+          )}
+        </div>
       )}
     </div>
+  );
+}
+
+function Checkbox({ checked }: { checked: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={
+        "flex h-4 w-4 shrink-0 items-center justify-center border transition " +
+        (checked
+          ? "border-brand-accent bg-brand-accent text-black"
+          : "border-white/40 bg-transparent")
+      }
+    >
+      {checked && (
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <path
+            d="M2 5.2 L4.2 7.4 L8 3"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
+    </span>
   );
 }
 
