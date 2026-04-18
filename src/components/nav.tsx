@@ -119,13 +119,13 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
             </>
           ) : (
             <Link
-              href="/login"
+              href="/enquire"
               className={
                 "rounded-[15px] px-5 py-2.5 font-display text-[11px] font-medium uppercase tracking-[0.24em] transition " +
                 primaryBtn
               }
             >
-              Sign in
+              Enquire
             </Link>
           )}
         </nav>
