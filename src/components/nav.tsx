@@ -37,7 +37,7 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
           Lively
         </Link>
         <MobileMenu signedIn={!!user} isAdmin={isAdmin} />
-        <nav className="hidden items-center gap-8 text-sm sm:flex">
+        <nav className="hidden items-center gap-8 text-sm md:flex">
           <Link
             href="/"
             className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] sm:inline " + linkColor}

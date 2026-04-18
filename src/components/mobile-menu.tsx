@@ -42,21 +42,21 @@ export function MobileMenu({ signedIn, isAdmin }: Props) {
         onClick={() => setOpen(true)}
         aria-label="Open menu"
         aria-expanded={open}
-        className="flex h-10 w-10 items-center justify-center text-white sm:hidden"
+        className="relative z-40 -mr-2 inline-flex h-11 w-11 items-center justify-center text-white md:hidden"
       >
         <svg
-          width="22"
-          height="22"
-          viewBox="0 0 22 22"
+          width="26"
+          height="26"
+          viewBox="0 0 26 26"
           aria-hidden
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="2"
           strokeLinecap="round"
         >
-          <path d="M3 6h16" />
-          <path d="M3 11h16" />
-          <path d="M3 16h16" />
+          <path d="M4 8h18" />
+          <path d="M4 13h18" />
+          <path d="M4 18h18" />
         </svg>
       </button>
 
@@ -64,7 +64,7 @@ export function MobileMenu({ signedIn, isAdmin }: Props) {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex flex-col bg-black text-white sm:hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-black text-white md:hidden"
         >
           <div className="flex items-center justify-between border-b border-brand-line px-6 py-5">
             <Link
