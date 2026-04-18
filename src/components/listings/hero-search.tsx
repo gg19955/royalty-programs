@@ -159,7 +159,7 @@ export function HeroSearch() {
   return (
     <section
       aria-label="Find a stay"
-      className="relative z-20 border-b border-brand-line bg-brand-raised"
+      className="relative z-20 border-b border-brand-line bg-black"
     >
       <div className="mx-auto max-w-[1296px] px-6 py-10 sm:px-10 sm:py-12">
         <div className="flex flex-col gap-4 border-b border-brand-line pb-6 sm:flex-row sm:items-end sm:justify-between">
@@ -267,7 +267,7 @@ function DateField({
   return (
     <div
       onClick={open}
-      className="group relative flex cursor-pointer flex-col justify-center gap-2 bg-brand-raised px-6 py-5 transition hover:bg-white/[0.03]"
+      className="group relative flex cursor-pointer flex-col justify-center gap-2 bg-black px-6 py-5 transition hover:bg-white/[0.03]"
     >
       <span className="font-display text-[10px] uppercase tracking-[0.32em] text-white/55">
         {label}
@@ -345,7 +345,7 @@ function MultiDropdownField({
     <div
       ref={wrapRef}
       className={
-        "group relative flex flex-col justify-center gap-2 bg-brand-raised px-6 py-5 transition " +
+        "group relative flex flex-col justify-center gap-2 bg-black px-6 py-5 transition " +
         (disabled
           ? "cursor-not-allowed opacity-60"
           : "cursor-pointer hover:bg-white/[0.03]")
@@ -374,7 +374,7 @@ function MultiDropdownField({
       </button>
 
       {open && !disabled && (
-        <div className="absolute left-0 right-0 top-full z-30 mt-px border-x border-b border-brand-line bg-brand-raised shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8)]">
+        <div className="absolute left-0 right-0 top-full z-30 mt-px border-x border-b border-brand-line bg-black shadow-[0_24px_48px_-12px_rgba(0,0,0,0.8)]">
           <ul
             role="listbox"
             aria-multiselectable="true"
