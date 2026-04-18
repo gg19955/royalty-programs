@@ -37,10 +37,22 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
         </Link>
         <nav className="flex items-center gap-8 text-sm">
           <Link
+            href="/"
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] sm:inline " + linkColor}
+          >
+            Home
+          </Link>
+          <Link
             href="/stays"
             className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] sm:inline " + linkColor}
           >
             Stays
+          </Link>
+          <Link
+            href="/collection"
+            className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] md:inline " + linkColor}
+          >
+            The Collection
           </Link>
           <Link
             href="/experiences"

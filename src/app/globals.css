@@ -75,6 +75,37 @@ html {
 }
 
 /* ---------------------------------------------------------------
+   Light-theme escape hatch — any subtree tagged `.theme-light`
+   gets the real Tailwind semantics back (true white bg, true black
+   text), undoing the global dark remap for pages like /collection
+   that are intentionally inverted.
+   --------------------------------------------------------------- */
+.theme-light {
+  background-color: #ffffff;
+  color: #0b0b0d;
+}
+.theme-light .bg-white {
+  background-color: #ffffff !important;
+}
+.theme-light .text-black {
+  color: #0b0b0d !important;
+}
+.theme-light .bg-black {
+  background-color: #0b0b0d !important;
+}
+.theme-light .hover\:bg-black:hover {
+  background-color: #0b0b0d !important;
+  color: #ffffff !important;
+}
+.theme-light .hover\:text-black:hover {
+  color: #0b0b0d !important;
+}
+.theme-light .hover\:bg-white:hover {
+  background-color: #ffffff !important;
+  color: #0b0b0d !important;
+}
+
+/* ---------------------------------------------------------------
    Scroll-triggered reveal
    --------------------------------------------------------------- */
 [data-reveal] {
