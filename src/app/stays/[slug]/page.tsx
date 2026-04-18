@@ -5,8 +5,10 @@ import { Nav } from "@/components/nav";
 import { PropertyGallery, type GalleryImage } from "@/components/listings/property-gallery";
 import { RatePreview } from "@/components/listings/rate-preview";
 import { AvailabilityCalendar } from "@/components/listings/availability-calendar";
+import { EditorialSignatureDetail } from "@/components/listings/editorial-signature-detail";
 import { computeRate } from "@/lib/listings/rate";
 import { getBlockedRanges } from "@/lib/listings/availability";
+import { getSignatureHomeBySlug } from "@/lib/content/signature-homes";
 import { formatCurrency, regionToSlug } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -60,7 +62,13 @@ export default async function PropertyDetailPage({
     .eq("listing_status", "published")
     .maybeSingle();
   const property = data as unknown as PropertyRow | null;
-  if (!property) notFound();
+  if (!property) {
+    const signature = getSignatureHomeBySlug(params.slug);
+    if (signature) {
+      return <EditorialSignatureDetail home={signature} />;
+    }
+    notFound();
+  }
 
   const gallery: GalleryImage[] = [...(property.property_images ?? [])]
     .sort(
@@ -247,7 +255,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     .eq("slug", params.slug)
     .eq("listing_status", "published")
     .maybeSingle();
-  if (!data) return { title: "Stay — Lively" };
+  if (!data) {
+    const signature = getSignatureHomeBySlug(params.slug);
+    if (signature) {
+      return {
+        title: `${signature.name} — Lively`,
+        description: signature.caption,
+      };
+    }
+    return { title: "Stay — Lively" };
+  }
   const loc = [data.city, data.region].filter(Boolean).join(", ");
   return {
     title: `${data.name} — Lively`,

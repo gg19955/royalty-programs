@@ -43,7 +43,7 @@ export function SignatureShowcase() {
         {portraitStrip.map((h) => (
           <Link
             key={h.src}
-            href="/stays"
+            href={`/stays/${h.slug}`}
             className="group relative block aspect-[3/4] overflow-hidden bg-black"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -79,6 +79,7 @@ function EditorialFrame({
   align,
 }: {
   home: {
+    slug: string;
     src: string;
     name: string;
     region: string;
@@ -91,7 +92,7 @@ function EditorialFrame({
     align === "bottom-right" ? "justify-end text-right" : "justify-start";
   return (
     <Link
-      href="/stays"
+      href={`/stays/${home.slug}`}
       className={"group relative block overflow-hidden bg-black " + height}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
