@@ -13,7 +13,14 @@ export function LoginForm({ next }: { next?: string }) {
     setStatus("sending");
     setError(null);
     const supabase = createClient();
-    const callback = `${window.location.origin}/auth/callback${
+    // Prefer an explicit canonical site URL so magic links always land on
+    // the production domain, even when this form is submitted from a
+    // preview deploy or localhost tab. Falls back to the current origin
+    // only when the env var is unset (local dev without .env.local).
+    const origin =
+      process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+      window.location.origin;
+    const callback = `${origin}/auth/callback${
       next ? `?next=${encodeURIComponent(next)}` : ""
     }`;
     const { error } = await supabase.auth.signInWithOtp({
