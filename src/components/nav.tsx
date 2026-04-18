@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SignOutButton } from "./sign-out-button";
+import { MobileMenu } from "./mobile-menu";
 
 export async function Nav({ transparent = false }: { transparent?: boolean } = {}) {
   const supabase = createClient();
@@ -35,7 +36,8 @@ export async function Nav({ transparent = false }: { transparent?: boolean } = {
         >
           Lively
         </Link>
-        <nav className="flex items-center gap-8 text-sm">
+        <MobileMenu signedIn={!!user} isAdmin={isAdmin} />
+        <nav className="hidden items-center gap-8 text-sm sm:flex">
           <Link
             href="/"
             className={"hidden font-display text-[11px] font-medium uppercase tracking-[0.28em] sm:inline " + linkColor}
