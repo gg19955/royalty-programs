@@ -33,13 +33,18 @@ export function PropertyCard({
           <img
             src={p.hero_url}
             alt={p.name}
-            className="h-full w-full object-cover transition duration-[1200ms] ease-out group-hover:scale-[1.05]"
+            className="h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-wide text-brand-accent">
             Photo coming soon
           </div>
         )}
+        {/* subtle vignette on hover for depth */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+        />
       </div>
       <div className="pt-5">
         <div className="text-[10px] uppercase tracking-[0.28em] text-brand-accent">
@@ -47,11 +52,11 @@ export function PropertyCard({
         </div>
         <h3
           className={
-            "mt-3 font-display leading-[1.05] tracking-[-0.01em] text-brand " +
+            "mt-3 font-display leading-[1.05] tracking-[-0.01em] text-brand transition-colors duration-500 group-hover:text-brand-accent " +
             (featured ? "text-4xl sm:text-5xl" : "text-2xl sm:text-[1.75rem]")
           }
         >
-          {p.name}
+          <span className="link-underline">{p.name}</span>
         </h3>
         {p.headline && (
           <p className="mt-3 line-clamp-2 max-w-md text-sm leading-relaxed text-neutral-600">

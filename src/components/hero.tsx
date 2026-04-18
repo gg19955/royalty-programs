@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Parallax } from "@/components/motion/parallax";
 
 // Drop a file at public/hero.mp4 (video) and/or public/hero.jpg (poster / fallback).
 // If hero.mp4 is present it autoplays muted and loops; hero.jpg shows under it as poster
@@ -6,20 +7,22 @@ import Link from "next/link";
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-black">
-      {/* Full-bleed media */}
-      <div className="absolute inset-0" aria-hidden>
-        <video
-          className="h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/hero.jpg"
-        >
-          <source src="/hero.mp4" type="video/mp4" />
-        </video>
-      </div>
+      {/* Full-bleed media — parallax drift + slow Ken-Burns zoom */}
+      <Parallax speed={0.25} className="absolute inset-0">
+        <div aria-hidden className="hero-media h-[120%] w-full">
+          <video
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/hero.jpg"
+          >
+            <source src="/hero.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </Parallax>
 
       {/* Quiet gradient — readable, not heavy */}
       <div
@@ -28,26 +31,38 @@ export function Hero() {
       />
 
       <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-6 pb-24 pt-40 text-white sm:px-10 sm:pb-28">
-        <p className="text-[11px] uppercase tracking-[0.32em] text-white/75">
+        <p
+          className="hero-rise text-[11px] uppercase tracking-[0.32em] text-white/75"
+          style={{ animationDelay: "120ms" }}
+        >
           Victoria · The collection
         </p>
-        <h1 className="mt-5 max-w-5xl font-display text-6xl leading-[0.95] tracking-[-0.02em] sm:text-8xl md:text-[8.5rem]">
+        <h1
+          className="hero-rise mt-5 max-w-5xl font-display text-6xl leading-[0.95] tracking-[-0.02em] sm:text-8xl md:text-[8.5rem]"
+          style={{ animationDelay: "220ms" }}
+        >
           Stay somewhere considered.
         </h1>
-        <p className="mt-8 max-w-lg text-base leading-relaxed text-white/85 sm:text-lg">
+        <p
+          className="hero-rise mt-8 max-w-lg text-base leading-relaxed text-white/85 sm:text-lg"
+          style={{ animationDelay: "420ms" }}
+        >
           A curated marketplace of luxury short stays across Victoria&apos;s
           quietest regions — earn points on every night.
         </p>
-        <div className="mt-12 flex flex-wrap items-center gap-4">
+        <div
+          className="hero-rise mt-12 flex flex-wrap items-center gap-4"
+          style={{ animationDelay: "560ms" }}
+        >
           <Link
             href="/stays"
-            className="rounded-sm bg-white px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-brand transition hover:bg-brand-soft"
+            className="rounded-sm bg-white px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-brand transition hover:bg-brand-soft hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.45)]"
           >
             Browse stays
           </Link>
           <Link
             href="/experiences"
-            className="rounded-sm border border-white/60 bg-transparent px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-white transition hover:bg-white/10"
+            className="rounded-sm border border-white/60 bg-transparent px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-white transition hover:bg-white/10 hover:border-white"
           >
             Rewards
           </Link>
