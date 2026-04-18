@@ -29,9 +29,25 @@ export default async function ExperiencesPage() {
       <ScrollProgress />
       <Nav />
 
-      {/* Hero */}
+      {/* Hero — full-bleed looping video behind the editorial overlay */}
       <section className="relative overflow-hidden border-b border-brand-line bg-black">
-        <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
+        <video
+          aria-hidden
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/video/experiences-hero.mp4" type="video/mp4" />
+        </video>
+        {/* Readability gradient over the video so the type stays legible. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/80"
+        />
+        <div className="relative mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
           <Reveal as="up">
             <div className="section-index">/ 00 — Experiences</div>
           </Reveal>
@@ -43,9 +59,9 @@ export default async function ExperiencesPage() {
             </h1>
           </Reveal>
           <Reveal as="up" delay={280}>
-            <div className="mt-14 grid gap-10 border-t border-brand-line pt-10 sm:grid-cols-[1fr_2fr] sm:gap-16">
+            <div className="mt-14 grid gap-10 border-t border-white/20 pt-10 sm:grid-cols-[1fr_2fr] sm:gap-16">
               <div className="section-index">/ Partners</div>
-              <p className="max-w-2xl text-base leading-[1.7] text-white/75 sm:text-lg">
+              <p className="max-w-2xl text-base leading-[1.7] text-white/80 sm:text-lg">
                 Lively guests unlock a curated network of Victorian partners —
                 private chefs, cellar-door hosts, ballooning pilots, and
                 bathhouse therapists. Exclusive rates and preferred access,
