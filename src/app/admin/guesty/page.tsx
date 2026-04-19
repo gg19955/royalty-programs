@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { runListingsSync } from "./actions";
+import { runAvailabilitySync, runListingsSync } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -69,7 +69,7 @@ export default async function AdminGuestyPage() {
 
       <section className="rounded border border-gray-200 bg-white p-5">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-700">
-          Run sync
+          Run listings sync
         </h2>
         <form action={runListingsSync} className="mt-4 flex flex-wrap items-end gap-4">
           <label className="flex items-center gap-2 text-sm">
@@ -98,6 +98,47 @@ export default async function AdminGuestyPage() {
         <p className="mt-3 text-xs text-gray-500">
           First run: keep dry-run on with max=10. Review the counts, then
           re-run with dry-run off and max cleared for the full pull.
+        </p>
+      </section>
+
+      <section className="rounded border border-gray-200 bg-white p-5">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-700">
+          Sync availability
+        </h2>
+        <p className="mt-1 text-xs text-gray-500">
+          Pulls the next 365 days of per-day calendar for every Guesty-linked
+          property and writes contiguous blocked ranges into availability_blocks
+          with source=guesty_import. Existing rows of other sources (iCal,
+          platform bookings, manual holds) are never touched.
+        </p>
+        <form action={runAvailabilitySync} className="mt-4 flex flex-wrap items-end gap-4">
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" name="dryRun" defaultChecked />
+            Dry run (fetch only, no DB writes)
+          </label>
+          <label className="flex flex-col text-sm">
+            <span className="text-xs uppercase tracking-wide text-gray-500">
+              Max properties <span className="text-gray-400">(blank = all)</span>
+            </span>
+            <input
+              type="number"
+              name="max"
+              min={1}
+              placeholder="all"
+              className="mt-1 w-32 rounded border border-gray-300 px-2 py-1"
+            />
+          </label>
+          <button
+            type="submit"
+            className="rounded bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+          >
+            Start sync
+          </button>
+        </form>
+        <p className="mt-3 text-xs text-gray-500">
+          First run: keep dry-run on with max=3 to smoke-test the API shape.
+          Then re-run without dry-run, still max=3, and spot-check a
+          /stays/[slug] detail page before clearing max for the full pull.
         </p>
       </section>
 

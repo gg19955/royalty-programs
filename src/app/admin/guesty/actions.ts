@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { syncAvailability } from "@/lib/guesty/sync-availability";
 import { syncListings } from "@/lib/guesty/sync-listings";
 
 async function requireAdmin() {
@@ -25,5 +26,15 @@ export async function runListingsSync(formData: FormData) {
   const max = typeof maxRaw === "string" && maxRaw.length > 0 ? Number(maxRaw) : undefined;
 
   await syncListings({ dryRun, max: Number.isFinite(max) ? max : undefined });
+  revalidatePath("/admin/guesty");
+}
+
+export async function runAvailabilitySync(formData: FormData) {
+  await requireAdmin();
+  const dryRun = formData.get("dryRun") === "on";
+  const maxRaw = formData.get("max");
+  const max = typeof maxRaw === "string" && maxRaw.length > 0 ? Number(maxRaw) : undefined;
+
+  await syncAvailability({ dryRun, max: Number.isFinite(max) ? max : undefined });
   revalidatePath("/admin/guesty");
 }
