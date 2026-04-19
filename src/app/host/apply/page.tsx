@@ -3,7 +3,7 @@ import { Nav } from "@/components/nav";
 import { HostApplyForm } from "./apply-form";
 
 export const metadata = {
-  title: "Apply to list — Lively",
+  title: "Apply to list - Lively",
   description:
     "Apply for your property to join the Lively collection of curated luxury short-stays.",
 };
@@ -27,7 +27,7 @@ export default function HostApplyPage() {
             Tell us about the house.
           </h1>
           <p className="mt-8 max-w-xl text-base leading-[1.7] text-neutral-700">
-            Five minutes. Every field goes to the curation team — not a bot,
+            Five minutes. Every field goes to the curation team - not a bot,
             not a CRM. We&apos;ll come back to you within a week.
           </p>
         </div>

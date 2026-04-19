@@ -28,7 +28,7 @@ export default function EnquirePage() {
               <div className="section-index">/ Two paths</div>
               <p className="max-w-2xl text-base leading-[1.7] text-white/80 sm:text-lg">
                 Whether you&apos;re planning a stay with Lively or considering
-                a home for the portfolio — leave the details below and the
+                a home for the portfolio - leave the details below and the
                 right person on our team will be in touch.
               </p>
             </div>
@@ -48,7 +48,7 @@ export default function EnquirePage() {
 }
 
 export const metadata = {
-  title: "Enquire — Lively",
+  title: "Enquire - Lively",
   description:
     "Speak to Lively about a stay, or introduce a property to the portfolio.",
 };

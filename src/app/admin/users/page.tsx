@@ -35,7 +35,7 @@ export default async function AdminUsersPage() {
             {users?.map((u: any) => (
               <tr key={u.id}>
                 <td className="px-4 py-3 font-medium">{u.email}</td>
-                <td className="px-4 py-3 text-gray-700">{u.full_name ?? "—"}</td>
+                <td className="px-4 py-3 text-gray-700">{u.full_name ?? "-"}</td>
                 <td className="px-4 py-3 text-gray-700">{u.role}</td>
                 <td className="px-4 py-3 text-gray-700">
                   {formatPoints(balanceMap.get(u.id) ?? 0)}

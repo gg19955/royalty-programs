@@ -38,7 +38,7 @@ export default async function LoginPage({
             <div className="mt-16 grid gap-12 border-t border-brand-line pt-12 sm:grid-cols-[1fr_2fr] sm:gap-20">
               <div className="section-index">/ Magic link</div>
               <p className="max-w-2xl text-base leading-[1.7] text-white/80 sm:text-lg">
-                Enter the email on your Lively account — we&apos;ll send a
+                Enter the email on your Lively account - we&apos;ll send a
                 single-use link that signs you straight into your portal. No
                 passwords, no friction.
               </p>
@@ -67,6 +67,6 @@ export default async function LoginPage({
 }
 
 export const metadata = {
-  title: "Sign in — Lively",
+  title: "Sign in - Lively",
   description: "Sign in to your Lively portal with a magic link.",
 };

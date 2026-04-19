@@ -10,9 +10,9 @@ type RevealProps = {
   as?: RevealVariant;
   /** Delay before revealing, in ms. Useful for staggered groups. */
   delay?: number;
-  /** IntersectionObserver threshold — proportion of element visible before firing. */
+  /** IntersectionObserver threshold - proportion of element visible before firing. */
   threshold?: number;
-  /** Extra bottom rootMargin — reveal earlier as the element nears the viewport. */
+  /** Extra bottom rootMargin - reveal earlier as the element nears the viewport. */
   rootMargin?: string;
   className?: string;
   /** Render a specific HTML element. Defaults to a div. */
@@ -22,7 +22,7 @@ type RevealProps = {
 /**
  * Scroll-triggered reveal. Uses IntersectionObserver to set data-visible once,
  * then the CSS transition in globals.css handles the animation. Fires at most
- * once per mount — repeat reveals feel cheap on luxury sites.
+ * once per mount - repeat reveals feel cheap on luxury sites.
  */
 export function Reveal({
   children,

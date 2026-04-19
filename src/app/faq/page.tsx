@@ -16,7 +16,7 @@ export default function FAQPage() {
       <section className="relative overflow-hidden border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
           <Reveal as="up">
-            <div className="section-index">/ 00 — FAQ</div>
+            <div className="section-index">/ 00 - FAQ</div>
           </Reveal>
           <Reveal as="up" delay={140}>
             <h1 className="mt-10 max-w-6xl font-display text-6xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-8xl md:text-[8.5rem]">

@@ -3,7 +3,7 @@ export type PartnerExperience = {
   category: "Food & Drink" | "Tours & Activities" | "Wellness";
   blurb: string;
   /**
-   * Partner hero — sourced from livelyproperties.com.au so the editorial
+   * Partner hero - sourced from livelyproperties.com.au so the editorial
    * aesthetic stays continuous with the existing brand site. Remote so we
    * don't carry another ~30 binaries in the repo; tied to a domain the
    * business owns.
@@ -18,7 +18,7 @@ export const PARTNER_EXPERIENCES: PartnerExperience[] = [
     name: "Coastal Biohack Lounge",
     category: "Wellness",
     blurb:
-      "Wellness and relaxation modalities designed for biohacking enthusiasts — cold plunge, infrared, and recovery.",
+      "Wellness and relaxation modalities designed for biohacking enthusiasts - cold plunge, infrared, and recovery.",
     image: `${LP}/2025/10/coastal.jpg`,
   },
   {
@@ -109,10 +109,10 @@ export const PARTNER_EXPERIENCES: PartnerExperience[] = [
     image: `${LP}/2024/08/avani-wines-3.jpg.webp`,
   },
   {
-    name: "Laura Restaurant — PT Leo Estate",
+    name: "Laura Restaurant - PT Leo Estate",
     category: "Food & Drink",
     blurb:
-      "Fine dining for a signature evening — slow plates, long views, and exceptional wine.",
+      "Fine dining for a signature evening - slow plates, long views, and exceptional wine.",
     image: `${LP}/2024/09/laura-restuarant.png.webp`,
   },
   {
@@ -147,7 +147,7 @@ export const PARTNER_EXPERIENCES: PartnerExperience[] = [
     name: "Go Wild Ballooning",
     category: "Tours & Activities",
     blurb:
-      "Hot air balloon flights over the Yarra Valley at sunrise — a breath-held hour above the vines.",
+      "Hot air balloon flights over the Yarra Valley at sunrise - a breath-held hour above the vines.",
     image: `${LP}/2024/09/go-wild-ballooning-experience.jpg.webp`,
   },
   {
@@ -185,7 +185,7 @@ export const PARTNER_EXPERIENCES: PartnerExperience[] = [
   {
     name: "Salty Surf School",
     category: "Tours & Activities",
-    blurb: "Surf lessons for all ages and abilities — safety first, fun close behind.",
+    blurb: "Surf lessons for all ages and abilities - safety first, fun close behind.",
     image: `${LP}/2024/08/salty-surf-school-surfing-lessons-waves.jpg.webp`,
   },
   {
@@ -205,13 +205,13 @@ export const PARTNER_EXPERIENCES: PartnerExperience[] = [
     name: "Moonraker Dolphin Swims",
     category: "Tours & Activities",
     blurb:
-      "Unforgettable marine encounters — swim with wild dolphins and seals off Sorrento.",
+      "Unforgettable marine encounters - swim with wild dolphins and seals off Sorrento.",
     image: `${LP}/2024/08/moonshaker-dolphin-swims.png.webp`,
   },
   {
     name: "X Golf Mornington",
     category: "Tours & Activities",
-    blurb: "Indoor golf simulator with a 10% guest discount — perfect for a rainy afternoon.",
+    blurb: "Indoor golf simulator with a 10% guest discount - perfect for a rainy afternoon.",
     image: `${LP}/2024/08/x-golf-mornington.jpg.webp`,
   },
 ];

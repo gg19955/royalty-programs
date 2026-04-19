@@ -53,7 +53,7 @@ export default async function OfferPage() {
               <div className="section-index">/ Curated quarterly</div>
               <p className="max-w-2xl text-base leading-[1.7] text-white/80 sm:text-lg">
                 A single partner experience, curated for Lively guests and
-                refreshed each season — from dining rooms to cellar doors to
+                refreshed each season - from dining rooms to cellar doors to
                 private moorings.
               </p>
             </div>
@@ -114,7 +114,7 @@ export default async function OfferPage() {
                   No featured offer live right now.
                 </p>
                 <p className="mt-6 text-sm leading-[1.7] text-white/60">
-                  We curate a new partner experience each season — check back
+                  We curate a new partner experience each season - check back
                   soon, or browse the full rewards catalogue.
                 </p>
                 <div className="mt-10">
@@ -144,7 +144,7 @@ export default async function OfferPage() {
 }
 
 export const metadata = {
-  title: "Featured offer — Lively",
+  title: "Featured offer - Lively",
   description:
-    "The current season's featured partner experience — curated for Lively guests.",
+    "The current season's featured partner experience - curated for Lively guests.",
 };

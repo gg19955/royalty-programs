@@ -14,7 +14,7 @@ type Result = { ok: true } | { ok: false; error: string };
  * Resolve the signed-in user, their profile, and gate on host/admin role.
  * Returns the effective `host_id` to scope queries by. Admins operating on
  * behalf of a host must pass the host_id explicitly (not supported in this
- * slice — admins use /admin/properties, to be added later).
+ * slice - admins use /admin/properties, to be added later).
  */
 async function requireHost() {
   const supabase = createClient();

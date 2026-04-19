@@ -62,7 +62,7 @@ export async function approveHostApplication(
   }
 
   // Best-effort: invite the applicant by email so they can sign in and land
-  // on the host dashboard. If the user already exists, this errors — we
+  // on the host dashboard. If the user already exists, this errors - we
   // still want to mark the application approved, so swallow it.
   try {
     const siteUrl =
@@ -72,7 +72,7 @@ export async function approveHostApplication(
       data: { full_name: app.contact_name, host_id: hostId },
     });
   } catch {
-    // Non-fatal — admin can resend the invite later.
+    // Non-fatal - admin can resend the invite later.
   }
 
   // If a profile already exists for this email, link it to the host and flip

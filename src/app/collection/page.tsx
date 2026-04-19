@@ -9,7 +9,7 @@ const PRINCIPLES = [
   {
     index: "01",
     title: "Carefully selected.",
-    body: "Collection homes are invited, not onboarded. Each property is reviewed against a private standard for architecture, site, and craft before it is considered — and most are declined.",
+    body: "Collection homes are invited, not onboarded. Each property is reviewed against a private standard for architecture, site, and craft before it is considered - and most are declined.",
   },
   {
     index: "02",
@@ -35,7 +35,7 @@ export default function CollectionPage() {
       <Nav />
 
       <div className="theme-light">
-      {/* Hero — inverted: white canvas, black type */}
+      {/* Hero - inverted: white canvas, black type */}
       <section className="relative overflow-hidden border-b border-black/10 bg-white text-black">
         <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
           <Reveal as="up">
@@ -71,14 +71,14 @@ export default function CollectionPage() {
         </div>
       </section>
 
-      {/* Principles — white canvas, quiet grid */}
+      {/* Principles - white canvas, quiet grid */}
       <section className="bg-white text-black">
         <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
           <Reveal as="up">
             <div className="flex flex-col gap-4 border-b border-black/10 pb-10 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="font-display text-[11px] uppercase tracking-[0.32em] text-black/50">
-                  / 01 — What it means
+                  / 01 - What it means
                 </div>
                 <h2 className="mt-6 max-w-3xl font-display text-5xl font-semibold uppercase leading-[0.92] tracking-[-0.02em] text-black sm:text-7xl">
                   A different standard
@@ -115,7 +115,7 @@ export default function CollectionPage() {
           <div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-20">
             <Reveal as="up">
               <div className="font-display text-[11px] uppercase tracking-[0.32em] text-black/50">
-                / 02 — The focus
+                / 02 - The focus
               </div>
             </Reveal>
             <Reveal as="up" delay={140}>
@@ -147,7 +147,7 @@ export default function CollectionPage() {
         </div>
       </section>
 
-      {/* CTA band — kept quiet on white */}
+      {/* CTA band - kept quiet on white */}
       <section className="bg-white text-black">
         <div className="mx-auto flex max-w-[1296px] flex-col gap-8 px-6 py-24 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:py-28">
           <div>
@@ -187,7 +187,7 @@ export default function CollectionPage() {
 }
 
 export const metadata = {
-  title: "The Lively Collection — Lively",
+  title: "The Lively Collection - Lively",
   description:
-    "An invite-only platform for exceptional homes within the Lively portfolio — represented, protected, and positioned at a higher standard.",
+    "An invite-only platform for exceptional homes within the Lively portfolio - represented, protected, and positioned at a higher standard.",
 };

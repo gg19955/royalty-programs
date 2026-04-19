@@ -54,7 +54,7 @@ async function assertOwnsFeed(feedId: string, hostId: string) {
 function isValidHttpsIcalUrl(value: string): boolean {
   try {
     const u = new URL(value);
-    // Refuse http — almost all major providers (Airbnb, VRBO, Stayz, Guesty)
+    // Refuse http - almost all major providers (Airbnb, VRBO, Stayz, Guesty)
     // serve over https, and letting http through exposes hosts to MITM
     // tampering of availability data.
     return u.protocol === "https:";
@@ -107,7 +107,7 @@ export async function removeIcalFeed(formData: FormData): Promise<Result> {
   if (!owns.ok) return owns;
 
   const admin = createAdminClient();
-  // Blocks survive the feed removal by design — a removed feed is not a
+  // Blocks survive the feed removal by design - a removed feed is not a
   // "booking cancelled" signal, it's a "host unhooked their calendar"
   // signal. Host can delete individual blocks manually if needed.
   const { error } = await admin.from("ical_feeds").delete().eq("id", feedId);

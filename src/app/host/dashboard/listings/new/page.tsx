@@ -7,7 +7,7 @@ async function createListingAction(data: FormData): Promise<void> {
   "use server";
   const res = await createListing(data);
   // Success path redirects from inside createListing. If we land here the
-  // action reported an error — surface it by throwing so Next's error UI shows
+  // action reported an error - surface it by throwing so Next's error UI shows
   // something rather than silently dropping back to the form.
   if (!res.ok) throw new Error(res.error);
 }

@@ -66,7 +66,7 @@ export default async function HostListingsPage() {
             Start your first listing.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-neutral-600">
-            Draft a property now — add photography and copy when you&apos;re
+            Draft a property now - add photography and copy when you&apos;re
             ready. Nothing goes public until you publish.
           </p>
           <Link
@@ -107,7 +107,7 @@ export default async function HostListingsPage() {
                   <div className="flex-1">
                     <div className="font-medium text-brand">{r.name}</div>
                     <div className="mt-1 text-xs text-neutral-500">
-                      {[r.city, r.region].filter(Boolean).join(" · ") || "—"}
+                      {[r.city, r.region].filter(Boolean).join(" · ") || "-"}
                     </div>
                   </div>
                   <div className="hidden text-right text-sm text-neutral-700 sm:block">

@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
 
-// Body / UI — clean neutral sans.
+// Body / UI - clean neutral sans.
 const body = Inter({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
 });
 
-// Display — Oswald is the closest freely-available analogue to
+// Display - Oswald is the closest freely-available analogue to
 // notahotel's Manuka Condensed. Tall, narrow, confident.
 const display = Oswald({
   subsets: ["latin"],
@@ -19,7 +19,7 @@ const display = Oswald({
 });
 
 export const metadata: Metadata = {
-  title: "Lively — curated luxury stays across Victoria",
+  title: "Lively - curated luxury stays across Victoria",
   description:
     "A curated collection of luxury short-stay properties across Victoria. Earn and redeem points on every booking.",
 };

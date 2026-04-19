@@ -50,7 +50,7 @@ export default async function StaysPage({
   const hasDateRange = /^\d{4}-\d{2}-\d{2}$/.test(checkIn) && /^\d{4}-\d{2}-\d{2}$/.test(checkOut);
 
   // If a date range was requested, find property IDs that have an overlapping
-  // availability block — these will be excluded from results.
+  // availability block - these will be excluded from results.
   let blockedPropertyIds: string[] = [];
   if (hasDateRange) {
     const { data: blocked } = await admin
@@ -82,7 +82,7 @@ export default async function StaysPage({
     query = query.gte("max_guests", guestsParam);
   }
   if (blockedPropertyIds.length > 0) {
-    // PostgREST "not in" — exclude unavailable properties.
+    // PostgREST "not in" - exclude unavailable properties.
     query = query.not("id", "in", `(${blockedPropertyIds.join(",")})`);
   }
 

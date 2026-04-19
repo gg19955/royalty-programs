@@ -47,7 +47,7 @@ export async function approveClaimRequest(requestId: string): Promise<Result> {
     return { ok: false, error: "No reservation matches that code." };
   }
   if (!reservation.total_value_cents || reservation.total_value_cents <= 0) {
-    return { ok: false, error: "Reservation has no stored value — add it first." };
+    return { ok: false, error: "Reservation has no stored value - add it first." };
   }
 
   const { data: existingClaim } = await admin

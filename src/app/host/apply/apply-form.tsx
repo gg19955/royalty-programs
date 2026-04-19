@@ -15,7 +15,7 @@ export function HostApplyForm() {
           Received
         </p>
         <h2 className="mt-6 font-display text-4xl leading-tight text-brand sm:text-5xl">
-          Thanks — we&apos;ll be in touch.
+          Thanks - we&apos;ll be in touch.
         </h2>
         <p className="mx-auto mt-6 max-w-md text-sm leading-[1.7] text-neutral-600">
           Every application is read by the curation team. Expect to hear from
@@ -55,7 +55,7 @@ export function HostApplyForm() {
         <Field
           name="display_name"
           label="Brand or host name"
-          help="How guests will see you — e.g. 'Sorrento House' or 'Studio North'."
+          help="How guests will see you - e.g. 'Sorrento House' or 'Studio North'."
           required
           defaultValue={values.display_name}
         />
@@ -68,7 +68,7 @@ export function HostApplyForm() {
         <Field
           name="location"
           label="Location"
-          help="Town and region — e.g. 'Sorrento, Mornington Peninsula'."
+          help="Town and region - e.g. 'Sorrento, Mornington Peninsula'."
           required
           defaultValue={values.location}
         />

@@ -3,11 +3,11 @@ export type FAQ = { q: string; a: string };
 export const FAQ_ITEMS: FAQ[] = [
   {
     q: "Is there a minimum stay?",
-    a: "Yes — most Lively homes have a two-night minimum, though weekends and peak seasons may require a three-night stay. Availability and minimums are shown on each property page before booking.",
+    a: "Yes - most Lively homes have a two-night minimum, though weekends and peak seasons may require a three-night stay. Availability and minimums are shown on each property page before booking.",
   },
   {
     q: "Are the properties child-friendly?",
-    a: "Almost all of our properties welcome families. Some homes have features like pools, spas, or architectural elements that may require extra supervision — property pages flag anything worth noting so you can plan with confidence.",
+    a: "Almost all of our properties welcome families. Some homes have features like pools, spas, or architectural elements that may require extra supervision - property pages flag anything worth noting so you can plan with confidence.",
   },
   {
     q: "Is the property secure?",
@@ -15,15 +15,15 @@ export const FAQ_ITEMS: FAQ[] = [
   },
   {
     q: "Is there parking available?",
-    a: "Each listing includes on-site parking — driveway, garage, or dedicated bay. Specifics are listed on the property page.",
+    a: "Each listing includes on-site parking - driveway, garage, or dedicated bay. Specifics are listed on the property page.",
   },
   {
     q: "Can I check in early or check out late?",
-    a: "Standard check-in is from 3pm and check-out is by 10am. Flexibility is often possible depending on the cleaning schedule — just ask when you book.",
+    a: "Standard check-in is from 3pm and check-out is by 10am. Flexibility is often possible depending on the cleaning schedule - just ask when you book.",
   },
   {
     q: "Is there a washing machine and dryer?",
-    a: "Yes — every Lively home is equipped with a washer and dryer, along with iron and ironing board.",
+    a: "Yes - every Lively home is equipped with a washer and dryer, along with iron and ironing board.",
   },
   {
     q: "What's nearby?",
@@ -35,7 +35,7 @@ export const FAQ_ITEMS: FAQ[] = [
   },
   {
     q: "Do you have a loyalty program?",
-    a: "Yes — Lively Rewards. Every Australian dollar you spend on a stay earns a point. Points can be redeemed against future bookings or against partner experiences like cellar-door tastings, hot-springs afternoons, and private tours.",
+    a: "Yes - Lively Rewards. Every Australian dollar you spend on a stay earns a point. Points can be redeemed against future bookings or against partner experiences like cellar-door tastings, hot-springs afternoons, and private tours.",
   },
   {
     q: "What supplies are provided?",
@@ -47,11 +47,11 @@ export const FAQ_ITEMS: FAQ[] = [
   },
   {
     q: "Do I save by booking direct?",
-    a: "Yes — booking directly with Lively avoids third-party platform fees, which means better rates and more flexibility than you'll find elsewhere.",
+    a: "Yes - booking directly with Lively avoids third-party platform fees, which means better rates and more flexibility than you'll find elsewhere.",
   },
   {
     q: "Is WiFi included?",
-    a: "Every property is fitted with complimentary high-speed WiFi — ideal for streaming, working remotely, or staying in touch.",
+    a: "Every property is fitted with complimentary high-speed WiFi - ideal for streaming, working remotely, or staying in touch.",
   },
   {
     q: "Are toiletries provided?",
@@ -59,7 +59,7 @@ export const FAQ_ITEMS: FAQ[] = [
   },
   {
     q: "Is Netflix or streaming available?",
-    a: "Most homes include Smart TVs with access to Netflix and other streaming services — perfect for a quiet evening in.",
+    a: "Most homes include Smart TVs with access to Netflix and other streaming services - perfect for a quiet evening in.",
   },
   {
     q: "Are pets allowed?",

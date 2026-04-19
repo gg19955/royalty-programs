@@ -59,7 +59,7 @@ export default async function PortalPage() {
       eyebrow: "This season",
       title: "Featured offer.",
       body:
-        "Our featured partner experience for the season — curated for Lively guests and refreshed each quarter.",
+        "Our featured partner experience for the season - curated for Lively guests and refreshed each quarter.",
       href: "/offer",
       cta: "View offer →",
     },
@@ -68,7 +68,7 @@ export default async function PortalPage() {
       eyebrow: "Stay with us",
       title: "Book a stay.",
       body:
-        "Browse Lively's curated collection of luxury short-stays across Victoria — each home personally chosen.",
+        "Browse Lively's curated collection of luxury short-stays across Victoria - each home personally chosen.",
       href: "/stays",
       cta: "Browse stays →",
     },
@@ -79,7 +79,7 @@ export default async function PortalPage() {
       <ScrollProgress />
       <Nav />
 
-      {/* Hero — member greeting */}
+      {/* Hero - member greeting */}
       <section className="relative overflow-hidden border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
           <Reveal as="up">
@@ -96,7 +96,7 @@ export default async function PortalPage() {
             <div className="mt-16 grid gap-12 border-t border-brand-line pt-12 sm:grid-cols-[1fr_2fr] sm:gap-20">
               <div className="section-index">/ Overview</div>
               <p className="max-w-2xl text-base leading-[1.7] text-white/80 sm:text-lg">
-                Every stay earns points toward the next — redeemable against a
+                Every stay earns points toward the next - redeemable against a
                 curated catalogue of partner experiences. Submit a claim, watch
                 your balance build, then choose how to spend it.
               </p>
@@ -105,13 +105,13 @@ export default async function PortalPage() {
         </div>
       </section>
 
-      {/* Three entry-point tiles — editorial grid, no rounded cards */}
+      {/* Three entry-point tiles - editorial grid, no rounded cards */}
       <section className="border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
           <Reveal as="up">
             <div className="flex flex-col gap-4 border-b border-brand-line pb-10 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="section-index">/ 01 — Three paths</div>
+                <div className="section-index">/ 01 - Three paths</div>
                 <h2 className="mt-6 max-w-3xl font-display text-5xl font-semibold uppercase leading-[0.92] tracking-[-0.02em] text-white sm:text-7xl">
                   What would you
                   <br />
@@ -153,7 +153,7 @@ export default async function PortalPage() {
           <Reveal as="up">
             <div className="flex flex-col gap-4 border-b border-brand-line pb-10 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="section-index">/ 02 — Your ledger</div>
+                <div className="section-index">/ 02 - Your ledger</div>
                 <h2 className="mt-6 max-w-3xl font-display text-5xl font-semibold uppercase leading-[0.92] tracking-[-0.02em] text-white sm:text-7xl">
                   Points &
                   <br />
@@ -175,7 +175,7 @@ export default async function PortalPage() {
                   Points
                 </div>
                 <p className="mt-8 max-w-xs text-sm leading-[1.7] text-white/60">
-                  Points land after our team confirms your stay claim — usually
+                  Points land after our team confirms your stay claim - usually
                   within a day.
                 </p>
               </div>
@@ -265,7 +265,7 @@ export default async function PortalPage() {
 function TileBody({ tile }: { tile: PortalTile }) {
   return (
     <>
-      <div className="section-index">/ {tile.index} — {tile.eyebrow}</div>
+      <div className="section-index">/ {tile.index} - {tile.eyebrow}</div>
       <h3 className="mt-6 font-display text-2xl font-semibold uppercase leading-[1.02] tracking-[-0.01em] text-white sm:text-3xl">
         {tile.title}
       </h3>
@@ -280,7 +280,7 @@ function TileBody({ tile }: { tile: PortalTile }) {
 }
 
 export const metadata = {
-  title: "Portal — Lively",
+  title: "Portal - Lively",
   description:
-    "Your Lively rewards portal — points balance, stays, and redemptions.",
+    "Your Lively rewards portal - points balance, stays, and redemptions.",
 };

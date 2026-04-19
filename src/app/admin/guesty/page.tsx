@@ -51,7 +51,7 @@ export default async function AdminGuestyPage() {
         <h1 className="text-2xl font-semibold">Guesty sync</h1>
         <p className="mt-1 text-sm text-gray-600">
           Pull the current list of active Lively listings from Guesty and
-          upsert them into the properties table. New rows land as drafts —
+          upsert them into the properties table. New rows land as drafts -
           publish them from the listing detail page.
         </p>
       </div>
@@ -62,7 +62,7 @@ export default async function AdminGuestyPage() {
           <Stat label="Total properties" value={totalPropCount ?? 0} />
           <Stat
             label="Token expires"
-            value={token ? new Date(token.expires_at).toLocaleString() : "—"}
+            value={token ? new Date(token.expires_at).toLocaleString() : "-"}
           />
         </div>
       </section>

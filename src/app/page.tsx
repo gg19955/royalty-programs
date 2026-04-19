@@ -83,7 +83,7 @@ export default async function HomePage() {
       <Nav transparent />
       <Hero />
 
-      {/* Region ticker — horizontal moving strip of regions we operate in */}
+      {/* Region ticker - horizontal moving strip of regions we operate in */}
       <div className="relative overflow-hidden border-y border-brand-line bg-black py-6">
         <div className="marquee-track flex whitespace-nowrap">
           {[...Array(2)].map((_, dup) => (
@@ -113,7 +113,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* Search bar — dates + region + dependent suburb, posts to /stays */}
+      {/* Search bar - dates + region + dependent suburb, posts to /stays */}
       <HeroSearch />
 
       {/* Curated editorial showcase */}
@@ -126,7 +126,7 @@ export default async function HomePage() {
             <Reveal as="up">
               <div className="flex items-end justify-between border-b border-brand-line pb-10">
                 <div>
-                  <div className="section-index">/ 02 — By region</div>
+                  <div className="section-index">/ 02 - By region</div>
                   <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
                     Where Lively goes.
                   </h2>
@@ -177,7 +177,7 @@ export default async function HomePage() {
           <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
             <Reveal as="up">
               <div className="flex items-end justify-between border-b border-brand-line pb-10">
-                <div className="section-index">/ 03 — Featured this month</div>
+                <div className="section-index">/ 03 - Featured this month</div>
                 <Link
                   href="/stays"
                   className="link-underline hidden font-display text-[11px] uppercase tracking-[0.28em] text-white sm:inline"
@@ -202,7 +202,7 @@ export default async function HomePage() {
             <Reveal as="up">
               <div className="flex items-end justify-between border-b border-brand-line pb-10">
                 <div>
-                  <div className="section-index">/ 04 — The collection</div>
+                  <div className="section-index">/ 04 - The collection</div>
                   <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
                     New this season.
                   </h2>
@@ -226,7 +226,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Featured on — press / partner logos marquee (uniform fixed-box sizing so every logo reads at equal weight) */}
+      {/* Featured on - press / partner logos marquee (uniform fixed-box sizing so every logo reads at equal weight) */}
       <div className="relative overflow-hidden border-y border-brand-line bg-black py-10">
         <div className="mx-auto mb-6 max-w-[1296px] px-6 sm:px-10">
           <div className="section-index text-white/50">/ As featured on</div>
@@ -260,7 +260,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* Editorial manifesto — massive condensed headline on pure black */}
+      {/* Editorial manifesto - massive condensed headline on pure black */}
       <section className="relative border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 py-32 sm:px-10 sm:py-44">
           <Reveal as="up">
@@ -279,7 +279,7 @@ export default async function HomePage() {
               <p className="max-w-2xl text-base leading-[1.7] text-white/70 sm:text-lg">
                 Every property on Lively is personally selected. We look for
                 considered architecture, exceptional sites, and hosts who take
-                the craft of hospitality seriously — across Victoria&apos;s
+                the craft of hospitality seriously - across Victoria&apos;s
                 quietest regions. When you stay, you earn points toward your
                 next trip.
               </p>
@@ -288,11 +288,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Rewards — inverted: cream surface on dark page for contrast */}
+      {/* Rewards - inverted: cream surface on dark page for contrast */}
       <section className="relative overflow-hidden border-t border-brand-line bg-brand-raised text-white">
         <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-36">
           <Reveal as="up">
-            <div className="section-index text-white/50">/ 05 — Lively Rewards</div>
+            <div className="section-index text-white/50">/ 05 - Lively Rewards</div>
           </Reveal>
           <div className="mt-10 grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-end md:gap-20">
             <Reveal as="up" delay={140}>
@@ -309,7 +309,7 @@ export default async function HomePage() {
                 <p>
                   Earn one point per Australian dollar on every stay. Redeem
                   toward your next booking, or spend on curated partner
-                  experiences — cellar-door tastings, hot-springs afternoons,
+                  experiences - cellar-door tastings, hot-springs afternoons,
                   private kayak tours.
                 </p>
                 <div className="flex flex-wrap gap-3 pt-2">
@@ -339,7 +339,7 @@ export default async function HomePage() {
             <div className="font-display text-5xl font-semibold uppercase tracking-[-0.01em] text-white sm:text-7xl">
               Lively
             </div>
-            <div className="mt-4 section-index">/ Victoria — Australia</div>
+            <div className="mt-4 section-index">/ Victoria - Australia</div>
           </div>
           <div className="grid gap-2 text-[11px] uppercase tracking-[0.28em] sm:text-right">
             <Link href="/stays" className="hover:text-white">Stays</Link>
@@ -351,7 +351,7 @@ export default async function HomePage() {
         <div className="border-t border-brand-line">
           <div className="mx-auto flex max-w-[1296px] items-center justify-between px-6 py-6 text-[10px] uppercase tracking-[0.28em] text-white/40 sm:px-10">
             <span>© {new Date().getFullYear()} Lively Properties</span>
-            <span>— End of feed —</span>
+            <span>- End of feed -</span>
           </div>
         </div>
       </footer>

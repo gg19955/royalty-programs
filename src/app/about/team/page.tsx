@@ -16,7 +16,7 @@ export default function TeamPage() {
       <section className="relative overflow-hidden border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
           <Reveal as="up">
-            <div className="section-index">/ 00 — Our team</div>
+            <div className="section-index">/ 00 - Our team</div>
           </Reveal>
           <Reveal as="up" delay={140}>
             <h1 className="mt-10 max-w-6xl font-display text-6xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-8xl md:text-[8.5rem]">
@@ -29,7 +29,7 @@ export default function TeamPage() {
             <div className="mt-14 grid gap-10 border-t border-brand-line pt-10 sm:grid-cols-[1fr_2fr] sm:gap-16">
               <div className="section-index">/ Statement</div>
               <p className="max-w-2xl text-base leading-[1.7] text-white/75 sm:text-lg">
-                Lively is a small, senior team — each member brings a depth
+                Lively is a small, senior team - each member brings a depth
                 of experience across real estate, finance, tourism and
                 technology. Together, we look after premium homes as though
                 they were our own, and treat every guest stay as a brand
@@ -64,7 +64,7 @@ export default function TeamPage() {
                 <div className="flex items-end justify-between border-b border-brand-line pb-10">
                   <div>
                     <div className="section-index">
-                      / 0{gi + 1} — {group}
+                      / 0{gi + 1} - {group}
                     </div>
                     <h2 className="mt-6 font-display text-4xl font-semibold uppercase leading-[0.95] tracking-[-0.01em] text-white sm:text-6xl">
                       {group}

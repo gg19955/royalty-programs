@@ -89,7 +89,7 @@ export default async function AdminClaimRequestsPage({
                 <ClaimRequestRow
                   key={r.id}
                   id={r.id}
-                  email={r.profiles?.email ?? "—"}
+                  email={r.profiles?.email ?? "-"}
                   reservationCode={r.reservation_code}
                   lastName={r.last_name}
                   submittedAt={r.created_at}
@@ -97,7 +97,7 @@ export default async function AdminClaimRequestsPage({
               ) : (
                 <tr key={r.id} className="align-top">
                   <td className="px-4 py-3 font-mono text-xs">{r.reservation_code}</td>
-                  <td className="px-4 py-3">{r.profiles?.email ?? "—"}</td>
+                  <td className="px-4 py-3">{r.profiles?.email ?? "-"}</td>
                   <td className="px-4 py-3">{r.last_name}</td>
                   <td className="px-4 py-3 text-gray-500">
                     {formatDate(r.created_at)}

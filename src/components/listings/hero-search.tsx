@@ -11,7 +11,7 @@ import {
 
 /**
  * Region → suburb map used by the homepage search bar. Intentionally
- * hand-curated for the four launch regions — once listings cover more
+ * hand-curated for the four launch regions - once listings cover more
  * ground this should migrate to a DB-driven lookup.
  */
 const REGIONS: { label: string; slug: string; suburbs: string[] }[] = [
@@ -181,7 +181,7 @@ export function HeroSearch({
             </h2>
           </div>
           <p className="max-w-md text-sm leading-[1.65] text-white/60">
-            Pick your dates and region — narrow further by suburb if you
+            Pick your dates and region - narrow further by suburb if you
             already know the pocket of Victoria you&apos;re after.
           </p>
         </div>
@@ -256,7 +256,7 @@ export function HeroSearch({
 }
 
 /**
- * Date tile — the whole tile is clickable. We render the native input
+ * Date tile - the whole tile is clickable. We render the native input
  * transparently over the tile surface and also call `showPicker()` on
  * container click (supported in modern Chrome/Edge/Safari) so guests
  * never have to hunt for the tiny browser calendar icon.
@@ -306,7 +306,7 @@ function DateField({
       >
         {value ? formatDisplay(value) : "Select date"}
       </span>
-      {/* Native input — invisible but present, covers the tile so any
+      {/* Native input - invisible but present, covers the tile so any
           click / tap opens the OS date picker. */}
       <input
         ref={ref}

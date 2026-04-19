@@ -20,7 +20,7 @@ const PILLARS = [
   {
     label: "03",
     title: "Exclusive Experiences",
-    body: "As our guest, you gain access to exclusive experiences that enhance your stay. Enjoy exclusive local experiences at great value through Lively's partners — hot-air ballooning, fine dining, private wine tastings, gourmet chef-prepared meals, and personalised golf outings, all tailored to your every desire.",
+    body: "As our guest, you gain access to exclusive experiences that enhance your stay. Enjoy exclusive local experiences at great value through Lively's partners - hot-air ballooning, fine dining, private wine tastings, gourmet chef-prepared meals, and personalised golf outings, all tailored to your every desire.",
   },
   {
     label: "04",
@@ -39,7 +39,7 @@ export default function AboutPage() {
       <section className="relative overflow-hidden border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
           <Reveal as="up">
-            <div className="section-index">/ 00 — About Lively</div>
+            <div className="section-index">/ 00 - About Lively</div>
           </Reveal>
           <Reveal as="up" delay={140}>
             <h1 className="mt-10 max-w-6xl font-display text-6xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-8xl md:text-[8.5rem]">
@@ -53,7 +53,7 @@ export default function AboutPage() {
               <div className="section-index">/ Statement</div>
               <p className="max-w-2xl text-base leading-[1.7] text-white/75 sm:text-lg">
                 Lively is a curated marketplace of luxury short stays across
-                Victoria — a collection of homes personally selected for their
+                Victoria - a collection of homes personally selected for their
                 architecture, their sites, and the hosts behind them. When you
                 stay with us, you earn points toward your next trip.
               </p>
@@ -66,7 +66,7 @@ export default function AboutPage() {
       <section className="border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
           <Reveal as="up">
-            <div className="section-index">/ 01 — The brief</div>
+            <div className="section-index">/ 01 - The brief</div>
           </Reveal>
           <div className="mt-12 grid gap-px bg-brand-line sm:grid-cols-2">
             {PILLARS.map((p, i) => (
@@ -92,7 +92,7 @@ export default function AboutPage() {
           <Reveal as="up">
             <div className="flex items-end justify-between border-b border-brand-line pb-10">
               <div>
-                <div className="section-index">/ 02 — Frequently asked</div>
+                <div className="section-index">/ 02 - Frequently asked</div>
                 <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
                   The questions
                   <br />

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Nav } from "@/components/nav";
 
 export const metadata = {
-  title: "List your property — Lively",
+  title: "List your property - Lively",
   description:
     "Lively is a curated marketplace for Victoria's most considered short-stay homes. Apply to join.",
 };
@@ -29,7 +29,7 @@ export default function HostLandingPage() {
           </h1>
           <p className="mt-8 max-w-xl text-base leading-[1.7] text-white/85 sm:text-lg">
             Lively is a small, curated collection of Victoria's most considered
-            short-stay homes. We don't list everything — we list the ones worth
+            short-stay homes. We don't list everything - we list the ones worth
             the drive.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
@@ -89,7 +89,7 @@ export default function HostLandingPage() {
             <Step
               n="01"
               title="Apply"
-              body="Tell us about the house — the setting, the story, the service you offer guests. We read every application ourselves."
+              body="Tell us about the house - the setting, the story, the service you offer guests. We read every application ourselves."
             />
             <Step
               n="02"
@@ -99,7 +99,7 @@ export default function HostLandingPage() {
             <Step
               n="03"
               title="List"
-              body="We build the listing with you — editorial copy, professional photography, rate plan, house guide — then go live to the Lively collection."
+              body="We build the listing with you - editorial copy, professional photography, rate plan, house guide - then go live to the Lively collection."
             />
             <Step
               n="04"

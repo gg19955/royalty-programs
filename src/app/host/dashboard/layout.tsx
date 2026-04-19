@@ -23,7 +23,7 @@ export default async function HostDashboardLayout({
     redirect("/host");
   }
   if (!profile.host_id) {
-    // Approved by an admin but profile linkage missing — send them to landing
+    // Approved by an admin but profile linkage missing - send them to landing
     // with a hint; admin can repair.
     redirect("/host?not-linked=1");
   }

@@ -16,7 +16,7 @@ export function EditorialSignatureDetail({ home }: { home: SignatureHome }) {
       <ScrollProgress />
       <Nav />
 
-      {/* Hero — full-bleed image with the home name set over it */}
+      {/* Hero - full-bleed image with the home name set over it */}
       <section className="relative overflow-hidden border-b border-brand-line bg-black">
         <div className="mx-auto max-w-[1296px] px-6 pb-10 pt-12 sm:px-10 sm:pb-14 sm:pt-16">
           <Reveal as="up">
@@ -69,7 +69,7 @@ export function EditorialSignatureDetail({ home }: { home: SignatureHome }) {
           <div className="grid gap-16 md:grid-cols-[1fr_2fr] md:gap-24">
             <Reveal as="up">
               <div>
-                <div className="section-index">/ 01 — The stay</div>
+                <div className="section-index">/ 01 - The stay</div>
                 <h2 className="mt-6 font-display text-4xl font-semibold uppercase leading-[0.95] tracking-[-0.01em] text-white sm:text-5xl">
                   About {home.name}.
                 </h2>
@@ -127,7 +127,7 @@ export function EditorialSignatureDetail({ home }: { home: SignatureHome }) {
             </h3>
             <p className="mt-6 max-w-xl text-base leading-[1.7] text-white/75">
               {home.name} is part of our founding collection. Enquire now to
-              be first in line when bookings open — our concierge can organise
+              be first in line when bookings open - our concierge can organise
               a preview stay for qualifying guests.
             </p>
           </div>

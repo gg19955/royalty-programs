@@ -1,14 +1,14 @@
 /**
  * Curated editorial stills pulled from livelyproperties.com.au.
  * Used by the marketing home + /stays fallback until hosts have seeded
- * live listings on the platform. Order is deliberate — the first entry is
+ * live listings on the platform. Order is deliberate - the first entry is
  * the lead frame, the rest follow as a descending visual rhythm.
  */
 
 export type SignatureHome = {
-  /** URL slug — used for /stays/[slug]. Stable across the site. */
+  /** URL slug - used for /stays/[slug]. Stable across the site. */
   slug: string;
-  /** Local path under /public — served as-is. */
+  /** Local path under /public - served as-is. */
   src: string;
   /**
    * Optional mp4 under /public. When set, tiles render this as a muted
@@ -20,7 +20,7 @@ export type SignatureHome = {
   videoPoster?: string;
   /** Property name, as published on livelyproperties.com.au. */
   name: string;
-  /** Where it sits — region tile. */
+  /** Where it sits - region tile. */
   region: string;
   /** Editorial one-liner (not a description). */
   caption: string;
@@ -42,7 +42,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Mount Martha",
     caption: "Resort-scale grandeur designed by KWD, built for a long winter.",
     description:
-      "A four-bedroom Mount Martha residence designed by KWD and built by Smith Builders — an unhurried composition of stone, warm timber, and natural light held together by a heated pool and spa that run year-round. Interiors lean into a quiet, layered luxury: the kitchen is built to cook in, the living rooms are built to linger in, and the pool courtyard is built for cold mornings and long evenings.",
+      "A four-bedroom Mount Martha residence designed by KWD and built by Smith Builders - an unhurried composition of stone, warm timber, and natural light held together by a heated pool and spa that run year-round. Interiors lean into a quiet, layered luxury: the kitchen is built to cook in, the living rooms are built to linger in, and the pool courtyard is built for cold mornings and long evenings.",
     bedrooms: 4,
     sleeps: 8,
   },
@@ -62,7 +62,7 @@ export const signatureHomes: SignatureHome[] = [
     src: "/media/homes/la-perla-marina.jpg",
     name: "La Perla Marina",
     region: "Mornington",
-    caption: "Penthouse, private pool, bay views — aerially speaking.",
+    caption: "Penthouse, private pool, bay views - aerially speaking.",
     description:
       "A full-floor penthouse above the Mornington marina with a private rooftop pool and 270° water views. Designed by a local architect with an unapologetic love of white plaster and curves, La Perla Marina plays like a Mediterranean apartment transplanted to the Peninsula.",
     bedrooms: 3,
@@ -75,7 +75,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Yarra Valley",
     caption: "Thirteen acres of quiet, held together by a single long table.",
     description:
-      "Thirteen acres of Yarra Valley vineyard, a blackened-timber residence, and a single long dining table that anchors every gathering. Onyx Retreat is the kind of house that changes the pace of a weekend — slow mornings in the kitchen, afternoons in the pool, and dinners that run until the stars take over.",
+      "Thirteen acres of Yarra Valley vineyard, a blackened-timber residence, and a single long dining table that anchors every gathering. Onyx Retreat is the kind of house that changes the pace of a weekend - slow mornings in the kitchen, afternoons in the pool, and dinners that run until the stars take over.",
     bedrooms: 5,
     sleeps: 10,
   },
@@ -86,7 +86,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Mount Martha",
     caption: "A house that lets the light do most of the talking.",
     description:
-      "A sculptural four-bedroom home on the high side of Mount Martha, oriented for morning sun and evening calm. Polished concrete, pale oak, and floor-to-ceiling glass frame a compositional view of the bay. Minimal on the inside, generous on the outside — a patio that wraps the whole north-facing wing.",
+      "A sculptural four-bedroom home on the high side of Mount Martha, oriented for morning sun and evening calm. Polished concrete, pale oak, and floor-to-ceiling glass frame a compositional view of the bay. Minimal on the inside, generous on the outside - a patio that wraps the whole north-facing wing.",
     bedrooms: 4,
     sleeps: 8,
   },
@@ -97,7 +97,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Mornington Peninsula",
     caption: "Heated spa, vineyard views, and an intentional kind of stillness.",
     description:
-      "A Mediterranean-leaning villa set among vines, with a heated spa tucked into the garden and an interior that draws on Tuscan restraint — plaster walls, terracotta tiles, and linen everywhere. Floretti was built to slow you down: long breakfasts, long lunches, long naps.",
+      "A Mediterranean-leaning villa set among vines, with a heated spa tucked into the garden and an interior that draws on Tuscan restraint - plaster walls, terracotta tiles, and linen everywhere. Floretti was built to slow you down: long breakfasts, long lunches, long naps.",
     bedrooms: 4,
     sleeps: 8,
   },
@@ -132,7 +132,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Yarra Valley",
     caption: "Barrel sauna, outdoor tub, and the sound of absolutely nothing.",
     description:
-      "A pared-back three-bedroom cabin in the Yarra Valley with a Finnish barrel sauna, outdoor wood-fired tub, and the kind of quiet that only country land delivers. Cellar-door territory — a short drive from some of Victoria's best vineyards, and easy reach to Healesville.",
+      "A pared-back three-bedroom cabin in the Yarra Valley with a Finnish barrel sauna, outdoor wood-fired tub, and the kind of quiet that only country land delivers. Cellar-door territory - a short drive from some of Victoria's best vineyards, and easy reach to Healesville.",
     bedrooms: 3,
     sleeps: 6,
   },
@@ -143,7 +143,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Red Hill",
     caption: "Pool, spa, and rooms that were built to be lingered in.",
     description:
-      "A Canadian-inspired lake-house on Red Hill farmland — dark-stained timber, a soaring pitched roof, and a fireplace you can walk into. Pool and spa outside, cinema room inside, and four bedrooms arranged around a central hearth.",
+      "A Canadian-inspired lake-house on Red Hill farmland - dark-stained timber, a soaring pitched roof, and a fireplace you can walk into. Pool and spa outside, cinema room inside, and four bedrooms arranged around a central hearth.",
     bedrooms: 4,
     sleeps: 8,
   },
@@ -154,7 +154,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Portsea",
     caption: "Ocean out front, cellar out back.",
     description:
-      "A coastal Portsea residence with front-row views across to the back beaches, a glass-walled wine cellar, and an owner's wing that runs to its own terrace. Designed to entertain — the kitchen opens to a covered pavilion big enough for a long table of twelve.",
+      "A coastal Portsea residence with front-row views across to the back beaches, a glass-walled wine cellar, and an owner's wing that runs to its own terrace. Designed to entertain - the kitchen opens to a covered pavilion big enough for a long table of twelve.",
     bedrooms: 5,
     sleeps: 10,
   },
@@ -165,7 +165,7 @@ export const signatureHomes: SignatureHome[] = [
     region: "Mount Martha",
     caption: "Indoor pool, cinema, and a quiet confidence about both.",
     description:
-      "A substantial Mount Martha home built for cooler-weather stays — an indoor heated pool, a purpose-built cinema, a gym, and six bedrooms across two wings. The scale is generous without being showy, and the finish level quietly excellent throughout.",
+      "A substantial Mount Martha home built for cooler-weather stays - an indoor heated pool, a purpose-built cinema, a gym, and six bedrooms across two wings. The scale is generous without being showy, and the finish level quietly excellent throughout.",
     bedrooms: 6,
     sleeps: 12,
   },

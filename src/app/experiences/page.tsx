@@ -29,7 +29,7 @@ export default async function ExperiencesPage() {
       <ScrollProgress />
       <Nav />
 
-      {/* Hero — full-bleed looping video behind the editorial overlay */}
+      {/* Hero - full-bleed looping video behind the editorial overlay */}
       <section className="relative overflow-hidden border-b border-brand-line bg-black">
         <video
           aria-hidden
@@ -49,7 +49,7 @@ export default async function ExperiencesPage() {
         />
         <div className="relative mx-auto max-w-[1296px] px-6 py-28 sm:px-10 sm:py-40">
           <Reveal as="up">
-            <div className="section-index">/ 00 — Experiences</div>
+            <div className="section-index">/ 00 - Experiences</div>
           </Reveal>
           <Reveal as="up" delay={140}>
             <h1 className="mt-10 max-w-6xl font-display text-6xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-8xl md:text-[8.5rem]">
@@ -62,7 +62,7 @@ export default async function ExperiencesPage() {
             <div className="mt-14 grid gap-10 border-t border-white/20 pt-10 sm:grid-cols-[1fr_2fr] sm:gap-16">
               <div className="section-index">/ Partners</div>
               <p className="max-w-2xl text-base leading-[1.7] text-white/80 sm:text-lg">
-                Lively guests unlock a curated network of Victorian partners —
+                Lively guests unlock a curated network of Victorian partners -
                 private chefs, cellar-door hosts, ballooning pilots, and
                 bathhouse therapists. Exclusive rates and preferred access,
                 arranged by our concierge.
@@ -72,7 +72,7 @@ export default async function ExperiencesPage() {
         </div>
       </section>
 
-      {/* Category sections — full-bleed photo tiles */}
+      {/* Category sections - full-bleed photo tiles */}
       {CATEGORIES.map((category, ci) => {
         const items = PARTNER_EXPERIENCES.filter((p) => p.category === category);
         if (items.length === 0) return null;
@@ -87,7 +87,7 @@ export default async function ExperiencesPage() {
                   <div className="flex items-end justify-between border-b border-brand-line pb-10">
                     <div>
                       <div className="section-index">
-                        / 0{ci + 1} — {category}
+                        / 0{ci + 1} - {category}
                       </div>
                       <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
                         {category === "Food & Drink" && "Eat, drink, linger."}
@@ -141,7 +141,7 @@ export default async function ExperiencesPage() {
         );
       })}
 
-      {/* Rewards redemption — if catalogue has items */}
+      {/* Rewards redemption - if catalogue has items */}
       {(hasRewards || hasOffers) && (
         <section className="border-b border-brand-line bg-brand-raised">
           <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
@@ -238,7 +238,7 @@ export default async function ExperiencesPage() {
               arrange it.
             </h3>
             <p className="mt-6 max-w-xl text-base leading-[1.7] text-white/70">
-              Tell us the shape of the trip you want — we&apos;ll book the
+              Tell us the shape of the trip you want - we&apos;ll book the
               partners, the table, the tee time, the ride. One message, one
               answer.
             </p>

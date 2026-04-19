@@ -146,7 +146,7 @@ export default async function PropertyDetailPage({
                 </h2>
                 <ul className="mt-3 grid grid-cols-2 gap-y-2 text-sm text-neutral-700 sm:grid-cols-3">
                   {property.amenities.map((a) => (
-                    <li key={a} className="flex items-center gap-2 before:text-brand-accent before:content-['—']">
+                    <li key={a} className="flex items-center gap-2 before:text-brand-accent before:content-['-']">
                       <span>{a}</span>
                     </li>
                   ))}
@@ -214,11 +214,8 @@ export default async function PropertyDetailPage({
                 }`}
                 className="mt-6 block rounded-sm bg-brand px-5 py-3 text-center text-sm font-medium uppercase tracking-[0.18em] text-white hover:bg-black"
               >
-                Enquire
+                {searchParams?.checkIn && searchParams?.checkOut ? "Book now" : "Pick dates to book"}
               </Link>
-              <p className="mt-3 text-center text-[11px] uppercase tracking-[0.16em] text-brand-accent">
-                Instant booking opens soon
-              </p>
             </div>
           </aside>
         </div>
@@ -259,15 +256,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     const signature = getSignatureHomeBySlug(params.slug);
     if (signature) {
       return {
-        title: `${signature.name} — Lively`,
+        title: `${signature.name} - Lively`,
         description: signature.caption,
       };
     }
-    return { title: "Stay — Lively" };
+    return { title: "Stay - Lively" };
   }
   const loc = [data.city, data.region].filter(Boolean).join(", ");
   return {
-    title: `${data.name} — Lively`,
+    title: `${data.name} - Lively`,
     description: data.headline ?? `A curated Lively stay in ${loc}.`,
   };
 }

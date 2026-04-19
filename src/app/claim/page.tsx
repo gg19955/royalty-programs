@@ -36,7 +36,7 @@ export default async function ClaimPage() {
               <p className="max-w-2xl text-base leading-[1.7] text-white/80 sm:text-lg">
                 Enter the reservation code and last name on your booking. Our
                 team reviews each claim by hand and credits your points by
-                email — usually within a day.
+                email - usually within a day.
               </p>
             </div>
           </Reveal>
@@ -63,7 +63,7 @@ export default async function ClaimPage() {
 }
 
 export const metadata = {
-  title: "Claim a stay — Lively",
+  title: "Claim a stay - Lively",
   description:
     "Submit a reservation to have your stay credited toward your Lively rewards balance.",
 };

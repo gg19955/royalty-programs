@@ -3,21 +3,21 @@ import "server-only";
 /**
  * Minimal RFC 5545 VEVENT parser.
  *
- * Airbnb / VRBO / Stayz / Guesty all emit the same narrow subset — we only
+ * Airbnb / VRBO / Stayz / Guesty all emit the same narrow subset - we only
  * need UID, DTSTART, DTEND, SUMMARY, STATUS to build availability_blocks.
  * Full iCal support (recurrence, timezones, alarms) is intentionally out of
  * scope: vacation-rental calendars don't use those features.
  *
  * Supports:
- *   - Line unfolding (RFC 5545 §3.1) — continuation lines start with whitespace.
+ *   - Line unfolding (RFC 5545 §3.1) - continuation lines start with whitespace.
  *   - DATE (YYYYMMDD) and DATE-TIME (YYYYMMDDTHHMMSSZ) values. Times are
  *     collapsed to the date component since availability is day-granular.
  *   - VEVENT blocks; VCALENDAR wrapper is accepted but not required.
  *   - STATUS=CANCELLED events are filtered out.
  *
  * Explicitly ignored (returns events as-is):
- *   - RRULE / RDATE / EXDATE — no recurrence expansion.
- *   - VTIMEZONE — we treat all dates as calendar dates, no TZ math needed.
+ *   - RRULE / RDATE / EXDATE - no recurrence expansion.
+ *   - VTIMEZONE - we treat all dates as calendar dates, no TZ math needed.
  */
 
 export type ParsedEvent = {

@@ -113,12 +113,12 @@ function StayFields() {
       <TextArea
         label="Nice to have"
         name="nice_to_have"
-        placeholder="Pool, fireplace, walking distance to town — tell us what would round out the stay."
+        placeholder="Pool, fireplace, walking distance to town - tell us what would round out the stay."
       />
       <TextArea
         label="Must have"
         name="must_have"
-        placeholder="Non-negotiables — minimum bedrooms, accessibility, pet-friendly, etc."
+        placeholder="Non-negotiables - minimum bedrooms, accessibility, pet-friendly, etc."
       />
     </>
   );

@@ -126,7 +126,7 @@ export function ListingForm({
               defaultValue={initial.property_type ?? ""}
               className={inputCls}
             >
-              <option value="">—</option>
+              <option value="">-</option>
               <option value="villa">Villa</option>
               <option value="beach_house">Beach house</option>
               <option value="apartment">Apartment</option>

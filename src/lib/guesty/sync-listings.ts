@@ -10,7 +10,7 @@ import { iterateActiveListings, type GuestyListing } from "./listings";
  * updated in place; new rows are created as draft listings so an admin can
  * review before publishing. An audit row is written to guesty_sync_runs.
  *
- * Pass `{ dryRun: true }` to fetch and count without writing — useful for the
+ * Pass `{ dryRun: true }` to fetch and count without writing - useful for the
  * very first smoke test against the live API.
  */
 
@@ -49,7 +49,7 @@ function toCents(v: number | undefined): number | null {
 }
 
 /**
- * Supabase PostgrestErrors are plain objects, not Error instances — so
+ * Supabase PostgrestErrors are plain objects, not Error instances - so
  * `String(err)` produces "[object Object]". Pull the useful fields out by hand
  * so the admin UI can show what actually failed.
  */
@@ -58,7 +58,7 @@ function describeError(err: unknown): string {
   if (err && typeof err === "object") {
     const e = err as { message?: string; details?: string; hint?: string; code?: string };
     const parts = [e.message, e.code, e.details, e.hint].filter(Boolean);
-    if (parts.length > 0) return parts.join(" — ");
+    if (parts.length > 0) return parts.join(" - ");
     try {
       return JSON.stringify(err);
     } catch {
@@ -117,7 +117,7 @@ export async function syncListings(opts: { dryRun?: boolean; max?: number } = {}
     .eq("display_name", "Lively")
     .maybeSingle();
   if (hostErr) throw hostErr;
-  if (!hostRow) throw new Error('Lively host row missing — was migration 0007 applied?');
+  if (!hostRow) throw new Error('Lively host row missing - was migration 0007 applied?');
   const livelyHostId = (hostRow as { id: string }).id;
 
   // Open an audit row.

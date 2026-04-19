@@ -22,7 +22,7 @@ const REGION_COPY: Record<string, { tagline: string; intro: string }> = {
   "Great Ocean Road": {
     tagline: "Cliffs, surf breaks, and lighthouse weather",
     intro:
-      "From Aireys to Apollo Bay, Victoria's southern coast is where the state comes to be quiet. Our houses sit close to the water — because that's the point.",
+      "From Aireys to Apollo Bay, Victoria's southern coast is where the state comes to be quiet. Our houses sit close to the water - because that's the point.",
   },
 };
 
@@ -131,9 +131,9 @@ export async function generateMetadata({ params }: { params: { region: string } 
     .not("region", "is", null);
   const regions = Array.from(new Set((data ?? []).map((r) => r.region).filter(Boolean)));
   const regionName = regions.find((r) => r && regionToSlug(r) === params.region);
-  if (!regionName) return { title: "Region — Lively" };
+  if (!regionName) return { title: "Region - Lively" };
   return {
-    title: `${regionName} — Lively`,
+    title: `${regionName} - Lively`,
     description: `Curated luxury stays across ${regionName}.`,
   };
 }

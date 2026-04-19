@@ -77,7 +77,7 @@ export default async function HostDashboardPage() {
                 <div>
                   <div className="font-medium text-brand">{l.name}</div>
                   <div className="text-xs text-gray-500">
-                    {l.region ?? "—"} · {l.listing_status}
+                    {l.region ?? "-"} · {l.listing_status}
                   </div>
                 </div>
                 <div className="text-sm text-neutral-700">
@@ -115,14 +115,14 @@ export default async function HostDashboardPage() {
                 {upcoming.map((r) => (
                   <tr key={r.id}>
                     <td className="px-4 py-3 font-mono text-xs">{r.code}</td>
-                    <td className="px-4 py-3">{r.guest_name ?? "—"}</td>
+                    <td className="px-4 py-3">{r.guest_name ?? "-"}</td>
                     <td className="px-4 py-3 text-neutral-700">
                       {r.check_in} → {r.check_out}
                     </td>
                     <td className="px-4 py-3">
                       {r.host_payout_cents
                         ? formatCurrency(r.host_payout_cents)
-                        : "—"}
+                        : "-"}
                     </td>
                   </tr>
                 ))}

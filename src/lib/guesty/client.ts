@@ -118,7 +118,7 @@ type GuestyFetchOptions = {
 
 /**
  * Authenticated fetch to the Guesty API. Caller is responsible for rate-limit
- * pacing across many calls — see `lib/guesty/listings.ts` for paginated flow.
+ * pacing across many calls - see `lib/guesty/listings.ts` for paginated flow.
  */
 export async function guestyFetch<T>(path: string, opts: GuestyFetchOptions = {}): Promise<T> {
   const token = await getAccessToken();

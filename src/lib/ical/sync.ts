@@ -8,7 +8,7 @@ import { parseIcs } from "./parse";
  * Reconciliation rule: for this feed's property we own rows where
  *   source = 'ical' AND ical_event_id IS NOT NULL.
  * We upsert every event by (property_id, ical_event_id) and delete any
- * existing ical row whose event_id is NOT in the current feed — that's how
+ * existing ical row whose event_id is NOT in the current feed - that's how
  * we handle cancellations / removed bookings without the feed having to
  * announce them explicitly.
  *

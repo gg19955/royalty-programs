@@ -3,7 +3,7 @@ import { guestyFetch } from "./client";
 
 /**
  * Shape of a Guesty listing response. Guesty returns many more fields than we
- * care about — only the ones we actually persist are declared strictly; the
+ * care about - only the ones we actually persist are declared strictly; the
  * rest stay in `raw` so we can extend later without a migration.
  */
 export type GuestyListing = {

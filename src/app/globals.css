@@ -28,7 +28,7 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Display-font treatment — tracking/tightening for Oswald so it
+   Display-font treatment - tracking/tightening for Oswald so it
    reads closer to Manuka Condensed (tighter tracking, tall line).
    --------------------------------------------------------------- */
 .font-display {
@@ -37,7 +37,7 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Theme remap — legacy class names keep working on dark surface.
+   Theme remap - legacy class names keep working on dark surface.
    These selectors override Tailwind's core utility output so the
    existing source (46 files) doesn't need to be rewritten.
    --------------------------------------------------------------- */
@@ -75,7 +75,7 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Light-theme escape hatch — any subtree tagged `.theme-light`
+   Light-theme escape hatch - any subtree tagged `.theme-light`
    gets the real Tailwind semantics back (true white bg, true black
    text), undoing the global dark remap for pages like /collection
    that are intentionally inverted.
@@ -198,7 +198,7 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Marquee — notahotel-style horizontal ticker.
+   Marquee - notahotel-style horizontal ticker.
    --------------------------------------------------------------- */
 @keyframes marquee {
   from {
@@ -214,7 +214,7 @@ html {
 }
 
 /* ---------------------------------------------------------------
-   Section number eyebrow — the little "01 / 04" markers.
+   Section number eyebrow - the little "01 / 04" markers.
    --------------------------------------------------------------- */
 .section-index {
   font-variant-numeric: tabular-nums;

@@ -45,9 +45,9 @@ export function PropertyCard({
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100"
         />
-        {/* corner index tag — editorial touch */}
+        {/* corner index tag - editorial touch */}
         <div className="absolute left-4 top-4 font-display text-[10px] uppercase tracking-[0.28em] text-white/80">
-          / {p.region ?? "—"}
+          / {p.region ?? "-"}
         </div>
       </div>
       <div className="pt-6">
@@ -69,7 +69,7 @@ export function PropertyCard({
         )}
         <div className="mt-6 flex items-baseline justify-between border-t border-brand-line pt-4 text-xs text-white/60">
           <span className="font-display uppercase tracking-[0.24em]">
-            {p.bedrooms ? `${p.bedrooms} bed` : "—"}
+            {p.bedrooms ? `${p.bedrooms} bed` : "-"}
             {p.max_guests ? ` · sleeps ${p.max_guests}` : ""}
           </span>
           {p.base_rate_cents ? (

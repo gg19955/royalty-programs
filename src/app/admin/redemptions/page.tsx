@@ -35,7 +35,7 @@ export default async function AdminRedemptionsPage() {
                 <td className="px-4 py-3">{r.profiles?.email}</td>
                 <td className="px-4 py-3">{r.experiences?.title}</td>
                 <td className="px-4 py-3 text-gray-600">
-                  {r.experiences?.partners?.name ?? "—"}
+                  {r.experiences?.partners?.name ?? "-"}
                 </td>
                 <td className="px-4 py-3 text-gray-700">-{formatPoints(r.points_spent)}</td>
                 <td className="px-4 py-3">{r.status}</td>

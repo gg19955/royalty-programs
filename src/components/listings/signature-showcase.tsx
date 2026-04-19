@@ -6,7 +6,7 @@ import {
 } from "@/lib/content/signature-homes";
 
 /**
- * Tile media — renders either a still or a muted autoplaying loop,
+ * Tile media - renders either a still or a muted autoplaying loop,
  * depending on whether the home has a `video` asset. Keeping this in one
  * place so any tile (portrait strip, editorial frame, future layouts) picks
  * up richer media simply by setting `video` + `videoPoster` in the content
@@ -136,7 +136,7 @@ function EditorialFrame({
 }
 
 /**
- * Region tiles — fallback when DB has no properties yet.
+ * Region tiles - fallback when DB has no properties yet.
  */
 export function SignatureRegions() {
   return (
@@ -144,7 +144,7 @@ export function SignatureRegions() {
       <div className="mx-auto max-w-[1296px] px-6 py-24 sm:px-10 sm:py-32">
         <div className="flex flex-col gap-4 border-b border-brand-line pb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="section-index">/ 02 — By region</div>
+            <div className="section-index">/ 02 - By region</div>
             <h2 className="mt-6 font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[-0.02em] text-white sm:text-7xl">
               Where Lively goes.
             </h2>

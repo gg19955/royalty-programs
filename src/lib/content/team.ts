@@ -56,7 +56,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     role: "Portfolio Manager",
     group: "Portfolio",
     photo: "/team/Callum.jpg",
-    bio: "Callum strengthens the operational side of the business through platform knowledge, problem-solving, maintenance coordination and calm handling of more complex situations — especially where fast, sensible judgement matters most.",
+    bio: "Callum strengthens the operational side of the business through platform knowledge, problem-solving, maintenance coordination and calm handling of more complex situations - especially where fast, sensible judgement matters most.",
   },
 ];
 

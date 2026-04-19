@@ -59,7 +59,7 @@ export async function submitEnquiry(
 
       return {
         ok: true,
-        message: "Thank you — our concierge will be in touch shortly.",
+        message: "Thank you - our concierge will be in touch shortly.",
       };
     }
 
@@ -109,7 +109,7 @@ export async function submitEnquiry(
     return {
       ok: true,
       message:
-        "Thank you — a member of the Lively team will review your property and be in touch.",
+        "Thank you - a member of the Lively team will review your property and be in touch.",
     };
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Something went wrong.";
