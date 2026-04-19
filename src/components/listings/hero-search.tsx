@@ -92,12 +92,22 @@ function formatDisplay(iso: string) {
   return `${d}/${m}/${y}`;
 }
 
-export function HeroSearch() {
+export function HeroSearch({
+  defaults,
+}: {
+  defaults?: {
+    checkIn?: string;
+    checkOut?: string;
+    regions?: string[];
+    guests?: number;
+  };
+} = {}) {
   const router = useRouter();
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [regionSlugs, setRegionSlugs] = useState<string[]>([]);
+  const [checkIn, setCheckIn] = useState(defaults?.checkIn ?? "");
+  const [checkOut, setCheckOut] = useState(defaults?.checkOut ?? "");
+  const [regionSlugs, setRegionSlugs] = useState<string[]>(defaults?.regions ?? []);
   const [suburbList, setSuburbList] = useState<string[]>([]);
+  const [guests, setGuests] = useState(defaults?.guests ?? 0);
 
   const selectedRegions = useMemo(
     () => REGIONS.filter((r) => regionSlugs.includes(r.slug)),
@@ -134,6 +144,7 @@ export function HeroSearch() {
     if (checkOut) params.set("check_out", checkOut);
     regionSlugs.forEach((r) => params.append("region", r));
     suburbList.forEach((s) => params.append("suburb", s));
+    if (guests > 0) params.set("guests", String(guests));
     const qs = params.toString();
     router.push(qs ? `/stays?${qs}` : "/stays");
   };
@@ -177,7 +188,7 @@ export function HeroSearch() {
 
         <form
           onSubmit={submit}
-          className="mt-8 grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.3fr_1.1fr_auto]"
+          className="mt-8 grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.2fr_1fr_0.7fr_auto]"
         >
           <DateField
             label="Check in"
@@ -215,6 +226,22 @@ export function HeroSearch() {
             onToggle={toggleSuburb}
             onClear={() => setSuburbList([])}
           />
+
+          <div className="group relative flex flex-col justify-center gap-2 bg-black px-6 py-5">
+            <span className="font-display text-[10px] uppercase tracking-[0.32em] text-white/55">
+              Guests
+            </span>
+            <input
+              type="number"
+              min={0}
+              max={30}
+              value={guests || ""}
+              placeholder="Any"
+              onChange={(e) => setGuests(Number(e.target.value) || 0)}
+              className="w-full bg-transparent text-base text-white outline-none placeholder:text-white/40 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              aria-label="Guests"
+            />
+          </div>
 
           <button
             type="submit"

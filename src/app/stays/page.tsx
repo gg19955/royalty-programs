@@ -1,10 +1,19 @@
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Nav } from "@/components/nav";
+import { HeroSearch } from "@/components/listings/hero-search";
 import { PropertyCard, type PropertyCardData } from "@/components/listings/property-card";
 import { regionToSlug } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+
+/** Map region slugs back to display labels for DB filtering. */
+const REGION_SLUG_MAP: Record<string, string> = {
+  "mornington-peninsula": "Mornington Peninsula",
+  "yarra-valley": "Yarra Valley",
+  "melbourne-surrounds": "Melbourne & Surrounds",
+  "bellarine-peninsula": "Bellarine Peninsula",
+};
 
 type RawProperty = PropertyCardData & {
   id: string;
@@ -15,9 +24,44 @@ type RawProperty = PropertyCardData & {
 export default async function StaysPage({
   searchParams,
 }: {
-  searchParams?: { region?: string; guests?: string };
+  searchParams?: {
+    region?: string | string[];
+    guests?: string;
+    check_in?: string;
+    check_out?: string;
+  };
 }) {
   const admin = createAdminClient();
+
+  // Normalise region param (single or multi-value) to label array.
+  const rawRegions = searchParams?.region
+    ? Array.isArray(searchParams.region)
+      ? searchParams.region
+      : [searchParams.region]
+    : [];
+  // Accept either slugs (from HeroSearch) or raw labels (from filter chips).
+  const regionLabels = rawRegions
+    .map((r) => REGION_SLUG_MAP[r] ?? r)
+    .filter(Boolean);
+
+  const guestsParam = Number(searchParams?.guests);
+  const checkIn = searchParams?.check_in ?? "";
+  const checkOut = searchParams?.check_out ?? "";
+  const hasDateRange = /^\d{4}-\d{2}-\d{2}$/.test(checkIn) && /^\d{4}-\d{2}-\d{2}$/.test(checkOut);
+
+  // If a date range was requested, find property IDs that have an overlapping
+  // availability block — these will be excluded from results.
+  let blockedPropertyIds: string[] = [];
+  if (hasDateRange) {
+    const { data: blocked } = await admin
+      .from("availability_blocks")
+      .select("property_id")
+      .lt("start_date", checkOut) // block starts before checkout
+      .gt("end_date", checkIn);  // block ends after checkin
+    blockedPropertyIds = Array.from(
+      new Set((blocked ?? []).map((r) => r.property_id)),
+    );
+  }
 
   // Base query: published listings only.
   let query = admin
@@ -29,10 +73,17 @@ export default async function StaysPage({
     .order("published_at", { ascending: false })
     .limit(60);
 
-  if (searchParams?.region) query = query.eq("region", searchParams.region);
-  const guestsParam = Number(searchParams?.guests);
+  if (regionLabels.length === 1) {
+    query = query.eq("region", regionLabels[0]);
+  } else if (regionLabels.length > 1) {
+    query = query.in("region", regionLabels);
+  }
   if (Number.isFinite(guestsParam) && guestsParam > 0) {
     query = query.gte("max_guests", guestsParam);
+  }
+  if (blockedPropertyIds.length > 0) {
+    // PostgREST "not in" — exclude unavailable properties.
+    query = query.not("id", "in", `(${blockedPropertyIds.join(",")})`);
   }
 
   const { data } = await query;
@@ -67,36 +118,39 @@ export default async function StaysPage({
     new Set((regionRows ?? []).map((r) => r.region).filter((x): x is string => !!x)),
   ).sort();
 
+  // Slug versions of selected regions for passing back to HeroSearch defaults.
+  const selectedSlugs = rawRegions.filter((r) => REGION_SLUG_MAP[r] || regionLabels.includes(r));
+
   return (
     <>
       <Nav />
-      <section className="border-b border-brand-line bg-brand-soft">
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
-          <p className="text-[11px] uppercase tracking-[0.32em] text-brand-accent">
-            The collection
-          </p>
-          <h1 className="mt-6 max-w-5xl font-display text-6xl leading-[0.96] tracking-[-0.02em] text-brand sm:text-8xl md:text-[7rem]">
-            Stay somewhere considered.
-          </h1>
-          <p className="mt-8 max-w-xl text-base leading-[1.7] text-neutral-700 sm:text-lg">
-            Every property on Lively is hand-picked — for the architecture,
-            the site, the host, the service. Browse the current collection.
-          </p>
-        </div>
-      </section>
+      <HeroSearch
+        defaults={{
+          checkIn: checkIn || undefined,
+          checkOut: checkOut || undefined,
+          regions: selectedSlugs.length ? selectedSlugs : undefined,
+          guests: guestsParam > 0 ? guestsParam : undefined,
+        }}
+      />
 
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10">
+        {hasDateRange && (
+          <p className="mb-6 text-sm text-neutral-500">
+            Showing properties available {checkIn} &rarr; {checkOut}
+          </p>
+        )}
+
         {/* Region chips */}
         <div className="flex flex-wrap gap-2 text-xs">
           <FilterChip
-            active={!searchParams?.region}
+            active={regionLabels.length === 0}
             href="/stays"
             label="All regions"
           />
           {regions.map((r) => (
             <FilterChip
               key={r}
-              active={searchParams?.region === r}
+              active={regionLabels.includes(r)}
               href={`/stays?region=${encodeURIComponent(r)}`}
               label={r}
             />
