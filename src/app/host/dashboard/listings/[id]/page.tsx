@@ -30,7 +30,7 @@ export default async function EditListingPage({
   const { data: listing } = await admin
     .from("properties")
     .select(
-      "id, host_id, name, slug, headline, description, region, city, state, country, property_type, bedrooms, bathrooms, max_guests, min_nights, amenities, base_rate_cents, cleaning_fee_cents, cancellation_policy, check_in_time, check_out_time, house_rules, listing_status, published_at",
+      "id, host_id, name, display_name, featured_amenities, slug, headline, description, region, city, state, country, property_type, bedrooms, bathrooms, max_guests, min_nights, amenities, base_rate_cents, cleaning_fee_cents, cancellation_policy, check_in_time, check_out_time, house_rules, listing_status, published_at",
     )
     .eq("id", params.id)
     .single();
@@ -99,8 +99,10 @@ export default async function EditListingPage({
         </h2>
         <ListingForm
           propertyId={listing.id}
+          isAdmin={profile.role === "admin"}
           initial={{
             name: listing.name,
+            display_name: listing.display_name,
             headline: listing.headline,
             description: listing.description,
             region: listing.region,
@@ -113,6 +115,7 @@ export default async function EditListingPage({
             max_guests: listing.max_guests,
             min_nights: listing.min_nights,
             amenities: listing.amenities ?? [],
+            featured_amenities: listing.featured_amenities ?? [],
             base_rate_cents: listing.base_rate_cents,
             cleaning_fee_cents: listing.cleaning_fee_cents,
             cancellation_policy: listing.cancellation_policy,

@@ -17,6 +17,8 @@ type PropertyRow = {
   id: string;
   slug: string;
   name: string;
+  display_name: string | null;
+  featured_amenities: string[] | null;
   headline: string | null;
   description: string | null;
   address: string | null;
@@ -56,7 +58,7 @@ export default async function PropertyDetailPage({
   const { data } = await admin
     .from("properties")
     .select(
-      "id, slug, name, headline, description, address, region, city, state, country, bedrooms, bathrooms, max_guests, amenities, base_rate_cents, cleaning_fee_cents, min_nights, check_in_time, check_out_time, cancellation_policy, house_rules, property_images(url, alt_text, is_hero, sort_order), hosts(display_name)",
+      "id, slug, name, display_name, featured_amenities, headline, description, address, region, city, state, country, bedrooms, bathrooms, max_guests, amenities, base_rate_cents, cleaning_fee_cents, min_nights, check_in_time, check_out_time, cancellation_policy, house_rules, property_images(url, alt_text, is_hero, sort_order), hosts(display_name)",
     )
     .eq("slug", params.slug)
     .eq("listing_status", "published")
@@ -108,7 +110,7 @@ export default async function PropertyDetailPage({
 
         <header className="mt-8">
           <h1 className="max-w-5xl font-display text-5xl leading-[0.98] tracking-[-0.02em] text-brand sm:text-7xl md:text-8xl">
-            {property.name}
+            {property.display_name?.trim() || property.name}
           </h1>
           {property.headline && (
             <p className="mt-6 max-w-2xl text-lg leading-[1.6] text-neutral-700">

@@ -1,10 +1,21 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { updateListing } from "../actions";
+
+// Canonical regions - kept in sync with hero-search.tsx and admin filters.
+const REGIONS = [
+  "Mornington Peninsula",
+  "Yarra Valley",
+  "Melbourne & Surrounds",
+  "Bellarine Peninsula",
+  "Great Ocean Road",
+  "Daylesford",
+];
 
 type Initial = {
   name: string;
+  display_name: string | null;
   headline: string | null;
   description: string | null;
   region: string | null;
@@ -17,6 +28,7 @@ type Initial = {
   max_guests: number | null;
   min_nights: number | null;
   amenities: string[];
+  featured_amenities: string[];
   base_rate_cents: number | null;
   cleaning_fee_cents: number | null;
   cancellation_policy: string | null;
@@ -24,6 +36,8 @@ type Initial = {
   check_out_time: string | null;
   house_rules: string | null;
 };
+
+const FEATURED_MAX = 4;
 
 function centsToInput(cents: number | null): string {
   if (cents === null || cents === undefined) return "";
@@ -33,18 +47,39 @@ function centsToInput(cents: number | null): string {
 export function ListingForm({
   propertyId,
   initial,
+  isAdmin = false,
 }: {
   propertyId: string;
   initial: Initial;
+  isAdmin?: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<
     { kind: "ok" | "err"; text: string } | null
   >(null);
+  const [featured, setFeatured] = useState<string[]>(
+    initial.featured_amenities ?? [],
+  );
+  const amenitiesList = useMemo(
+    () => initial.amenities.filter((a) => a.trim().length > 0),
+    [initial.amenities],
+  );
+
+  function toggleFeatured(amenity: string) {
+    setFeatured((prev) => {
+      if (prev.includes(amenity)) return prev.filter((a) => a !== amenity);
+      if (prev.length >= FEATURED_MAX) return prev;
+      return [...prev, amenity];
+    });
+  }
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+    // Replace any featured_amenities in FormData with our controlled state
+    // (we render them as hidden inputs too, but this keeps the contract tight).
+    form.delete("featured_amenities");
+    featured.forEach((a) => form.append("featured_amenities", a));
     startTransition(async () => {
       const res = await updateListing(propertyId, form);
       if (res.ok) setMessage({ kind: "ok", text: "Saved." });
@@ -66,6 +101,19 @@ export function ListingForm({
             className={inputCls}
           />
         </Field>
+        {isAdmin && (
+          <Field
+            label="Display title (override)"
+            hint="Shown on the website instead of the raw listing name. Leave blank to use the name above. Survives Guesty sync."
+          >
+            <input
+              name="display_name"
+              defaultValue={initial.display_name ?? ""}
+              className={inputCls}
+              placeholder={initial.name}
+            />
+          </Field>
+        )}
         <Field label="Headline" hint="A single editorial line shown under the title.">
           <input
             name="headline"
@@ -86,13 +134,26 @@ export function ListingForm({
 
       <FieldGroup title="Location">
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Region">
-            <input
+          <Field
+            label="Region"
+            hint={
+              isAdmin
+                ? "Drives the search filter. Survives Guesty sync."
+                : undefined
+            }
+          >
+            <select
               name="region"
               defaultValue={initial.region ?? ""}
-              placeholder="Mornington Peninsula"
               className={inputCls}
-            />
+            >
+              <option value="">-</option>
+              {REGIONS.map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
+            </select>
           </Field>
           <Field label="City / town">
             <input
@@ -176,6 +237,40 @@ export function ListingForm({
             className={inputCls}
           />
         </Field>
+        {isAdmin && amenitiesList.length > 0 && (
+          <Field
+            label={`Featured amenities (max ${FEATURED_MAX})`}
+            hint="Pinned to the listing hero card on browse. Subset of the amenities list above. Survives Guesty sync."
+          >
+            <div className="flex flex-wrap gap-2">
+              {amenitiesList.map((a) => {
+                const checked = featured.includes(a);
+                const atCap = !checked && featured.length >= FEATURED_MAX;
+                return (
+                  <button
+                    type="button"
+                    key={a}
+                    onClick={() => toggleFeatured(a)}
+                    disabled={atCap}
+                    className={
+                      "rounded-sm border px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] transition " +
+                      (checked
+                        ? "border-brand bg-brand text-white"
+                        : atCap
+                          ? "cursor-not-allowed border-brand-line text-neutral-400"
+                          : "border-brand-line text-neutral-700 hover:border-brand hover:text-brand")
+                    }
+                  >
+                    {a}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-2 text-[11px] text-neutral-500">
+              {featured.length} / {FEATURED_MAX} selected
+            </div>
+          </Field>
+        )}
       </FieldGroup>
 
       <FieldGroup title="Rates & stay">
