@@ -77,12 +77,14 @@ export default async function AdminGuestyPage() {
             Dry run (fetch only, no DB writes)
           </label>
           <label className="flex flex-col text-sm">
-            <span className="text-xs uppercase tracking-wide text-gray-500">Max listings</span>
+            <span className="text-xs uppercase tracking-wide text-gray-500">
+              Max listings <span className="text-gray-400">(blank = all)</span>
+            </span>
             <input
               type="number"
               name="max"
               min={1}
-              defaultValue={10}
+              placeholder="all"
               className="mt-1 w-32 rounded border border-gray-300 px-2 py-1"
             />
           </label>
