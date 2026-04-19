@@ -3,16 +3,6 @@
 import { useMemo, useState, useTransition } from "react";
 import { updateListing } from "../actions";
 
-// Canonical regions - kept in sync with hero-search.tsx and admin filters.
-const REGIONS = [
-  "Mornington Peninsula",
-  "Yarra Valley",
-  "Melbourne & Surrounds",
-  "Bellarine Peninsula",
-  "Great Ocean Road",
-  "Daylesford",
-];
-
 type Initial = {
   name: string;
   display_name: string | null;
@@ -48,10 +38,12 @@ export function ListingForm({
   propertyId,
   initial,
   isAdmin = false,
+  regions = [],
 }: {
   propertyId: string;
   initial: Initial;
   isAdmin?: boolean;
+  regions?: { label: string; slug: string }[];
 }) {
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<
@@ -148,9 +140,9 @@ export function ListingForm({
               className={inputCls}
             >
               <option value="">-</option>
-              {REGIONS.map((r) => (
-                <option key={r} value={r}>
-                  {r}
+              {regions.map((r) => (
+                <option key={r.slug} value={r.label}>
+                  {r.label}
                 </option>
               ))}
             </select>

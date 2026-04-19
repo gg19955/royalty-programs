@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { ListingForm } from "./listing-form";
 import { ImageManager } from "./image-manager";
 import { ListingActions } from "./listing-actions";
+import { listActiveRegions } from "@/lib/regions";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +57,8 @@ export default async function EditListingPage({
     !!host?.abn &&
     (host.kyc_status === "pending" || host.kyc_status === "verified");
 
+  const regions = await listActiveRegions();
+
   return (
     <div className="space-y-10">
       <header className="flex items-start justify-between gap-6">
@@ -100,6 +103,7 @@ export default async function EditListingPage({
         <ListingForm
           propertyId={listing.id}
           isAdmin={profile.role === "admin"}
+          regions={regions.map((r) => ({ label: r.label, slug: r.slug }))}
           initial={{
             name: listing.name,
             display_name: listing.display_name,
