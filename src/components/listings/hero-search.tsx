@@ -10,75 +10,10 @@ import {
 } from "react";
 
 /**
- * Region → suburb map used by the homepage search bar. Intentionally
- * hand-curated for the four launch regions - once listings cover more
- * ground this should migrate to a DB-driven lookup.
+ * Region → suburb map powering the search bar. Admin-managed via
+ * /admin/regions; the server passes the active set as a prop.
  */
-const REGIONS: { label: string; slug: string; suburbs: string[] }[] = [
-  {
-    label: "Mornington Peninsula",
-    slug: "mornington-peninsula",
-    suburbs: [
-      "Portsea",
-      "Sorrento",
-      "Blairgowrie",
-      "Rye",
-      "Rosebud",
-      "Mount Martha",
-      "Mornington",
-      "Dromana",
-      "Red Hill",
-      "Flinders",
-      "Shoreham",
-      "Point Leo",
-    ],
-  },
-  {
-    label: "Yarra Valley",
-    slug: "yarra-valley",
-    suburbs: [
-      "Healesville",
-      "Yarra Glen",
-      "Coldstream",
-      "Yering",
-      "Dixons Creek",
-      "Warburton",
-      "Seville",
-      "Gruyere",
-      "Wandin",
-    ],
-  },
-  {
-    label: "Melbourne & Surrounds",
-    slug: "melbourne-surrounds",
-    suburbs: [
-      "Melbourne CBD",
-      "South Yarra",
-      "Toorak",
-      "St Kilda",
-      "Brighton",
-      "Albert Park",
-      "Richmond",
-      "Fitzroy",
-      "Carlton",
-      "Port Melbourne",
-    ],
-  },
-  {
-    label: "Bellarine Peninsula",
-    slug: "bellarine-peninsula",
-    suburbs: [
-      "Queenscliff",
-      "Point Lonsdale",
-      "Ocean Grove",
-      "Barwon Heads",
-      "Portarlington",
-      "St Leonards",
-      "Indented Head",
-      "Drysdale",
-    ],
-  },
-];
+type SearchRegion = { label: string; slug: string; suburbs: string[] };
 
 function today(offsetDays = 0) {
   const d = new Date();
@@ -94,6 +29,7 @@ function formatDisplay(iso: string) {
 
 export function HeroSearch({
   defaults,
+  regions = [],
 }: {
   defaults?: {
     checkIn?: string;
@@ -101,6 +37,7 @@ export function HeroSearch({
     regions?: string[];
     guests?: number;
   };
+  regions?: SearchRegion[];
 } = {}) {
   const router = useRouter();
   const [checkIn, setCheckIn] = useState(defaults?.checkIn ?? "");
@@ -110,8 +47,8 @@ export function HeroSearch({
   const [guests, setGuests] = useState(defaults?.guests ?? 0);
 
   const selectedRegions = useMemo(
-    () => REGIONS.filter((r) => regionSlugs.includes(r.slug)),
-    [regionSlugs],
+    () => regions.filter((r) => regionSlugs.includes(r.slug)),
+    [regions, regionSlugs],
   );
   const availableSuburbs = useMemo(
     () => selectedRegions.flatMap((r) => r.suburbs),
@@ -125,7 +62,7 @@ export function HeroSearch({
       const next = prev.includes(slug)
         ? prev.filter((x) => x !== slug)
         : [...prev, slug];
-      const nextAvailable = REGIONS.filter((r) => next.includes(r.slug)).flatMap(
+      const nextAvailable = regions.filter((r) => next.includes(r.slug)).flatMap(
         (r) => r.suburbs,
       );
       setSuburbList((curr) => curr.filter((s) => nextAvailable.includes(s)));
@@ -208,7 +145,7 @@ export function HeroSearch({
             values={regionSlugs}
             placeholder="Any region"
             displayText={regionDisplay}
-            options={REGIONS.map((r) => ({ value: r.slug, label: r.label }))}
+            options={regions.map((r) => ({ value: r.slug, label: r.label }))}
             onToggle={toggleRegion}
             onClear={() => {
               setRegionSlugs([]);

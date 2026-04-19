@@ -3,17 +3,10 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Nav } from "@/components/nav";
 import { HeroSearch } from "@/components/listings/hero-search";
 import { PropertyCard, type PropertyCardData } from "@/components/listings/property-card";
+import { listActiveRegions } from "@/lib/regions";
 import { regionToSlug } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
-
-/** Map region slugs back to display labels for DB filtering. */
-const REGION_SLUG_MAP: Record<string, string> = {
-  "mornington-peninsula": "Mornington Peninsula",
-  "yarra-valley": "Yarra Valley",
-  "melbourne-surrounds": "Melbourne & Surrounds",
-  "bellarine-peninsula": "Bellarine Peninsula",
-};
 
 type RawProperty = PropertyCardData & {
   id: string;
@@ -33,6 +26,9 @@ export default async function StaysPage({
 }) {
   const admin = createAdminClient();
 
+  const searchRegions = await listActiveRegions();
+  const slugToLabel = new Map(searchRegions.map((r) => [r.slug, r.label]));
+
   // Normalise region param (single or multi-value) to label array.
   const rawRegions = searchParams?.region
     ? Array.isArray(searchParams.region)
@@ -41,7 +37,7 @@ export default async function StaysPage({
     : [];
   // Accept either slugs (from HeroSearch) or raw labels (from filter chips).
   const regionLabels = rawRegions
-    .map((r) => REGION_SLUG_MAP[r] ?? r)
+    .map((r) => slugToLabel.get(r) ?? r)
     .filter(Boolean);
 
   const guestsParam = Number(searchParams?.guests);
@@ -119,12 +115,16 @@ export default async function StaysPage({
   ).sort();
 
   // Slug versions of selected regions for passing back to HeroSearch defaults.
-  const selectedSlugs = rawRegions.filter((r) => REGION_SLUG_MAP[r] || regionLabels.includes(r));
+  const knownSlugs = new Set(searchRegions.map((r) => r.slug));
+  const selectedSlugs = rawRegions.filter(
+    (r) => knownSlugs.has(r) || regionLabels.includes(r),
+  );
 
   return (
     <>
       <Nav />
       <HeroSearch
+        regions={searchRegions}
         defaults={{
           checkIn: checkIn || undefined,
           checkOut: checkOut || undefined,

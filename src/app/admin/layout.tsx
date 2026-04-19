@@ -55,6 +55,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             >
               Host applications
             </AdminLink>
+            <AdminLink href="/admin/regions">Regions</AdminLink>
             <AdminLink href="/admin/guesty">Guesty sync</AdminLink>
           </aside>
           <section>{children}</section>

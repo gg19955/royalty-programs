@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
 import { HeroSearch } from "@/components/listings/hero-search";
+import { listActiveRegions } from "@/lib/regions";
 import { PropertyCard, type PropertyCardData } from "@/components/listings/property-card";
 import {
   SignatureShowcase,
@@ -72,7 +73,11 @@ async function featured() {
 }
 
 export default async function HomePage() {
-  const [regions, properties] = await Promise.all([regionStrip(), featured()]);
+  const [regions, properties, searchRegions] = await Promise.all([
+    regionStrip(),
+    featured(),
+    listActiveRegions(),
+  ]);
 
   const featuredOne = properties[0];
   const rest = properties.slice(1, 7);
@@ -114,7 +119,7 @@ export default async function HomePage() {
       </div>
 
       {/* Search bar - dates + region + dependent suburb, posts to /stays */}
-      <HeroSearch />
+      <HeroSearch regions={searchRegions} />
 
       {/* Curated editorial showcase */}
       <SignatureShowcase />
