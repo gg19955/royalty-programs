@@ -55,6 +55,34 @@ function amenities(data: FormData): string[] {
     .filter(Boolean);
 }
 
+function featuredAmenities(data: FormData, available: string[]): string[] {
+  const allowed = new Set(available);
+  const picked = data
+    .getAll("featured_amenities")
+    .filter((v): v is string => typeof v === "string")
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0 && allowed.has(s));
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const a of picked) {
+    if (seen.has(a)) continue;
+    seen.add(a);
+    out.push(a);
+    if (out.length >= 4) break;
+  }
+  return out;
+}
+
+async function isAdminUser(userId: string): Promise<boolean> {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .single();
+  return data?.role === "admin";
+}
+
 async function uniqueSlug(
   admin: ReturnType<typeof createAdminClient>,
   base: string,
@@ -111,10 +139,15 @@ export async function updateListing(
 ): Promise<Result> {
   const auth = await requireHost();
   if (!auth.ok) return auth;
-  const owns = await assertOwnsProperty(propertyId, auth.hostId);
-  if (!owns.ok) return owns;
 
   const admin = createAdminClient();
+
+  // Admins can edit any listing; hosts only their own.
+  const isAdmin = await isAdminUser(auth.userId);
+  if (!isAdmin) {
+    const owns = await assertOwnsProperty(propertyId, auth.hostId);
+    if (!owns.ok) return owns;
+  }
 
   const name = str(data, "name");
   if (!name) return { ok: false, error: "Name is required." };
@@ -133,7 +166,9 @@ export async function updateListing(
     nextSlug = await uniqueSlug(admin, name, propertyId);
   }
 
-  const updates = {
+  const amenitiesList = amenities(data);
+
+  const updates: Record<string, unknown> = {
     name,
     slug: nextSlug,
     headline: str(data, "headline"),
@@ -155,8 +190,13 @@ export async function updateListing(
     check_in_time: str(data, "check_in_time") ?? "15:00",
     check_out_time: str(data, "check_out_time") ?? "10:00",
     house_rules: str(data, "house_rules"),
-    amenities: amenities(data),
+    amenities: amenitiesList,
   };
+
+  if (isAdmin) {
+    updates.display_name = str(data, "display_name");
+    updates.featured_amenities = featuredAmenities(data, amenitiesList);
+  }
 
   const { error } = await admin
     .from("properties")

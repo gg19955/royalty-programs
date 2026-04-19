@@ -4,6 +4,7 @@ import { formatCurrency } from "@/lib/utils";
 export type PropertyCardData = {
   slug: string;
   name: string;
+  display_name?: string | null;
   headline: string | null;
   region: string | null;
   city: string | null;
@@ -11,6 +12,7 @@ export type PropertyCardData = {
   max_guests: number | null;
   base_rate_cents: number | null;
   hero_url: string | null;
+  featured_amenities?: string[] | null;
 };
 
 export function PropertyCard({
@@ -20,6 +22,8 @@ export function PropertyCard({
   p: PropertyCardData;
   featured?: boolean;
 }) {
+  const title = p.display_name?.trim() ? p.display_name : p.name;
+  const pinnedAmenities = (p.featured_amenities ?? []).slice(0, 4);
   return (
     <Link href={`/stays/${p.slug}`} className="group block">
       <div
@@ -32,7 +36,7 @@ export function PropertyCard({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={p.hero_url}
-            alt={p.name}
+            alt={title}
             className="h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           />
         ) : (
@@ -49,6 +53,18 @@ export function PropertyCard({
         <div className="absolute left-4 top-4 font-display text-[10px] uppercase tracking-[0.28em] text-white/80">
           / {p.region ?? "-"}
         </div>
+        {pinnedAmenities.length > 0 && (
+          <div className="absolute inset-x-4 bottom-4 flex flex-wrap gap-2">
+            {pinnedAmenities.map((a) => (
+              <span
+                key={a}
+                className="rounded-sm bg-black/55 px-2 py-1 font-display text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur-sm"
+              >
+                {a}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
       <div className="pt-6">
         <div className="section-index">
@@ -60,7 +76,7 @@ export function PropertyCard({
             (featured ? "text-5xl sm:text-7xl" : "text-3xl sm:text-4xl")
           }
         >
-          <span className="link-underline">{p.name}</span>
+          <span className="link-underline">{title}</span>
         </h3>
         {p.headline && (
           <p className="mt-4 line-clamp-2 max-w-md text-sm leading-relaxed text-white/60">

@@ -63,7 +63,7 @@ export default async function StaysPage({
   let query = admin
     .from("properties")
     .select(
-      "id, slug, name, headline, region, city, bedrooms, max_guests, base_rate_cents, hero_url, property_images(url, is_hero, sort_order)",
+      "id, slug, name, display_name, headline, region, city, bedrooms, max_guests, base_rate_cents, featured_amenities, hero_url, property_images(url, is_hero, sort_order)",
     )
     .eq("listing_status", "published")
     .order("published_at", { ascending: false })
@@ -94,6 +94,7 @@ export default async function StaysPage({
     return {
       slug: r.slug,
       name: r.name,
+      display_name: r.display_name,
       headline: r.headline,
       region: r.region,
       city: r.city,
@@ -101,6 +102,7 @@ export default async function StaysPage({
       max_guests: r.max_guests,
       base_rate_cents: r.base_rate_cents,
       hero_url: imgs[0]?.url ?? r.hero_url ?? null,
+      featured_amenities: r.featured_amenities,
     };
   });
 

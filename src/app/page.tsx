@@ -49,7 +49,7 @@ async function featured() {
   const { data } = await admin
     .from("properties")
     .select(
-      "id, slug, name, headline, region, city, bedrooms, max_guests, base_rate_cents, property_images(url, is_hero, sort_order)",
+      "id, slug, name, display_name, headline, region, city, bedrooms, max_guests, base_rate_cents, featured_amenities, property_images(url, is_hero, sort_order)",
     )
     .eq("listing_status", "published")
     .order("published_at", { ascending: false })
@@ -61,6 +61,7 @@ async function featured() {
     return {
       slug: r.slug,
       name: r.name,
+      display_name: r.display_name,
       headline: r.headline,
       region: r.region,
       city: r.city,
@@ -68,6 +69,7 @@ async function featured() {
       max_guests: r.max_guests,
       base_rate_cents: r.base_rate_cents,
       hero_url: imgs[0]?.url ?? null,
+      featured_amenities: r.featured_amenities,
     } satisfies PropertyCardData;
   });
 }
