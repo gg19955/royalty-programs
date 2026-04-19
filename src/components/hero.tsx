@@ -52,20 +52,11 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto flex min-h-[100vh] max-w-[1296px] flex-col justify-end px-6 pb-20 pt-40 text-white sm:px-10 sm:pb-24">
-        {/* top eyebrow row - tracked small-caps */}
-        <div
-          className="hero-rise absolute left-6 right-6 top-28 flex items-center justify-between text-[11px] uppercase tracking-[0.32em] text-white/70 sm:left-10 sm:right-10"
-          style={{ animationDelay: "120ms" }}
-        >
-          <span className="section-index">/ 00 - Collection 2026</span>
-          <span className="hidden sm:inline">Victoria · Australia</span>
-        </div>
-
         <p
-          className="hero-rise font-display text-[11px] font-medium uppercase tracking-[0.34em] text-white/80"
+          className="hero-rise font-display text-[17px] font-medium uppercase tracking-[0.34em] text-white/80"
           style={{ animationDelay: "220ms" }}
         >
-          Lively - Curated Stays
+          Lively Properties - Luxury Short Stays &amp; Property Care
         </p>
         <h1
           className="hero-rise mt-6 font-display text-[18vw] font-semibold uppercase leading-[0.86] tracking-[-0.02em] sm:text-[14vw] md:text-[min(15vw,22rem)]"
@@ -75,20 +66,17 @@ export function Hero() {
           <span className="block">Differently.</span>
         </h1>
         <div
-          className="hero-rise mt-10 grid max-w-4xl gap-10 sm:grid-cols-[1fr_1.2fr] sm:gap-16"
+          className="hero-rise mt-10 max-w-lg space-y-4"
           style={{ animationDelay: "520ms" }}
         >
-          <div className="section-index">/ Manifesto</div>
-          <div className="max-w-lg space-y-4">
-            <p className="text-base leading-[1.65] text-white/85 sm:text-lg">
-              A curated collection of exceptional Short Stays across Victoria,
-              where every detail is considered, and nothing feels accidental.
-            </p>
-            <p className="text-sm leading-[1.7] text-white/60 sm:text-base">
-              Each home is hand-selected. Each stay considered. No volume. No
-              compromise.
-            </p>
-          </div>
+          <p className="text-base leading-[1.65] text-white/85 sm:text-lg">
+            A curated collection of exceptional Short Stays across Victoria,
+            where every detail is considered, and nothing feels accidental.
+          </p>
+          <p className="text-sm leading-[1.7] text-white/60 sm:text-base">
+            Each home is hand-selected. Each stay considered. No volume. No
+            compromise.
+          </p>
         </div>
         <div
           className="hero-rise mt-12 flex flex-wrap items-center gap-4"
