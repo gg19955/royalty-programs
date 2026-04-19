@@ -5,7 +5,7 @@ import { guestyFetch } from "./client";
  * Guesty calendar fetcher.
  *
  * Guesty's Open API exposes per-listing, per-day availability at:
- *   GET /listings/{id}/calendar?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+ *   GET /availability-pricing/api/calendar/listings/{id}?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
  *
  * Each day has a `status` and, when booked, a `reservationId`. We normalise
  * to an internal shape and treat everything except 'available' as blocked
@@ -32,7 +32,11 @@ type GuestyCalendarEntry = {
 
 type GuestyCalendarResponse =
   | GuestyCalendarEntry[]
-  | { data?: GuestyCalendarEntry[]; results?: GuestyCalendarEntry[] };
+  | {
+      data?: GuestyCalendarEntry[] | { days?: GuestyCalendarEntry[] };
+      results?: GuestyCalendarEntry[];
+      days?: GuestyCalendarEntry[];
+    };
 
 const WINDOW_DAYS = 30;
 const REQUEST_SPACING_MS = 140;
@@ -51,8 +55,18 @@ function addDays(iso: string, days: number): string {
 
 function extractEntries(resp: GuestyCalendarResponse): GuestyCalendarEntry[] {
   if (Array.isArray(resp)) return resp;
-  if (Array.isArray(resp?.data)) return resp.data as GuestyCalendarEntry[];
-  if (Array.isArray(resp?.results)) return resp.results as GuestyCalendarEntry[];
+  if (!resp || typeof resp !== "object") return [];
+  const r = resp as {
+    data?: unknown;
+    results?: unknown;
+    days?: unknown;
+  };
+  if (Array.isArray(r.data)) return r.data as GuestyCalendarEntry[];
+  if (r.data && typeof r.data === "object" && Array.isArray((r.data as { days?: unknown }).days)) {
+    return (r.data as { days: GuestyCalendarEntry[] }).days;
+  }
+  if (Array.isArray(r.results)) return r.results as GuestyCalendarEntry[];
+  if (Array.isArray(r.days)) return r.days as GuestyCalendarEntry[];
   return [];
 }
 
@@ -82,7 +96,7 @@ export async function fetchCalendar(
     const endIso = windowEnd > toIso ? toIso : windowEnd;
 
     const resp = await guestyFetch<GuestyCalendarResponse>(
-      `/listings/${listingId}/calendar`,
+      `/availability-pricing/api/calendar/listings/${listingId}`,
       { query: { startDate: cursor, endDate: endIso } },
     );
 

@@ -73,6 +73,10 @@ export async function syncAvailability(
   let itemsCreated = 0;
   let itemsUpdated = 0;
   let itemsSkipped = 0;
+  // Capture the first per-property failure so it lands on the run row and
+  // the admin UI can show it. console.error alone only helps if someone is
+  // tailing Vercel function logs.
+  let firstError: { propertyId: string; guestyId: string; message: string } | null = null;
 
   try {
     // Load linked properties.
@@ -152,9 +156,14 @@ export async function syncAvailability(
         if (changed) itemsUpdated += 1;
       } catch (err) {
         itemsSkipped += 1;
-        // Record the first per-property error on the run row so it's visible
-        // without having to comb through server logs. Keep going so one bad
-        // listing doesn't strand the rest.
+        const message = describeError(err);
+        if (!firstError) {
+          firstError = {
+            propertyId: prop.id,
+            guestyId: prop.guesty_listing_id,
+            message,
+          };
+        }
         console.error(
           `[guesty availability] property ${prop.id} (${prop.guesty_listing_id}) failed:`,
           err,
@@ -164,20 +173,34 @@ export async function syncAvailability(
       await sleep(PROPERTY_SPACING_MS);
     }
 
+    // If every property errored the run is functionally broken even though
+    // no single catch bubbled out of the loop. Mark it 'error' and show
+    // the first per-property error in the admin UI's error column.
+    const allSkipped = itemsSeen > 0 && itemsSkipped === itemsSeen;
     await admin
       .from("guesty_sync_runs")
       .update({
-        status: "ok",
+        status: allSkipped ? "error" : "ok",
         finished_at: new Date().toISOString(),
         pages_fetched: pagesFetched,
         items_seen: itemsSeen,
         items_created: itemsCreated,
         items_updated: itemsUpdated,
         items_skipped: itemsSkipped,
+        error_message: allSkipped && firstError ? firstError.message : null,
         notes: {
           ...(opts.dryRun ? { dry_run: true } : {}),
           from: fromIso,
           to: toIso,
+          ...(firstError
+            ? {
+                first_error: {
+                  property_id: firstError.propertyId,
+                  guesty_listing_id: firstError.guestyId,
+                  message: firstError.message,
+                },
+              }
+            : {}),
         },
       })
       .eq("id", runId);
