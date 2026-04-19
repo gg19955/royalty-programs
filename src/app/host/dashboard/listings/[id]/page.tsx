@@ -45,6 +45,17 @@ export default async function EditListingPage({
     .eq("property_id", listing.id)
     .order("sort_order", { ascending: true });
 
+  const { data: host } = await admin
+    .from("hosts")
+    .select("agreement_accepted_at, legal_name, abn, kyc_status")
+    .eq("id", listing.host_id!)
+    .single();
+  const onboardingReady =
+    !!host?.agreement_accepted_at &&
+    !!host?.legal_name &&
+    !!host?.abn &&
+    (host.kyc_status === "pending" || host.kyc_status === "verified");
+
   return (
     <div className="space-y-10">
       <header className="flex items-start justify-between gap-6">
@@ -68,6 +79,7 @@ export default async function EditListingPage({
         <ListingActions
           propertyId={listing.id}
           status={listing.listing_status}
+          onboardingReady={onboardingReady}
         />
       </header>
 

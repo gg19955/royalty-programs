@@ -166,3 +166,53 @@ export async function markHostApplicationReviewing(
   revalidatePath("/admin/hosts");
   return { ok: true };
 }
+
+export async function verifyHostKyc(hostId: string): Promise<Result> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return auth;
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("hosts")
+    .update({
+      kyc_status: "verified",
+      kyc_verified_at: new Date().toISOString(),
+      kyc_verified_by: auth.userId,
+      kyc_rejection_reason: null,
+    })
+    .eq("id", hostId);
+  if (error) return { ok: false, error: "Could not verify." };
+
+  revalidatePath("/admin/hosts");
+  revalidatePath("/host/dashboard/onboarding");
+  revalidatePath("/host/dashboard");
+  return { ok: true };
+}
+
+export async function rejectHostKyc(
+  hostId: string,
+  reason: string,
+): Promise<Result> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return auth;
+
+  const trimmed = reason.trim();
+  if (!trimmed) return { ok: false, error: "Reason is required." };
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("hosts")
+    .update({
+      kyc_status: "rejected",
+      kyc_rejection_reason: trimmed,
+      kyc_verified_at: null,
+      kyc_verified_by: null,
+    })
+    .eq("id", hostId);
+  if (error) return { ok: false, error: "Could not reject." };
+
+  revalidatePath("/admin/hosts");
+  revalidatePath("/host/dashboard/onboarding");
+  revalidatePath("/host/dashboard");
+  return { ok: true };
+}
