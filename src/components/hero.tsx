@@ -72,18 +72,23 @@ export function Hero() {
           style={{ animationDelay: "340ms" }}
         >
           <span className="block">Stay</span>
-          <span className="block">Lively</span>
+          <span className="block">Differently.</span>
         </h1>
         <div
           className="hero-rise mt-10 grid max-w-4xl gap-10 sm:grid-cols-[1fr_1.2fr] sm:gap-16"
           style={{ animationDelay: "520ms" }}
         >
           <div className="section-index">/ Manifesto</div>
-          <p className="max-w-lg text-base leading-[1.65] text-white/80 sm:text-lg">
-            A curated marketplace of luxury short-stays across Victoria&apos;s
-            quietest regions - each home personally chosen, each night earning
-            points toward the next.
-          </p>
+          <div className="max-w-lg space-y-4">
+            <p className="text-base leading-[1.65] text-white/85 sm:text-lg">
+              A curated collection of exceptional Short Stays across Victoria,
+              where every detail is considered, and nothing feels accidental.
+            </p>
+            <p className="text-sm leading-[1.7] text-white/60 sm:text-base">
+              Each home is hand-selected. Each stay considered. No volume. No
+              compromise.
+            </p>
+          </div>
         </div>
         <div
           className="hero-rise mt-12 flex flex-wrap items-center gap-4"
