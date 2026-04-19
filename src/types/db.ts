@@ -806,6 +806,8 @@ export type Database = {
           country: string | null
           created_at: string
           description: string | null
+          display_name: string | null
+          featured_amenities: string[]
           guesty_listing_id: string | null
           headline: string | null
           hero_url: string | null
@@ -841,6 +843,8 @@ export type Database = {
           country?: string | null
           created_at?: string
           description?: string | null
+          display_name?: string | null
+          featured_amenities?: string[]
           guesty_listing_id?: string | null
           headline?: string | null
           hero_url?: string | null
@@ -876,6 +880,8 @@ export type Database = {
           country?: string | null
           created_at?: string
           description?: string | null
+          display_name?: string | null
+          featured_amenities?: string[]
           guesty_listing_id?: string | null
           headline?: string | null
           hero_url?: string | null
@@ -1040,6 +1046,36 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      regions: {
+        Row: {
+          active: boolean
+          created_at: string
+          display_order: number
+          id: string
+          label: string
+          slug: string
+          suburbs: string[]
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          display_order?: number
+          id?: string
+          label: string
+          slug: string
+          suburbs?: string[]
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          display_order?: number
+          id?: string
+          label?: string
+          slug?: string
+          suburbs?: string[]
+        }
+        Relationships: []
       }
       reservations: {
         Row: {
