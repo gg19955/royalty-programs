@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Oswald } from "next/font/google";
+import { Noto_Sans, Oswald } from "next/font/google";
 import "./globals.css";
 
-// Body / UI - clean neutral sans.
-const body = Inter({
+// Body / UI - Noto Sans.
+const body = Noto_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 // Display - Oswald is the closest freely-available analogue to
