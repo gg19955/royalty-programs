@@ -1,5 +1,6 @@
 import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { slugify } from "@/lib/utils";
 import { iterateActiveListings, type GuestyListing } from "./listings";
 
 /**
@@ -68,11 +69,25 @@ function describeError(err: unknown): string {
 }
 
 function buildRow(listing: GuestyListing, livelyHostId: string) {
-  const name = listing.nickname || listing.title || listing._id;
+  // Prefer the marketing `title` for the public card/detail UI. Fall back to
+  // the internal `nickname` (always set in Guesty) and ultimately the _id.
+  const name = listing.title || listing.nickname || listing._id;
+  // `nickname` is a Guesty-unique short code (e.g. "10POINT", "11-13BRAD") so
+  // slugifying it gives us a URL that's guaranteed collision-free across the
+  // portfolio without an ugly UUID suffix. Hosts/admins can edit the slug
+  // later in the admin UI if they want something prettier per listing.
+  const slug = slugify(listing.nickname || listing._id);
+  const hero_url =
+    listing.picture?.regular ||
+    listing.picture?.large ||
+    listing.picture?.thumbnail ||
+    null;
   return {
     guesty_listing_id: listing._id,
     host_id: livelyHostId,
     name,
+    slug,
+    hero_url,
     address: listing.address?.full ?? null,
     city: listing.address?.city ?? null,
     state: listing.address?.state ?? null,

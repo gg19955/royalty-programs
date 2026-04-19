@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 
 type RawProperty = PropertyCardData & {
   id: string;
+  hero_url: string | null;
   property_images: { url: string; is_hero: boolean; sort_order: number }[] | null;
 };
 
@@ -22,7 +23,7 @@ export default async function StaysPage({
   let query = admin
     .from("properties")
     .select(
-      "id, slug, name, headline, region, city, bedrooms, max_guests, base_rate_cents, property_images(url, is_hero, sort_order)",
+      "id, slug, name, headline, region, city, bedrooms, max_guests, base_rate_cents, hero_url, property_images(url, is_hero, sort_order)",
     )
     .eq("listing_status", "published")
     .order("published_at", { ascending: false })
@@ -38,6 +39,8 @@ export default async function StaysPage({
   const rows = (data ?? []) as unknown as RawProperty[];
 
   const cards: PropertyCardData[] = rows.map((r) => {
+    // Gallery hero wins if the host uploaded images; otherwise fall back to
+    // the Guesty-cached hero_url on the row itself.
     const imgs = [...(r.property_images ?? [])].sort(
       (a, b) => Number(b.is_hero) - Number(a.is_hero) || a.sort_order - b.sort_order,
     );
@@ -50,7 +53,7 @@ export default async function StaysPage({
       bedrooms: r.bedrooms,
       max_guests: r.max_guests,
       base_rate_cents: r.base_rate_cents,
-      hero_url: imgs[0]?.url ?? null,
+      hero_url: imgs[0]?.url ?? r.hero_url ?? null,
     };
   });
 

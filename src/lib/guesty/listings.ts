@@ -31,6 +31,14 @@ export type GuestyListing = {
   terms?: {
     minNights?: number;
   };
+  // Guesty returns a hero picture per listing. We use `regular` for card
+  // display; `thumbnail` as a fallback if absent.
+  picture?: {
+    thumbnail?: string;
+    regular?: string;
+    large?: string;
+    caption?: string;
+  };
   // everything else we received, for future use
   raw?: unknown;
 };
