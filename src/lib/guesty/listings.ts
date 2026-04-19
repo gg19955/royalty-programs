@@ -6,6 +6,15 @@ import { guestyFetch } from "./client";
  * care about - only the ones we actually persist are declared strictly; the
  * rest stay in `raw` so we can extend later without a migration.
  */
+export type GuestyPicture = {
+  _id?: string;
+  thumbnail?: string;
+  regular?: string;
+  large?: string;
+  original?: string;
+  caption?: string;
+};
+
 export type GuestyListing = {
   _id: string;
   nickname?: string;
@@ -33,12 +42,23 @@ export type GuestyListing = {
   };
   // Guesty returns a hero picture per listing. We use `regular` for card
   // display; `thumbnail` as a fallback if absent.
-  picture?: {
-    thumbnail?: string;
-    regular?: string;
-    large?: string;
-    caption?: string;
+  picture?: GuestyPicture;
+  // Full gallery - one entry per image, already ordered by Guesty.
+  pictures?: GuestyPicture[];
+  // Marketing copy lives inside publicDescription. Fields are all optional;
+  // a listing may have summary but not space, or vice versa.
+  publicDescription?: {
+    summary?: string;
+    space?: string;
+    houseRules?: string;
+    access?: string;
+    neighborhood?: string;
+    transit?: string;
+    notes?: string;
+    interactionWithGuests?: string;
   };
+  // Flat list of amenity slugs/names, e.g. ["Wifi", "Kitchen", "Pool"].
+  amenities?: string[];
   // everything else we received, for future use
   raw?: unknown;
 };

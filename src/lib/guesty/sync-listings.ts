@@ -2,7 +2,11 @@ import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { slugify } from "@/lib/utils";
 import { describeError } from "./errors";
-import { iterateActiveListings, type GuestyListing } from "./listings";
+import {
+  iterateActiveListings,
+  type GuestyListing,
+  type GuestyPicture,
+} from "./listings";
 
 /**
  * Run a Guesty listings sync for the Lively host.
@@ -49,6 +53,31 @@ function toCents(v: number | undefined): number | null {
   return Math.round(v * 100);
 }
 
+/**
+ * Build a multi-paragraph description from Guesty's publicDescription
+ * sub-fields. Guesty splits marketing copy into summary / space / access /
+ * neighborhood / transit - we stitch them into a single block so the detail
+ * page's pre-line paragraph renderer shows the full story.
+ */
+function buildDescription(pd: GuestyListing["publicDescription"]): string | null {
+  if (!pd) return null;
+  const parts = [pd.summary, pd.space, pd.access, pd.neighborhood, pd.transit, pd.notes]
+    .map((s) => s?.trim())
+    .filter((s): s is string => Boolean(s && s.length > 0));
+  if (parts.length === 0) return null;
+  return parts.join("\n\n");
+}
+
+/**
+ * Pick the best-quality variant of a Guesty picture. Original is the raw
+ * upload (can be 4k+); large/regular are Guesty's CDN-resized derivatives.
+ * We prefer regular for the gallery to avoid blowing the image loader on
+ * huge originals, with large/original/thumbnail as fallbacks.
+ */
+function pickPhotoUrl(p: GuestyPicture): string | null {
+  return p.regular || p.large || p.original || p.thumbnail || null;
+}
+
 function buildRow(listing: GuestyListing, livelyHostId: string) {
   // Prefer the marketing `title` for the public card/detail UI. Fall back to
   // the internal `nickname` (always set in Guesty) and ultimately the _id.
@@ -83,9 +112,55 @@ function buildRow(listing: GuestyListing, livelyHostId: string) {
     cleaning_fee_cents: toCents(listing.prices?.cleaningFee),
     min_nights: listing.terms?.minNights ?? null,
     active: listing.active ?? true,
+    description: buildDescription(listing.publicDescription),
+    house_rules: listing.publicDescription?.houseRules?.trim() || null,
+    amenities: listing.amenities ?? [],
     // New rows start as drafts. Existing rows keep their current listing_status
     // (see update path below).
   };
+}
+
+/**
+ * Replace the `source='guesty'` image rows for one property with the current
+ * Guesty picture set. Manually-curated rows (source='manual') are never
+ * touched - same ownership rule as availability_blocks.
+ *
+ * Ordering: the first picture gets is_hero=true; sort_order follows Guesty's
+ * own array order (hosts curate this in the Guesty UI).
+ */
+async function syncPhotosForProperty(
+  admin: ReturnType<typeof createAdminClient>,
+  propertyId: string,
+  pictures: GuestyPicture[] | undefined,
+): Promise<void> {
+  const { error: delErr } = await admin
+    .from("property_images")
+    .delete()
+    .eq("property_id", propertyId)
+    .eq("source", "guesty");
+  if (delErr) throw delErr;
+
+  if (!pictures || pictures.length === 0) return;
+
+  const rows = pictures
+    .map((p, i) => {
+      const url = pickPhotoUrl(p);
+      if (!url) return null;
+      return {
+        property_id: propertyId,
+        url,
+        alt_text: p.caption?.trim() || null,
+        sort_order: i,
+        is_hero: i === 0,
+        source: "guesty" as const,
+      };
+    })
+    .filter((r): r is NonNullable<typeof r> => r !== null);
+
+  if (rows.length === 0) return;
+
+  const { error: insErr } = await admin.from("property_images").insert(rows);
+  if (insErr) throw insErr;
 }
 
 export async function syncListings(opts: { dryRun?: boolean; max?: number } = {}): Promise<SyncResult> {
@@ -167,6 +242,24 @@ export async function syncListings(opts: { dryRun?: boolean; max?: number } = {}
           .eq("guesty_listing_id", row.guesty_listing_id);
         if (updErr) throw updErr;
         itemsUpdated += 1;
+      }
+
+      // Sync photos for every listing in this page. Re-select id ↔
+      // guesty_listing_id for the full page (including rows just inserted).
+      const { data: pageProps, error: pageErr } = await admin
+        .from("properties")
+        .select("id, guesty_listing_id")
+        .in("guesty_listing_id", ids);
+      if (pageErr) throw pageErr;
+      const idByGuestyId = new Map<string, string>(
+        ((pageProps as PropertyRow[] | null) ?? [])
+          .filter((r): r is PropertyRow & { guesty_listing_id: string } => r.guesty_listing_id !== null)
+          .map((r) => [r.guesty_listing_id, r.id]),
+      );
+      for (const listing of page) {
+        const propId = idByGuestyId.get(listing._id);
+        if (!propId) continue;
+        await syncPhotosForProperty(admin, propId, listing.pictures);
       }
     }
 
