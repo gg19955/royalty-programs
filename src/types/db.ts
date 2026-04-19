@@ -1,5 +1,3 @@
-// Auto-generated from Supabase via MCP `generate_typescript_types`.
-// Run `mcp generate_typescript_types --project xhozkppqpkfhnsmyztsr` and paste the output here.
 export type Json =
   | string
   | number
@@ -132,6 +130,54 @@ export type Database = {
           },
         ]
       }
+      enquiries: {
+        Row: {
+          created_at: string
+          dates: string | null
+          email: string
+          handled: boolean
+          id: string
+          mobile: string
+          must_have: string | null
+          name: string
+          nice_to_have: string | null
+          photo_urls: string[]
+          property_address: string | null
+          property_link: string | null
+          type: Database["public"]["Enums"]["enquiry_type"]
+        }
+        Insert: {
+          created_at?: string
+          dates?: string | null
+          email: string
+          handled?: boolean
+          id?: string
+          mobile: string
+          must_have?: string | null
+          name: string
+          nice_to_have?: string | null
+          photo_urls?: string[]
+          property_address?: string | null
+          property_link?: string | null
+          type: Database["public"]["Enums"]["enquiry_type"]
+        }
+        Update: {
+          created_at?: string
+          dates?: string | null
+          email?: string
+          handled?: boolean
+          id?: string
+          mobile?: string
+          must_have?: string | null
+          name?: string
+          nice_to_have?: string | null
+          photo_urls?: string[]
+          property_address?: string | null
+          property_link?: string | null
+          type?: Database["public"]["Enums"]["enquiry_type"]
+        }
+        Relationships: []
+      }
       experiences: {
         Row: {
           active: boolean
@@ -178,6 +224,111 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      guesty_events: {
+        Row: {
+          event_type: string
+          guesty_entity_id: string | null
+          guesty_event_id: string | null
+          id: string
+          payload: Json
+          processed_at: string | null
+          processing_error: string | null
+          received_at: string
+        }
+        Insert: {
+          event_type: string
+          guesty_entity_id?: string | null
+          guesty_event_id?: string | null
+          id?: string
+          payload: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+        }
+        Update: {
+          event_type?: string
+          guesty_entity_id?: string | null
+          guesty_event_id?: string | null
+          id?: string
+          payload?: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+        }
+        Relationships: []
+      }
+      guesty_sync_runs: {
+        Row: {
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          items_created: number
+          items_seen: number
+          items_skipped: number
+          items_updated: number
+          kind: Database["public"]["Enums"]["guesty_sync_kind"]
+          notes: Json
+          pages_fetched: number
+          started_at: string
+          status: Database["public"]["Enums"]["guesty_sync_status"]
+        }
+        Insert: {
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          items_created?: number
+          items_seen?: number
+          items_skipped?: number
+          items_updated?: number
+          kind: Database["public"]["Enums"]["guesty_sync_kind"]
+          notes?: Json
+          pages_fetched?: number
+          started_at?: string
+          status?: Database["public"]["Enums"]["guesty_sync_status"]
+        }
+        Update: {
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          items_created?: number
+          items_seen?: number
+          items_skipped?: number
+          items_updated?: number
+          kind?: Database["public"]["Enums"]["guesty_sync_kind"]
+          notes?: Json
+          pages_fetched?: number
+          started_at?: string
+          status?: Database["public"]["Enums"]["guesty_sync_status"]
+        }
+        Relationships: []
+      }
+      guesty_tokens: {
+        Row: {
+          access_token: string
+          expires_at: string
+          id: string
+          issued_at: string
+          issued_count_24h: number
+          token_type: string
+        }
+        Insert: {
+          access_token: string
+          expires_at: string
+          id?: string
+          issued_at?: string
+          issued_count_24h?: number
+          token_type?: string
+        }
+        Update: {
+          access_token?: string
+          expires_at?: string
+          id?: string
+          issued_at?: string
+          issued_count_24h?: number
+          token_type?: string
+        }
+        Relationships: []
       }
       host_applications: {
         Row: {
@@ -261,11 +412,20 @@ export type Database = {
       hosts: {
         Row: {
           abn: string | null
+          agreement_accepted_at: string | null
+          agreement_version: string | null
           approved_at: string | null
           contact_email: string
           created_at: string
           display_name: string
           id: string
+          kyc_document_path: string | null
+          kyc_document_type: string | null
+          kyc_rejection_reason: string | null
+          kyc_status: Database["public"]["Enums"]["host_kyc_status"]
+          kyc_uploaded_at: string | null
+          kyc_verified_at: string | null
+          kyc_verified_by: string | null
           legal_name: string | null
           onboarding_status: Database["public"]["Enums"]["host_onboarding_status"]
           phone: string | null
@@ -273,11 +433,20 @@ export type Database = {
         }
         Insert: {
           abn?: string | null
+          agreement_accepted_at?: string | null
+          agreement_version?: string | null
           approved_at?: string | null
           contact_email: string
           created_at?: string
           display_name: string
           id?: string
+          kyc_document_path?: string | null
+          kyc_document_type?: string | null
+          kyc_rejection_reason?: string | null
+          kyc_status?: Database["public"]["Enums"]["host_kyc_status"]
+          kyc_uploaded_at?: string | null
+          kyc_verified_at?: string | null
+          kyc_verified_by?: string | null
           legal_name?: string | null
           onboarding_status?: Database["public"]["Enums"]["host_onboarding_status"]
           phone?: string | null
@@ -285,17 +454,91 @@ export type Database = {
         }
         Update: {
           abn?: string | null
+          agreement_accepted_at?: string | null
+          agreement_version?: string | null
           approved_at?: string | null
           contact_email?: string
           created_at?: string
           display_name?: string
           id?: string
+          kyc_document_path?: string | null
+          kyc_document_type?: string | null
+          kyc_rejection_reason?: string | null
+          kyc_status?: Database["public"]["Enums"]["host_kyc_status"]
+          kyc_uploaded_at?: string | null
+          kyc_verified_at?: string | null
+          kyc_verified_by?: string | null
           legal_name?: string | null
           onboarding_status?: Database["public"]["Enums"]["host_onboarding_status"]
           phone?: string | null
           stripe_connect_account_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "hosts_kyc_verified_by_fkey"
+            columns: ["kyc_verified_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hosts_kyc_verified_by_fkey"
+            columns: ["kyc_verified_by"]
+            isOneToOne: false
+            referencedRelation: "v_user_points"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      ical_feeds: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          label: string
+          last_event_count: number | null
+          last_sync_error: string | null
+          last_sync_status: string | null
+          last_synced_at: string | null
+          property_id: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          label: string
+          last_event_count?: number | null
+          last_sync_error?: string | null
+          last_sync_status?: string | null
+          last_synced_at?: string | null
+          property_id: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          label?: string
+          last_event_count?: number | null
+          last_sync_error?: string | null
+          last_sync_status?: string | null
+          last_synced_at?: string | null
+          property_id?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ical_feeds_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       offers: {
         Row: {
@@ -563,7 +806,9 @@ export type Database = {
           country: string | null
           created_at: string
           description: string | null
+          guesty_listing_id: string | null
           headline: string | null
+          hero_url: string | null
           host_id: string | null
           house_rules: string | null
           id: string
@@ -596,7 +841,9 @@ export type Database = {
           country?: string | null
           created_at?: string
           description?: string | null
+          guesty_listing_id?: string | null
           headline?: string | null
+          hero_url?: string | null
           host_id?: string | null
           house_rules?: string | null
           id?: string
@@ -629,7 +876,9 @@ export type Database = {
           country?: string | null
           created_at?: string
           description?: string | null
+          guesty_listing_id?: string | null
           headline?: string | null
+          hero_url?: string | null
           host_id?: string | null
           house_rules?: string | null
           id?: string
@@ -663,6 +912,7 @@ export type Database = {
           is_hero: boolean
           property_id: string
           sort_order: number
+          source: string
           url: string
         }
         Insert: {
@@ -672,6 +922,7 @@ export type Database = {
           is_hero?: boolean
           property_id: string
           sort_order?: number
+          source?: string
           url: string
         }
         Update: {
@@ -681,6 +932,7 @@ export type Database = {
           is_hero?: boolean
           property_id?: string
           sort_order?: number
+          source?: string
           url?: string
         }
         Relationships: [
@@ -1064,15 +1316,23 @@ export type Database = {
       is_host_of: { Args: { p_property_id: string }; Returns: boolean }
     }
     Enums: {
-      availability_source: "ical" | "manual" | "platform_booking"
+      availability_source:
+        | "ical"
+        | "manual"
+        | "platform_booking"
+        | "guesty_import"
       cancellation_policy: "flexible" | "moderate" | "strict"
       claim_request_status: "pending" | "approved" | "rejected"
+      enquiry_type: "stay" | "list"
+      guesty_sync_kind: "listings" | "calendar" | "reservations"
+      guesty_sync_status: "running" | "ok" | "error"
       host_application_status:
         | "submitted"
         | "reviewing"
         | "approved"
         | "rejected"
         | "withdrawn"
+      host_kyc_status: "none" | "pending" | "verified" | "rejected"
       host_onboarding_status:
         | "invited"
         | "submitted"
@@ -1236,9 +1496,17 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      availability_source: ["ical", "manual", "platform_booking"],
+      availability_source: [
+        "ical",
+        "manual",
+        "platform_booking",
+        "guesty_import",
+      ],
       cancellation_policy: ["flexible", "moderate", "strict"],
       claim_request_status: ["pending", "approved", "rejected"],
+      enquiry_type: ["stay", "list"],
+      guesty_sync_kind: ["listings", "calendar", "reservations"],
+      guesty_sync_status: ["running", "ok", "error"],
       host_application_status: [
         "submitted",
         "reviewing",
@@ -1246,6 +1514,7 @@ export const Constants = {
         "rejected",
         "withdrawn",
       ],
+      host_kyc_status: ["none", "pending", "verified", "rejected"],
       host_onboarding_status: [
         "invited",
         "submitted",

@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatDate } from "@/lib/utils";
 import { HostApplicationRow } from "./host-application-row";
+import { KycReviewRow } from "./kyc-review-row";
 
 type Status = "submitted" | "reviewing" | "approved" | "rejected" | "all";
 
@@ -53,6 +54,27 @@ export default async function AdminHostsPage({
   const { data } = await query;
   const rows = (data ?? []) as unknown as AppRow[];
 
+  const { data: kycHosts } = await admin
+    .from("hosts")
+    .select(
+      "id, display_name, contact_email, kyc_document_type, kyc_document_path, kyc_uploaded_at",
+    )
+    .eq("kyc_status", "pending")
+    .order("kyc_uploaded_at", { ascending: true });
+
+  const kycRows = await Promise.all(
+    (kycHosts ?? []).map(async (h) => {
+      let signedUrl: string | null = null;
+      if (h.kyc_document_path) {
+        const { data: signed } = await admin.storage
+          .from("host-kyc")
+          .createSignedUrl(h.kyc_document_path, 300);
+        signedUrl = signed?.signedUrl ?? null;
+      }
+      return { ...h, signedUrl };
+    }),
+  );
+
   return (
     <div>
       <h1 className="text-2xl font-semibold">Host applications</h1>
@@ -79,6 +101,40 @@ export default async function AdminHostsPage({
           ),
         )}
       </div>
+
+      {kycRows.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-sm font-semibold text-brand">
+            KYC review queue ({kycRows.length})
+          </h2>
+          <div className="mt-3 overflow-hidden rounded-xl border bg-white">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+                <tr>
+                  <th className="px-4 py-3">Host</th>
+                  <th className="px-4 py-3">Document</th>
+                  <th className="px-4 py-3">Uploaded</th>
+                  <th className="px-4 py-3">File</th>
+                  <th className="px-4 py-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {kycRows.map((h) => (
+                  <KycReviewRow
+                    key={h.id}
+                    hostId={h.id}
+                    displayName={h.display_name}
+                    contactEmail={h.contact_email}
+                    documentType={h.kyc_document_type}
+                    uploadedAt={h.kyc_uploaded_at}
+                    signedUrl={h.signedUrl}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       <div className="mt-6 overflow-hidden rounded-xl border bg-white">
         <table className="w-full text-sm">

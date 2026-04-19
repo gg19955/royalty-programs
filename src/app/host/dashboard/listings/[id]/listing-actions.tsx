@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import {
@@ -13,9 +14,11 @@ type Status = "draft" | "pending_review" | "published" | "paused" | "archived";
 export function ListingActions({
   propertyId,
   status,
+  onboardingReady,
 }: {
   propertyId: string;
   status: Status;
+  onboardingReady: boolean;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -48,14 +51,24 @@ export function ListingActions({
     <div className="flex flex-col items-end gap-2">
       <div className="flex items-center gap-2">
         {canPublish ? (
-          <button
-            type="button"
-            onClick={() => run(() => publishListing(propertyId))}
-            disabled={isPending}
-            className="rounded-sm bg-brand px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white hover:bg-black disabled:opacity-50"
-          >
-            {status === "paused" ? "Resume" : "Publish"}
-          </button>
+          onboardingReady ? (
+            <button
+              type="button"
+              onClick={() => run(() => publishListing(propertyId))}
+              disabled={isPending}
+              className="rounded-sm bg-brand px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white hover:bg-black disabled:opacity-50"
+            >
+              {status === "paused" ? "Resume" : "Publish"}
+            </button>
+          ) : (
+            <Link
+              href="/host/dashboard/onboarding"
+              className="rounded-sm border border-brand-line px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-neutral-500 hover:border-brand hover:text-brand"
+              title="Finish onboarding before publishing"
+            >
+              Finish onboarding to publish
+            </Link>
+          )
         ) : null}
         {canPause ? (
           <button

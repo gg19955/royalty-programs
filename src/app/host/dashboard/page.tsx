@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatCurrency } from "@/lib/utils";
+import { OnboardingChecklist } from "./_onboarding-checklist";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ export default async function HostDashboardPage() {
 
   const admin = createAdminClient();
 
-  const [{ data: listings }, { data: upcoming }, { count: totalListings }] =
+  const [{ data: listings }, { data: upcoming }, { count: totalListings }, { data: host }] =
     await Promise.all([
       admin
         .from("properties")
@@ -36,7 +37,21 @@ export default async function HostDashboardPage() {
         .from("properties")
         .select("id", { count: "exact", head: true })
         .eq("host_id", hostId),
+      admin
+        .from("hosts")
+        .select("legal_name, abn, agreement_accepted_at, kyc_status")
+        .eq("id", hostId)
+        .single(),
     ]);
+
+  const agreementDone = !!host?.agreement_accepted_at;
+  const businessDone = !!host?.legal_name && !!host?.abn;
+  const kycStatus = host?.kyc_status ?? "none";
+  const kycCleared = kycStatus === "pending" || kycStatus === "verified";
+  const doneCount =
+    Number(agreementDone) + Number(businessDone) + Number(kycCleared);
+  const statusValue =
+    doneCount === 3 ? "Ready" : `Onboarding ${doneCount}/3`;
 
   return (
     <div className="space-y-10">
@@ -49,10 +64,16 @@ export default async function HostDashboardPage() {
         </h1>
       </header>
 
+      <OnboardingChecklist
+        agreementDone={agreementDone}
+        businessDone={businessDone}
+        kycStatus={kycStatus}
+      />
+
       <div className="grid gap-6 sm:grid-cols-3">
         <Stat label="Listings" value={String(totalListings ?? 0)} />
         <Stat label="Upcoming stays" value={String(upcoming?.length ?? 0)} />
-        <Stat label="Status" value="Approved" />
+        <Stat label="Status" value={statusValue} />
       </div>
 
       <section className="space-y-4">

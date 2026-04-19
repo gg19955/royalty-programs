@@ -45,6 +45,7 @@ export default async function HostDashboardLayout({
               {host?.display_name ?? "Host"}
             </div>
             <HostLink href="/host/dashboard">Dashboard</HostLink>
+            <HostLink href="/host/dashboard/onboarding">Onboarding</HostLink>
             <HostLink href="/host/dashboard/listings">Listings</HostLink>
             <HostLink href="/host/dashboard/calendar">Calendar</HostLink>
             <HostLink href="/host/dashboard/payouts">Payouts</HostLink>

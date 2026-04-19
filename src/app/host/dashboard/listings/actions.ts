@@ -3,39 +3,12 @@
 import crypto from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { requireHost } from "@/lib/host/require-host";
 import { slugify } from "@/lib/utils";
 import type { Database } from "@/types/db";
 
 type Result = { ok: true } | { ok: false; error: string };
-
-/**
- * Resolve the signed-in user, their profile, and gate on host/admin role.
- * Returns the effective `host_id` to scope queries by. Admins operating on
- * behalf of a host must pass the host_id explicitly (not supported in this
- * slice - admins use /admin/properties, to be added later).
- */
-async function requireHost() {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { ok: false as const, error: "Not signed in." };
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("id, role, host_id")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile) return { ok: false as const, error: "Profile missing." };
-  if (profile.role !== "host" && profile.role !== "admin") {
-    return { ok: false as const, error: "Host access required." };
-  }
-  if (!profile.host_id) {
-    return { ok: false as const, error: "Your profile isn't linked to a host yet." };
-  }
-  return { ok: true as const, userId: user.id, hostId: profile.host_id };
-}
 
 async function assertOwnsProperty(propertyId: string, hostId: string) {
   const admin = createAdminClient();
@@ -204,6 +177,26 @@ export async function publishListing(propertyId: string): Promise<Result> {
   if (!owns.ok) return owns;
 
   const admin = createAdminClient();
+
+  // Host-level onboarding gates.
+  const { data: host } = await admin
+    .from("hosts")
+    .select("agreement_accepted_at, legal_name, abn, kyc_status")
+    .eq("id", auth.hostId)
+    .single();
+  if (
+    !host?.agreement_accepted_at ||
+    !host?.legal_name ||
+    !host?.abn ||
+    !(host.kyc_status === "pending" || host.kyc_status === "verified")
+  ) {
+    return {
+      ok: false,
+      error:
+        "Complete onboarding at /host/dashboard/onboarding before publishing.",
+    };
+  }
+
   // Require a hero image + base rate + region before publishing.
   const { data: row } = await admin
     .from("properties")
