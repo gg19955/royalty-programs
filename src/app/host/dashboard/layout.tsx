@@ -38,20 +38,22 @@ export default async function HostDashboardLayout({
   return (
     <>
       <Nav />
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid grid-cols-[220px_1fr] gap-8">
-          <aside className="space-y-1 text-sm">
-            <div className="mb-2 text-xs uppercase tracking-[0.22em] text-brand-accent">
-              {host?.display_name ?? "Host"}
-            </div>
-            <HostLink href="/host/dashboard">Dashboard</HostLink>
-            <HostLink href="/host/dashboard/onboarding">Onboarding</HostLink>
-            <HostLink href="/host/dashboard/listings">Listings</HostLink>
-            <HostLink href="/host/dashboard/calendar">Calendar</HostLink>
-            <HostLink href="/host/dashboard/payouts">Payouts</HostLink>
-            <HostLink href="/host/dashboard/settings">Settings</HostLink>
-          </aside>
-          <section>{children}</section>
+      <div className="dashboard-shell min-h-screen bg-white text-neutral-900">
+        <div className="mx-auto max-w-6xl px-4 py-8">
+          <div className="grid grid-cols-[220px_1fr] gap-8">
+            <aside className="space-y-1 text-sm">
+              <div className="mb-2 text-xs uppercase tracking-[0.22em] text-neutral-500">
+                {host?.display_name ?? "Host"}
+              </div>
+              <HostLink href="/host/dashboard">Dashboard</HostLink>
+              <HostLink href="/host/dashboard/onboarding">Onboarding</HostLink>
+              <HostLink href="/host/dashboard/listings">Listings</HostLink>
+              <HostLink href="/host/dashboard/calendar">Calendar</HostLink>
+              <HostLink href="/host/dashboard/payouts">Payouts</HostLink>
+              <HostLink href="/host/dashboard/settings">Settings</HostLink>
+            </aside>
+            <section>{children}</section>
+          </div>
         </div>
       </div>
     </>
@@ -68,7 +70,7 @@ function HostLink({
   return (
     <Link
       href={href}
-      className="block rounded px-3 py-2 text-neutral-700 hover:bg-brand-soft hover:text-brand"
+      className="block rounded px-3 py-2 text-neutral-700 hover:bg-neutral-100 hover:text-black"
     >
       {children}
     </Link>

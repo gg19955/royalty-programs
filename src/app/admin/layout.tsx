@@ -32,33 +32,35 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <>
       <Nav />
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid grid-cols-[200px_1fr] gap-8">
-          <aside className="space-y-1 text-sm">
-            <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-              Admin
-            </div>
-            <AdminLink href="/admin">Dashboard</AdminLink>
-            <AdminLink href="/admin/users">Users</AdminLink>
-            <AdminLink
-              href="/admin/claim-requests"
-              badge={pendingCount ?? 0}
-            >
-              Claim requests
-            </AdminLink>
-            <AdminLink href="/admin/claims">Approved claims</AdminLink>
-            <AdminLink href="/admin/redemptions">Redemptions</AdminLink>
-            <AdminLink href="/admin/experiences">Experiences</AdminLink>
-            <AdminLink
-              href="/admin/hosts"
-              badge={pendingHostCount ?? 0}
-            >
-              Host applications
-            </AdminLink>
-            <AdminLink href="/admin/regions">Regions</AdminLink>
-            <AdminLink href="/admin/guesty">Guesty sync</AdminLink>
-          </aside>
-          <section>{children}</section>
+      <div className="dashboard-shell min-h-screen bg-white text-neutral-900">
+        <div className="mx-auto max-w-6xl px-4 py-8">
+          <div className="grid grid-cols-[200px_1fr] gap-8">
+            <aside className="space-y-1 text-sm">
+              <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Admin
+              </div>
+              <AdminLink href="/admin">Dashboard</AdminLink>
+              <AdminLink href="/admin/users">Users</AdminLink>
+              <AdminLink
+                href="/admin/claim-requests"
+                badge={pendingCount ?? 0}
+              >
+                Claim requests
+              </AdminLink>
+              <AdminLink href="/admin/claims">Approved claims</AdminLink>
+              <AdminLink href="/admin/redemptions">Redemptions</AdminLink>
+              <AdminLink href="/admin/experiences">Experiences</AdminLink>
+              <AdminLink
+                href="/admin/hosts"
+                badge={pendingHostCount ?? 0}
+              >
+                Host applications
+              </AdminLink>
+              <AdminLink href="/admin/regions">Regions</AdminLink>
+              <AdminLink href="/admin/guesty">Guesty sync</AdminLink>
+            </aside>
+            <section>{children}</section>
+          </div>
         </div>
       </div>
     </>

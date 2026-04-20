@@ -247,3 +247,26 @@ html {
     transition: none !important;
   }
 }
+
+/* ---------------------------------------------------------------
+   Dashboard shell overrides
+
+   Admin (/admin/*) and host dashboard (/host/dashboard/*) were built
+   assuming a light page, but the site's brand palette is dark
+   (brand=#fff, brand-soft=#0b0b0d, brand-accent=#cecdc1). On a white
+   shell those classes render invisible (white-on-white) or illegible.
+
+   Scope-remap them inside .dashboard-shell so the admin/host UIs
+   stay readable without touching 20+ templates. The dark marketing
+   pages that also use these tokens are untouched.
+   --------------------------------------------------------------- */
+.dashboard-shell .text-brand { color: #111827; }
+.dashboard-shell .bg-brand { background-color: #111827; }
+.dashboard-shell .border-brand { border-color: #111827; }
+.dashboard-shell .hover\:text-brand:hover { color: #111827; }
+.dashboard-shell .hover\:bg-brand:hover { background-color: #111827; }
+.dashboard-shell .hover\:border-brand:hover { border-color: #111827; }
+.dashboard-shell .text-brand-accent { color: #6b7280; }
+.dashboard-shell .bg-brand-accent { background-color: #6b7280; }
+.dashboard-shell .bg-brand-soft { background-color: #f9fafb; }
+.dashboard-shell .hover\:bg-brand-soft:hover { background-color: #f3f4f6; }
